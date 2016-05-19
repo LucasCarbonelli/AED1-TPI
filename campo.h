@@ -20,6 +20,10 @@ class Campo {
 	private:
 		Dimension _dimension;
 		Grilla<Parcela> _grilla;
+
+		// Auxiliares
+
+		Parcela stringAParcela(std::string s);
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
