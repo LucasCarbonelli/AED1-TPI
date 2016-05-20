@@ -33,7 +33,13 @@ class Drone{
 		bool _enVuelo;
 };
 
+bool escalerado (const Secuencia<Posicion> ps );
+bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i);
+int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
+
+
 // Definirlo usando mostrar, para poder usar << con este tipo.
 std::ostream & operator<<(std::ostream & os,const Drone & d);
 
 #endif // DRONE_H_INCLUDED
+
