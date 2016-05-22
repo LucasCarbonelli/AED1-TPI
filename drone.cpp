@@ -80,7 +80,7 @@ void Drone::cargar(std::istream & is)
 
 bool Drone::operator==(const Drone & otroDrone) const
 {
-	return true  ;
+	return this->_id == otroDrone_id && this->_trayectoria == otroDrone_trayectoria && this-> _bateria == otroDrone_bateria && this->_enVuelo == otroDrone_enVuelo && mismos(this->_productos , otroDrone_Productos)   ;
 }
 
 std::ostream & operator<<(std::ostream & os, const Drone & d)
@@ -147,3 +147,38 @@ int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds) {
 
 	return dronesCruzados.size();
 } 
+
+
+bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
+	if (l1.size() == l2.size()){
+		bool estan= true;
+		int i=0;
+		while (estan == true && i<length (l1.size()){
+
+			if(cuenta(l1 , l1[i]) == cuenta (l2 , l1[i])){
+				i=i+1;
+			}
+			else estan ==false ;
+
+		return estan;
+		}
+	}
+}
+
+			
+
+
+
+
+int cuenta (const Secuencia <T> l1 , const T e){
+	int i = 0;
+	int cuenta = 0;
+	while (i<l1.size()){
+		if (l1[i] == e){
+			i=i+1;
+			cuenta = cuenta + 1 ; 
+		}
+		else i = i+1;
+	} 
+	return cuenta ;
+}

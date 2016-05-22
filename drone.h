@@ -36,6 +36,8 @@ class Drone{
 bool escalerado (const Secuencia<Posicion> ps );
 bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i);
 int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
+bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
+int cuenta (const Secuencia <T> l1 , const T e);
 
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
