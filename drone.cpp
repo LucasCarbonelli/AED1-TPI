@@ -56,18 +56,35 @@ const Secuencia<Producto>& Drone::productosDisponibles() const
 
 bool Drone::vueloEscalerado() const
 {
-	return this->_enVuelo == true && escalerado(this->_trayectoria); 
+	return this->_enVuelo && escalerado(this->_trayectoria); 
 }
 
 Secuencia<InfoVueloCruzado> Drone::vuelosCruzados(const Secuencia<Drone>& ds)
 {
-	return Secuencia<InfoVueloCruzado>();
+	Secuencia<InfoVueloCruzado> ListaInfoVC;
+	int i = 0;
+	int j = 0;
+	while (i < ds.size() && j < ds[i].vueloRealizado().size()) {
+		if (cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds) > 1 && buscarInfoVuelosCruzados(ListaInfoVC, ds[i].vueloRealizado()[j]))
+		{
+			InfoVueloCruzado VC;
+			VC.posicion = ds[i].vueloRealizado()[j];
+			VC.cantidadCruces = cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds);
+			ListaInfoVC.push_back(VC);
+		}
+		i++;
+		if (i == ds.size())
+		{
+			j++;
+			i = 0;
+		}
+	}
+
+	return ListaInfoVC;
 }
 
 void Drone::mostrar(std::ostream & os) const
 {
-
-
 }
 
 void Drone::guardar(std::ostream & os) const
@@ -95,12 +112,9 @@ std::ostream & operator<<(std::ostream & os, const Drone & d)
 bool escalerado (const Secuencia<Posicion> ps ) {
 	int i = 0 ;
 	bool val = true ; 
-	while ( val == true && i < ps.size() -1 ){
-		if (ps[i].x - ps[i+2].x ==1 || ps[i].x - ps[i+2].x == -1 ) {
-			if (ps[i].y - ps[i+2].y ==1 || ps[i].y - ps[i+2].y == -1 ){
-				val = true; 
-				i = i+1;
-			}
+	while ( val == true && i < ps.size() -2 ){
+		if ((ps[i].x - ps[i+2].x ==1 || ps[i].x - ps[i+2].x == -1 ) && (ps[i].y - ps[i+2].y ==1 || ps[i].y - ps[i+2].y == -1 )) {
+			i = i+1;
 		}
 		else 
 			val = false;
@@ -149,6 +163,25 @@ int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds) {
 } 
 
 
+Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) {
+	int j = 0;
+	Secuencia<Posicion> posicionesC;
+	while (j < ds.size()) {
+		int i = 0;
+
+		while ( i < ds[j].vueloRealizado().size()) {
+			if (seCruzoConOtro(ds[j], ds, i))
+			 {
+			 	posicionesC.push_back(ds[j].vueloRealizado()[i]);
+			 }
+			i++;
+		}
+		j++;
+	}
+	return posicionesC;
+}
+
+
 bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
 	if (l1.size() == l2.size()){
 		bool estan= true;
@@ -182,3 +215,5 @@ int cuenta (const Secuencia <T> l1 , const T e){
 	} 
 	return cuenta ;
 }
+
+//hacer eliminarRepetidos

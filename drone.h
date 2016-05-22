@@ -38,6 +38,7 @@ bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i);
 int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
 bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
 int cuenta (const Secuencia <T> l1 , const T e);
+bool buscarInfoVuelosCruzados(const Secuencia<T>, const T);
 
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
