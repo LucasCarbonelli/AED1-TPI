@@ -1,0 +1,5 @@
+ultimos dos == campo I
+comentarios campo L
+hacer buscar en Secuencia>InfoVueloCruzado> para vuelosCruzados de drone.cpp J
+ver errores drone J
+mostrar, guardar, cargar drone E
