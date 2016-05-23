@@ -94,7 +94,7 @@ void Sistema::seVinoLaMaleza(const Secuencia<Posicion>& ps)
 	//y a eso le hago esto. Hice algo parecido a esto en el ejer despegar, mas abajo.
 	int i = 0;
 	while (i < ps.size()) {
-		estadoDelCultivo(p[i]) = ConMaleza;
+		this->_estado[ps[i].x][ps[i].y] = ConMaleza;
 		i++;
 	}
 }
@@ -105,7 +105,7 @@ void Sistema::seExpandePlaga()
 	Secuencia<Posicion> PosConPlaga;
 
 	//quiza ese lo paso a auxiliar
-	while (i < this.campo().dimensiones().ancho) {
+	while (i < this->.campo().dimensiones().ancho) {
 
 		while (j < this.campo().dimensiones().largo) {
 			Posicion p;
@@ -121,6 +121,8 @@ void Sistema::seExpandePlaga()
 		i++
 	}
 
+
+	
 	//quiza esto lo paso a auxiliar
 	int k = 0;
 	while (k < PosConPlaga.size()) {
