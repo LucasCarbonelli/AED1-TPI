@@ -95,9 +95,9 @@ void Drone::cargar(std::istream & is)
 {
 }
 
-bool Drone::operator==(const Drone & otroDrone) const
+bool Drone::operator==(const Drone& otroDrone) const
 {
-	return this->_id == otroDrone_id && this->_trayectoria == otroDrone_trayectoria && this-> _bateria == otroDrone_bateria && this->_enVuelo == otroDrone_enVuelo && mismos(this->_productos , otroDrone_Productos)   ;
+	return this->_id == otroDrone._id && mismaTrayectoria(this->_trayectoria, otroDrone._trayectoria) && this-> _bateria == otroDrone._bateria && this->_enVuelo == otroDrone._enVuelo && mismos(this->_productos , otroDrone._productos)   ;
 }
 
 std::ostream & operator<<(std::ostream & os, const Drone & d)
@@ -107,6 +107,25 @@ std::ostream & operator<<(std::ostream & os, const Drone & d)
 
 
 //auxiliares
+
+
+bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2){
+	int i =0 ;
+	bool esLaMisma= true ;
+	if (l1.size() == l2.size()) {
+		while (i < l1.size()){
+			if (l1[i].x == l2[i].x && l1[i].y == l2[i].y){
+				i = i+1 ;
+			}
+			else {
+				i=i+1 ;
+				esLaMisma == false ;
+			}
+			
+		}
+	return esLaMisma;
+	}
+}
 
 
 bool escalerado (const Secuencia<Posicion> ps ) {
@@ -182,11 +201,46 @@ Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) {
 }
 
 
-bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
+bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p){
+
+	int i = 0 ;
+	bool esta = false ; // no esta hasta que se demuestre lo contrario 
+	while (i<ls.size()){
+		if (ls[i].posicion.x == p.x && ls[i].posicion.y == p.y ) {
+			bool esta = true;
+			i=i+1;
+		}
+		else 
+			i = i+1;
+
+	}
+	return esta;
+}
+
+
+
+
+
+/*template <class T> int buscar(const Secuencia<T> l ,const T e){
+	int i = 0;
+	while (i<l.size()) {
+		if (l[i] == T) {
+			return i;
+		} 
+		else 
+			i == i+1
+
+	if i==l.sir
+	}
+}*/
+
+
+template <class T> bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
+	
 	if (l1.size() == l2.size()){
 		bool estan= true;
 		int i=0;
-		while (estan == true && i<length (l1.size()){
+		while (estan == true && i< l1.size() ){
 
 			if(cuenta(l1 , l1[i]) == cuenta (l2 , l1[i])){
 				i=i+1;
@@ -198,12 +252,9 @@ bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
 	}
 }
 
-			
 
 
-
-
-int cuenta (const Secuencia <T> l1 , const T e){
+template <class T> int cuenta (const Secuencia <T> l1 , const T e){
 	int i = 0;
 	int cuenta = 0;
 	while (i<l1.size()){
@@ -216,4 +267,8 @@ int cuenta (const Secuencia <T> l1 , const T e){
 	return cuenta ;
 }
 
+ 
+
 //hacer eliminarRepetidos
+
+

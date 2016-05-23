@@ -36,9 +36,10 @@ class Drone{
 bool escalerado (const Secuencia<Posicion> ps );
 bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i);
 int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
-bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
-int cuenta (const Secuencia <T> l1 , const T e);
-bool buscarInfoVuelosCruzados(const Secuencia<T>, const T);
+template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
+template <class T> int cuenta (const Secuencia <T> l1 , const T e);
+bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
+bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2);
 
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
