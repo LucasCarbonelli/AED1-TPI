@@ -104,14 +104,12 @@ void Sistema::seExpandePlaga()
 	int i = 0;
 	Secuencia<Posicion> PosConPlaga;
 
-	//quiza ese lo paso a auxiliar
-	while (i < this->.campo().dimensiones().ancho) {
-
+	while (i < this.campo().dimensiones().ancho) {
+		int j = 0;
 		while (j < this.campo().dimensiones().largo) {
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			//se puede preguntar y o asignar estado de cultivo a posiciones así? funciona así esto? no hay que hacer pasaje por stringtoalgo ni nada?
 			if (this.estadoDelCultivo(p) == ConPlaga)
 			{
 				PosConPlaga.push_back(p);
@@ -121,38 +119,35 @@ void Sistema::seExpandePlaga()
 		i++
 	}
 
-
-
-	//quiza esto lo paso a auxiliar
 	int k = 0;
 	while (k < PosConPlaga.size()) {
 		Posicion p;
 		p.x = PosConPlaga[k].x
 		p.y = PosConPlaga[k].y
 		//al final x es el largo o el ancho??
-		if (PosConPlaga[k].x + 1 <= this.campo().dimensiones().largo)
+		if (PosConPlaga[k].x + 1 <= this.campo().dimensiones().largo && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x + 1;
-			this.estadoDelCultivo(p) = ConPlaga;
+			this-> _estado[p.x][p.y] = ConPlaga;
 		}
 		//nose si es necesario aclarar que en este caso esa pos debe ser menor que el largo, ya que si la pos original era menor al largo, -1 lo va a ser seguro.
-		if (PosConPlaga[k].x - 1 >= 0 && PosConPlaga[k].x - 1 <= this.campo().dimensiones().largo)
+		if (PosConPlaga[k].x - 1 >= 0 && PosConPlaga[k].x - 1 <= this.campo().dimensiones().largo && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x - 1;
-			this.estadoDelCultivo(p) = ConPlaga;
+			this-> _estado[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].y + 1 <= this.campo().dimensiones().ancho)
+		if (PosConPlaga[k].y + 1 <= this.campo().dimensiones().ancho && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y + 1;
-			this.estadoDelCultivo(p) = ConPlaga;
+			this-> _estado[p.x][p.y] = ConPlaga;
 		}
 		//idem arriba.
-		if (PosConPlaga[k].y - 1 >= 0 && PosConPlaga[k].y - 1 <= this.campo().dimensiones().ancho)
+		if (PosConPlaga[k].y - 1 >= 0 && PosConPlaga[k].y - 1 <= this.campo().dimensiones().ancho && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y - 1;
-			this.estadoDelCultivo(p) = ConConPlaga;
+			this-> _estado[p.x][p.y] = ConPlaga;
 		}
 	}
 }
@@ -163,22 +158,11 @@ void Sistema::despegar(const Drone & d)
 	if (buscarDrone(d, this))
 	{
 		D = d; //como asignador, se puede? sino hago un aux, o pongo todo lo que signfica acá.
-		Posicion p;
-		p.x = 1;
-		p.y = 1;
-		if(posicionLibre(p, this)) {
-			D.enVuelo() && D.bateria() = 100;
-		}
-		if (posicionLibre(posG, this) && (posG.x != 1 || posG.y !=1))
+		if (posicionLibre(DondeEstaGranero(this->_campo)))
 		{
-			D.enVuelo() && D.bateria() = 100;
+			D._enVuelo && D._bateria = 100;
 		}
 	}
-
-
-	//lo de posG lo puse porque lo pasan por parametro en crear campo, en el cpp... medio turbio igual, sino como se donde esta el granero?
-	//puse dos if por el caso del campo creado sin parametros
-	
 }
 
 bool Sistema::listoParaCosechar() const
@@ -325,5 +309,94 @@ int fertAplicable(Sistema s, Drone d){
 
 
 
+bool Sistema::NoHayConstruccion(Posicion p) {
+	bool m = false;
+	if (this->_campo.contenido(p) == Cultivo)
+	{
+		m = true;
+	}
+	return m;
+}
 
+
+bool Sistema::posicionLibre(Posicion p) {
+	bool m = false;
+	Secuencia<Posicion> P = lugaresAdyacentes(p);
+	
+	bool m1, m2, m3, m4;
+	if (noHayDrone(P[1]))
+	{
+		m1 = true;
+	}
+	if (noHayDrone(P[2]))
+	{
+		m2 = true;
+	}
+	if (noHayDrone(P[3]))
+	{
+		m3 = true;
+	}
+	if (noHayDrone(P[4]))
+	{
+		m4 = true;
+	}
+
+
+	if (m1 || m2 || m3 || m4)
+	{
+		m = true;
+	}
+	reutrn m;
+}
+
+Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
+	Secuencia<Posicion> P;
+	Posicion p0, p1, p2, p3;
+	
+	p0.x = p.x + 1;
+	p0.y = p.y;
+	P[0] = p0;
+
+	p1.x = p.x - 1;
+	p1.y = p.y;
+	P[1] = p1
+
+	p2.x = p.x;
+	p2.y = p.y + 1;
+	P[2] = p2;
+
+	p3.x = p.x;
+	p3.y = p.y - 1;
+	P[3] = p3;
+}
+
+bool Sistema::HayDrone(Secuencia<Posicion> P) {
+	Secuencia<Drone> ds = this->_enjambre;
+	bool m = true;
+	int i = 0;
+	Drone d;
+	while (i < ds.size() && posicionActual(ds[i]) != P) {
+		i++;
+		if (i = ds.size())
+		{
+			m = false;
+		}
+	}
+	return m;
+}
+
+
+Parcela Sistema::DondeEstaElGranero(Campo c) {
+	Dimension d = dimension(c);
+	int i = 0;
+	Posicion p;
+	while (i < d.largo && contenido(p) != Granero) {
+		int j = 0;
+		while (j < d.ancho && contenido(p) != Granero) {
+			p.x = i;
+			p.y = j;
+		}
+	}
+	return p;
+}
 

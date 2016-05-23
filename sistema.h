@@ -34,6 +34,15 @@ class Sistema {
         Campo _campo;
 		Secuencia<Drone> _enjambre;
         Grilla<EstadoCultivo> _estado;
+
+
+        //Auxiliares
+
+        bool Sistema::NoHayConstruccion(Posicion p);
+        bool Sistema::posicionLibre(Posicion p);
+        Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p);
+        bool Sistema::HayDrone(Secuencia<Posicion> P);
+        Parcela Sistema::DondeEstaElGranero(Campo c);
 };
 
 Secuencia<Posicion> parcelasDeCultivo(const Sistema s);
