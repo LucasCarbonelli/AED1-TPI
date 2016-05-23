@@ -31,6 +31,8 @@ class Drone{
 		Secuencia<Posicion> _trayectoria;
 		Secuencia<Producto> _productos;
 		bool _enVuelo;
+
+		Producto stringAProducto(std::string s);
 };
 
 bool escalerado (const Secuencia<Posicion> ps );
