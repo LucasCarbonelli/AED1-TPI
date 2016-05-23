@@ -176,7 +176,7 @@ Parcela Campo::stringAParcela(std::string s){
 
 	if(s == "Casa") p = Casa;
 	else if (s == "Cultivo") p = Cultivo;
-	else p = Granero;
+	else if (s == "Granero") p = Granero;
 
 	return p;
 }

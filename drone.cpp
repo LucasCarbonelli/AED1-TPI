@@ -87,10 +87,10 @@ void Drone::mostrar(std::ostream & os) const
 {
 	//Cabecera: Drone, Bateria y Id.
 	os << "Drone - Id: " << std::to_string(this->_id) << "\n";
-	os << "Bateria: "std::to_string(this->_bateria) << "\n";
+	os << "Bateria: " << std::to_string(this->_bateria) << "\n";
 	// Listado de posiciones.
 	os << "Vuelo Realizado: ";
-	if (this->_trayectoria.size() == 0) then {
+	if (this->_trayectoria.size() == 0) {
 		os << "[]";	
 	} else {
 		os << "[";
@@ -106,12 +106,12 @@ void Drone::mostrar(std::ostream & os) const
 
 	// Listado de productos.
 	os << "Productos Disponibles: ";
-	if (this->_productos.size() == 0) then {
+	if (this->_productos.size() == 0) {
 		os << "Ninguno.";	
 	} else {
-		os << std::to_string(this->productos[0]);
+		os << std::to_string(this->_productos[0]);
 		for(int i = 1; i < this->_productos.size(); i++){
-			os << "," << std::to_string(this->productos[i]);
+			os << "," << std::to_string(this->_productos[i]);
 		}
 	}
 
@@ -123,7 +123,7 @@ void Drone::guardar(std::ostream & os) const
 	os << "{ D "  << std::to_string(this->_id) << " " << std::to_string(this->_bateria) << " " ;
 
 	// Listado de posiciones.
-	if (this->_trayectoria.size() == 0) then {
+	if (this->_trayectoria.size() == 0) {
 		os << "[]";	
 	} else {
 		os << "[";
@@ -136,13 +136,13 @@ void Drone::guardar(std::ostream & os) const
 		os << "]";
 	}
 	// Listado de productos.
-	if (this->_productos.size() == 0) then {
+	if (this->_productos.size() == 0) {
 		os << "[]";	
 	} else {
 		os << "[";
-		os << std::to_string(this->productos[0])
+		os << std::to_string(this->_productos[0]);
 		for(int i = 1; i < this->_productos.size(); i++){
-			os << "," << std::to_string(this->productos[i]) << ","
+			os << "," << std::to_string(this->_productos[i]) << ",";
 		}
 		os << "]";
 	}
@@ -205,7 +205,7 @@ void Drone::cargar(std::istream & is)
 	while (droneAlmacenado.substr(i+1, 1) != caracterCierraCorchete) {
 		i = droneAlmacenado.find_first_of(productoLetraInicial, i);
 		j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-		productosDisp.push_back(Drone::stringAProducto(campoAlmacenado.substr(i, j-i)));
+		productosDisp.push_back(Drone::stringAProducto(droneAlmacenado.substr(i, j-i)));
 		i = j;
 	}
 	this->_productos = productosDisp;
@@ -213,7 +213,7 @@ void Drone::cargar(std::istream & is)
 
 bool Drone::operator==(const Drone& otroDrone) const
 {
-	return this->_id == otroDrone._id && mismaTrayectoria(this->_trayectoria, otroDrone._trayectoria) && this-> _bateria == otroDrone._bateria && this->_enVuelo == otroDrone._enVuelo && mismos(this->_productos , otroDrone._productos)   ;
+	return this->_id == otroDrone._id && mismaTrayectoria(this->_trayectoria, otroDrone._trayectoria) && this-> _bateria == otroDrone._bateria && this->_enVuelo == otroDrone._enVuelo && mismos(this->_productos , otroDrone._productos);
 }
 
 std::ostream & operator<<(std::ostream & os, const Drone & d)
@@ -235,7 +235,7 @@ bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2
 			}
 			else {
 				i=i+1 ;
-				esLaMisma == false ;
+				esLaMisma = false ;
 			}
 			
 		}
@@ -323,7 +323,7 @@ bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posici
 	bool esta = false ; // no esta hasta que se demuestre lo contrario 
 	while (i<ls.size()){
 		if (ls[i].posicion.x == p.x && ls[i].posicion.y == p.y ) {
-			bool esta = true;
+			esta = true;
 			i=i+1;
 		}
 		else 
@@ -361,11 +361,13 @@ template <class T> bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
 			if(cuenta(l1 , l1[i]) == cuenta (l2 , l1[i])){
 				i=i+1;
 			}
-			else estan ==false ;
+			else estan = false ;
 
 		return estan;
 		}
 	}
+	else
+		return false;
 }
 
 
@@ -391,6 +393,12 @@ template <class T> int cuenta (const Secuencia <T> l1 , const T e){
 Producto Drone::stringAProducto(std::string s){
 	Producto prod;
 
+	if(s == "Plaguicida") prod = Plaguicida;
+	else if(s == "PlaguicidaBajoConsumo") prod = PlaguicidaBajoConsumo;
+	else if(s == "Herbicida") prod = Herbicida;
+	else if(s == "HerbicidaLargoAlcance") prod = HerbicidaLargoAlcance;
+
+/*
 	switch(s){
 		case "Plaguicida":
 			prod = Plaguicida;
@@ -405,6 +413,6 @@ Producto Drone::stringAProducto(std::string s){
 			prod = HerbicidaLargoAlcance;
 			break
 	}
-
+*/
 	return prod;
 }
