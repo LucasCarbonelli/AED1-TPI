@@ -7,24 +7,25 @@ Sistema::Sistema()
 	Campo c = Campo();
 	this->_campo = c;
 	// Creo un listado de drones vacio.
-	Secuencia<drone> ds; 
+	Secuencia<Drone> ds; 
 	this->_enjambre = ds;
 	// Creo la grilla correspondiente al campo y le asigno el estado noSensado a todos los cultivos.
 	Grilla<EstadoCultivo> EC(c.dimensiones());
 	int i = 0;
-	int j = 0;
-	while(i < c.dimensiones.ancho){
-		while(j < c.dimenciones.largo){
+	while(i < c.dimensiones().ancho){
+		int j = 0;
+		while(j < c.dimensiones().largo){
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			if (c.contenido(p) == Cultivo) {this->_estado[i][j] = NoSensado}
+//			if (c.contenido(p) == Cultivo) {this->_estado.parcelas[i][j] = NoSensado;}
+			if (c.contenido(p) == Cultivo) {EC.parcelas[i][j] = NoSensado;}
 			j++;
 		}
 		i++;
-
 	}
-	this->_estado = EC;
+	this->_estado.parcelas = EC.parcelas;
+//	this->_estado = EC;
 }
 
 Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
@@ -33,19 +34,21 @@ Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
 	this->_enjambre = ds;
 	Grilla<EstadoCultivo> EC(c.dimensiones());
 	int i = 0;
-	int j = 0;
-	while(i < c.dimensiones.ancho){
-		while(j < c.dimensiones.largo){
+	while(i < c.dimensiones().ancho){
+		int j = 0;
+		while(j < c.dimensiones().largo){
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			if (c.contenido(p) == Cultivo) {this->_estado[i][j] = NoSensado};
+//			if (c.contenido(p) == Cultivo) {this->_estado.parcelas[i][j] = NoSensado;};
+			if (c.contenido(p) == Cultivo) {EC.parcelas[i][j] = NoSensado;};
 			j++;
 		}
 		i++;
 
 	}
-	this->_estado = EC;
+	this->_estado.parcelas = EC.parcelas;
+//	this->_estado = EC;
 }
 
 const Sistema::campo() const
