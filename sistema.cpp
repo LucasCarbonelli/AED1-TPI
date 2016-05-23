@@ -4,7 +4,7 @@
 Sistema::Sistema()
 {
 	// Creo un campo con el constructor por defecto.
-	Campo c = Campo()
+	Campo c = Campo();
 	this->_campo = c;
 	// Creo un listado de drones vacio.
 	Secuencia<drone> ds; 
@@ -122,7 +122,7 @@ void Sistema::seExpandePlaga()
 	}
 
 
-	
+
 	//quiza esto lo paso a auxiliar
 	int k = 0;
 	while (k < PosConPlaga.size()) {
@@ -183,12 +183,23 @@ void Sistema::despegar(const Drone & d)
 
 bool Sistema::listoParaCosechar() const
 {
-	return false;
+	return cantCultivosCosechables(this) >= 0.9 * parcelasDeCultivo(this).size())  
 }
 
-void Sistema::aterrizarYCargarBaterias(Carga b)
-{
+void Sistema::aterrizarYCargarBaterias(Carga b){
+
+	int i= 0;
+	while (i < this->_enjambre.size()){
+		if (this->_enjambre[i]_bateria < b ) {
+			cargarLaBateria(this, this->_enjambre[i]);
+			i=i+1;
+		}
+		else 
+			i=i+1;
+	}
+
 }
+
 
 void Sistema::fertilizarPorFilas()
 {
@@ -220,3 +231,99 @@ std::ostream & operator<<(std::ostream & os, const Sistema & s)
 	// TODO: insert return statement here
 	return os;
 }
+
+
+//Auxiliares
+
+
+
+Secuencia<Posicion> parcelasDeCultivo(const Sistema s){
+	Secuencia<Posicion> parcelasDeCultivo ;
+	int i = 0 ;
+	int j = 0 ;
+
+	while (i < s_campo_dimensiones_ancho){
+		while (j < s_campo_dimensiones_largo){
+			if (s_campo_grilla[i][j] == Cultivo){
+				j= i+1;
+				Posicion p ;
+				p_x = i;
+				p_y = j;
+				parcelasDeCultivo.push_back(p);
+			}
+			j = j+1;
+
+		}
+		i=i+1;
+
+	}
+	return parcelasDeCultivo;
+
+}
+
+int cantCultivosCosechables(const Sistema s){
+
+	int cuenta = 0;
+	int i = 0 ;
+	while (i< parcelasDeCultivo(s).size()){
+		if (s_estado[parcelasDeCultivo(s)[i].x][parcelasDeCultivo(s)[i].x] == ListoParaCocechar){
+			cuenta = cuenta + 1;
+			i= i + 1 ;
+
+		}
+		else 
+			i= i+1;
+	}
+	return cuenta;
+}
+
+void cargarLaBateria(Sistema s , const Drone d) {
+	int i = 0;
+	while (i < s._enjambre.size() ) {
+		if(s_enjambre[i]._id == d_id){
+			s_enjambre[i]._bateria  = 100;
+			Secuencia<Posicion> nuevaTrayectoria;
+			s_enjambre[i]._trayectoria = nuevaTrayectoria;
+			s_enjambre[i]._enVuelo = false ;
+		}
+	} 
+}
+
+
+
+
+int dronesVolandoEnFila (Sistema s, int f) {
+
+	int cuenta = 0 ;
+	int i = 0 ;
+	while (i< s_enjambre.size()) {
+		if (s_enjambre[i]_enVuelo== true && s_enjambre[i].posicionActual().y == f){
+			cuenta = cuenta + 1 ;
+			i = i + 1;
+		else 
+		    i = i + 1; 
+		} 
+
+	}
+	return cuenta;
+}
+
+/*int recorridoMaximo(Sistema s, Drone d){
+
+}
+
+int minimo (int a , int b) {
+	if (a < b ) {
+		return a 
+	}
+	else 
+		return b;
+}
+
+int fertAplicable(Sistema s, Drone d){
+*/
+
+
+
+
+

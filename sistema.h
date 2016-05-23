@@ -36,6 +36,12 @@ class Sistema {
         Grilla<EstadoCultivo> _estado;
 };
 
+Secuencia<Posicion> parcelasDeCultivo(const Sistema s);
+int cantCultivosCosechables(const Sistema s);
+void cargarLaBateria(Sistema s , const Drone d);
+
+
+
 // Definirlo usando mostrar, para poder usar << con este tipo.
 std::ostream & operator<<(std::ostream & os,const Sistema & s);
 
