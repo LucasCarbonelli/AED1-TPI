@@ -3,29 +3,89 @@
 
 Sistema::Sistema()
 {
+	// Creo un campo con el constructor por defecto.
+	Campo c = Campo()
+	this->_campo = c;
+	// Creo un listado de drones vacio.
+	Secuencia<drone> ds; 
+	this->_enjambre = ds;
+	// Creo la grilla correspondiente al campo y le asigno el estado noSensado a todos los cultivos.
+	Grilla<EstadoCultivo> EC(c.dimensiones());
+	int i = 0;
+	int j = 0;
+	while(i < c.dimensiones.ancho){
+		while(j < c.dimenciones.largo){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if (c.contenido(p) == Cultivo) {this->_estado[i][j] = NoSensado}
+			j++;
+		}
+		i++;
+
+	}
+	this->_estado = EC;
 }
 
 Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
 {
+	this->_campo = c;
+	this->_enjambre = ds;
+	Grilla<EstadoCultivo> EC(c.dimensiones());
+	int i = 0;
+	int j = 0;
+	while(i < c.dimensiones.ancho){
+		while(j < c.dimensiones.largo){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if (c.contenido(p) == Cultivo) {this->_estado[i][j] = NoSensado};
+			j++;
+		}
+		i++;
+
+	}
+	this->_estado = EC;
 }
 
-const Campo & Sistema::campo() const
+const Sistema::campo() const
 {
-	return Campo();
+	return this->_campo;
 }
 
-EstadoCultivo Sistema::estadoDelCultivo(const Posicion & p) const
+const EstadoCultivo Sistema::estadoDelCultivo(const Posicion & p) const
 {
-	return EstadoCultivo();
+	return this->_estado[p.x][p.y];
 }
 
 const Secuencia<Drone>& Sistema::enjambreDrones() const
 {
-	return Secuencia<Drone>();
+	return this->_enjambre;
 }
 
 void Sistema::crecer()
 {
+	int i = 0;
+	int j = 0;
+	Campo c = this->_campo;
+	while(i < c.dimensiones.ancho){
+		while(j < c.dimensiones.largo){
+			Posicion pos;
+			pos.x = i;
+			pos.y = y;
+			if (c.contenido(pos) == Cultivo){
+				if (this->estado[i][j] == RecienSembrado) {
+					this->estado[i][j] = EnCrecimiento;
+				}
+				else if (this->estado[i][j] == EnCrecimiento) {
+					this->estado[i][j] = ListoParaCosechar;
+				}
+
+				
+			}
+
+		}
+	}
 }
 
 void Sistema::seVinoLaMaleza(const Secuencia<Posicion>& ps)
