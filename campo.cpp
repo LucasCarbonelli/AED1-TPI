@@ -136,15 +136,15 @@ std::ostream & operator<<(std::ostream & os, const Parcela & p)
 std::ostream & operator<<(std::ostream & os, const Producto & p)
 {
 	switch(p){
-		case Casa:		os << "Fertilizante";
+		case Fertilizante:		os << "Fertilizante";
 			break;
-		case Cultivo: 	os << "Plaguicida";
+		case Plaguicida: 	os << "Plaguicida";
 			break;
-		case Granero: 	os << "PlaguicidaBajoConsumo";
+		case PlaguicidaBajoConsumo: 	os << "PlaguicidaBajoConsumo";
 			break;
-		case Granero: 	os << "Herbicida";
+		case Herbicida: 	os << "Herbicida";
 			break;
-		case Granero: 	os << "HerbicidaLargoAlcance";
+		case HerbicidaLargoAlcance: 	os << "HerbicidaLargoAlcance";
 			break;
 	}
 	return os;
@@ -152,18 +152,18 @@ std::ostream & operator<<(std::ostream & os, const Producto & p)
 
 std::ostream & operator<<(std::ostream & os, const EstadoCultivo & e)
 {
-	switch(p){
-		case Casa:		os << "RecienSembrado";
+	switch(e){
+		case RecienSembrado:		os << "RecienSembrado";
 			break;
-		case Cultivo: 	os << "EnCrecimiento";
+		case EnCrecimiento: 	os << "EnCrecimiento";
 			break;
-		case Granero: 	os << "ListoParaCosechar";
+		case ListoParaCosechar: 	os << "ListoParaCosechar";
 			break;
-		case Granero: 	os << "ConMaleza";
+		case ConMaleza: 	os << "ConMaleza";
 			break;
-		case Granero: 	os << "ConPlaga";
+		case ConPlaga: 	os << "ConPlaga";
 			break;
-		case Granero: 	os << "NoSensado";
+		case NoSensado: 	os << "NoSensado";
 			break;
 	}
 	return os;
