@@ -1,4 +1,4 @@
 comentarios campo L
 hacer buscar en Secuencia>InfoVueloCruzado> para vuelosCruzados de drone.cpp J
 ver errores drone J
-mostrar, guardar, cargar drone E
+mostrar, guardar, cargar drone E -> Agregado. Me parece que el operator<< de producto tendria que estar en Drone, en vez de Campo... en una de las funciones hay que imprimir los productos disponibles a partir del observador del Drone. Tal vez para el mostrar convenga hacer una funcion auxiliar que devuelva los productos y la cantidad que tiene, para que quede mas legible (opcional).
