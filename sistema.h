@@ -38,18 +38,21 @@ class Sistema {
 
         //Auxiliares
 
-        bool Sistema::NoHayConstruccion(Posicion p);
-        bool Sistema::posicionLibre(Posicion p);
-        Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p);
-        bool Sistema::HayDrone(Secuencia<Posicion> P);
-        Parcela Sistema::DondeEstaElGranero(Campo c);
+        bool NoHayConstruccion(Posicion p);
+        bool posicionLibre(Posicion p);
+        Secuencia<Posicion> lugaresAdyacentes(Posicion p);
+        bool HayDrone(Secuencia<Posicion> P);
+        Posicion DondeEstaElGranero(Campo c);
+
+        int cantCultivosCosechables() const;
+        Secuencia<Posicion> parcelasDeCultivo() const;
+        bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
+
+        bool noHayDrone(Posicion p); //falta definirla!
+        bool buscarDrone(Drone d); //falta definirla!
 };
 
-Secuencia<Posicion> parcelasDeCultivo(const Sistema s);
-int cantCultivosCosechables(const Sistema s);
-void cargarLaBateria(Sistema s , const Drone d);
-
-
+//void cargarLaBateria(Sistema s , const Drone d);
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
 std::ostream & operator<<(std::ostream & os,const Sistema & s);

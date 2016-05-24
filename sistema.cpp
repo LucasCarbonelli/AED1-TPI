@@ -10,7 +10,15 @@ Sistema::Sistema()
 	Secuencia<Drone> ds; 
 	this->_enjambre = ds;
 	// Creo la grilla correspondiente al campo y le asigno el estado noSensado a todos los cultivos.
-	Grilla<EstadoCultivo> EC(c.dimensiones());
+	//Grilla<EstadoCultivo> EC(c.dimensiones());
+
+	// La estructura Grilla no es muy genérica.... si le pasas una posición al constructor te intenta poner "Cultivo" en todas las parcelas
+	// para que no falle al compilar hay que crear una grilla vacía y modificarla después
+	// Con esto, todas las posiciones cambian a NoSensado incluyendo la posición donde está la Casa y el Granero ¿está bien que sea así?
+	Grilla<EstadoCultivo> eC;
+	eC.parcelas.resize(c.dimensiones().ancho, std::vector<EstadoCultivo>(c.dimensiones().largo, NoSensado));
+	this->_estado.parcelas = eC.parcelas;
+	/*
 	int i = 0;
 	while(i < c.dimensiones().ancho){
 		int j = 0;
@@ -25,13 +33,21 @@ Sistema::Sistema()
 		i++;
 	}
 	this->_estado.parcelas = EC.parcelas;
+	*/
 //	this->_estado = EC;
+
 }
 
 Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
 {
 	this->_campo = c;
 	this->_enjambre = ds;
+
+	Grilla<EstadoCultivo> eC;
+	eC.parcelas.resize(c.dimensiones().ancho, std::vector<EstadoCultivo>(c.dimensiones().largo, NoSensado));
+	this->_estado.parcelas = eC.parcelas;
+
+	/* idem anterior
 	Grilla<EstadoCultivo> EC(c.dimensiones());
 	int i = 0;
 	while(i < c.dimensiones().ancho){
@@ -49,16 +65,17 @@ Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
 	}
 	this->_estado.parcelas = EC.parcelas;
 //	this->_estado = EC;
+*/
 }
 
-const Sistema::campo() const
+const Campo& Sistema::campo() const
 {
 	return this->_campo;
 }
 
-const EstadoCultivo Sistema::estadoDelCultivo(const Posicion & p) const
+EstadoCultivo Sistema::estadoDelCultivo(const Posicion & p) const
 {
-	return this->_estado[p.x][p.y];
+	return this->_estado.parcelas[p.x][p.y];
 }
 
 const Secuencia<Drone>& Sistema::enjambreDrones() const
@@ -71,17 +88,17 @@ void Sistema::crecer()
 	int i = 0;
 	int j = 0;
 	Campo c = this->_campo;
-	while(i < c.dimensiones.ancho){
-		while(j < c.dimensiones.largo){
+	while(i < c.dimensiones().ancho){
+		while(j < c.dimensiones().largo){
 			Posicion pos;
 			pos.x = i;
-			pos.y = y;
+			pos.y = j;
 			if (c.contenido(pos) == Cultivo){
-				if (this->estado[i][j] == RecienSembrado) {
-					this->estado[i][j] = EnCrecimiento;
+				if (this->_estado.parcelas[i][j] == RecienSembrado) {
+					this->_estado.parcelas[i][j] = EnCrecimiento;
 				}
-				else if (this->estado[i][j] == EnCrecimiento) {
-					this->estado[i][j] = ListoParaCosechar;
+				else if (this->_estado.parcelas[i][j] == EnCrecimiento) {
+					this->_estado.parcelas[i][j] = ListoParaCosechar;
 				}
 
 				
@@ -95,9 +112,9 @@ void Sistema::seVinoLaMaleza(const Secuencia<Posicion>& ps)
 {
 	//aca no hablo de this? igual me pasan como const la secuencia ps, no puedo hacer esto?? otra: me armo un PS que tenga todos los p de ps, sacados de this,
 	//y a eso le hago esto. Hice algo parecido a esto en el ejer despegar, mas abajo.
-	int i = 0;
+	Secuencia<Posicion>::size_type i = 0;
 	while (i < ps.size()) {
-		this->_estado[ps[i].x][ps[i].y] = ConMaleza;
+		this->_estado.parcelas[ps[i].x][ps[i].y] = ConMaleza;
 		i++;
 	}
 }
@@ -107,78 +124,84 @@ void Sistema::seExpandePlaga()
 	int i = 0;
 	Secuencia<Posicion> PosConPlaga;
 
-	while (i < this.campo().dimensiones().ancho) {
+	while (i < this->campo().dimensiones().ancho) {
 		int j = 0;
-		while (j < this.campo().dimensiones().largo) {
+		while (j < this->campo().dimensiones().largo) {
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			if (this.estadoDelCultivo(p) == ConPlaga)
+			if (this->estadoDelCultivo(p) == ConPlaga)
 			{
 				PosConPlaga.push_back(p);
 			}
-			j++
+			j++;
 		}
-		i++
+		i++;
 	}
 
-	int k = 0;
+	Secuencia<Posicion>::size_type k = 0;
 	while (k < PosConPlaga.size()) {
 		Posicion p;
-		p.x = PosConPlaga[k].x
-		p.y = PosConPlaga[k].y
+		p.x = PosConPlaga[k].x;
+		p.y = PosConPlaga[k].y;
 		//al final x es el largo o el ancho??
-		if (PosConPlaga[k].x + 1 <= this.campo().dimensiones().largo && NoHayConstruccion(p))
+		if (PosConPlaga[k].x + 1 <= this->campo().dimensiones().largo && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x + 1;
-			this-> _estado[p.x][p.y] = ConPlaga;
+			this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
 		//nose si es necesario aclarar que en este caso esa pos debe ser menor que el largo, ya que si la pos original era menor al largo, -1 lo va a ser seguro.
-		if (PosConPlaga[k].x - 1 >= 0 && PosConPlaga[k].x - 1 <= this.campo().dimensiones().largo && NoHayConstruccion(p))
+		if (PosConPlaga[k].x - 1 >= 0 && PosConPlaga[k].x - 1 <= this->campo().dimensiones().largo && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x - 1;
-			this-> _estado[p.x][p.y] = ConPlaga;
+			this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].y + 1 <= this.campo().dimensiones().ancho && NoHayConstruccion(p))
+		if (PosConPlaga[k].y + 1 <= this->campo().dimensiones().ancho && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y + 1;
-			this-> _estado[p.x][p.y] = ConPlaga;
+			this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
 		//idem arriba.
-		if (PosConPlaga[k].y - 1 >= 0 && PosConPlaga[k].y - 1 <= this.campo().dimensiones().ancho && NoHayConstruccion(p))
+		if (PosConPlaga[k].y - 1 >= 0 && PosConPlaga[k].y - 1 <= this->campo().dimensiones().ancho && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y - 1;
-			this-> _estado[p.x][p.y] = ConPlaga;
+			this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
 	}
 }
 
+// La funcion buscarDrone(d, this) no está definida!!!!! Esta función hay que revisarla, la comento para que compile
 void Sistema::despegar(const Drone & d)
 {
+
 	//mismo problema que en seVinoLaMaleza con el tema de parametro con const
-	if (buscarDrone(d, this))
+	if (this->buscarDrone(d))
 	{
-		D = d; //como asignador, se puede? sino hago un aux, o pongo todo lo que signfica acá.
-		if (posicionLibre(DondeEstaGranero(this->_campo)))
+		Drone D = d; //como asignador, se puede? sino hago un aux, o pongo todo lo que signfica acá.
+		if (posicionLibre(DondeEstaElGranero(this->_campo)))
 		{
-			D._enVuelo && D._bateria = 100;
+			//D._enVuelo && D._bateria = 100;
+			; // mañana vemos........
 		}
 	}
+
 }
 
 bool Sistema::listoParaCosechar() const
 {
-	return cantCultivosCosechables(this) >= 0.9 * parcelasDeCultivo(this).size())  
+	return this->cantCultivosCosechables() >= 0.9 * this->parcelasDeCultivo().size();
 }
 
 void Sistema::aterrizarYCargarBaterias(Carga b){
 
-	int i= 0;
+	Secuencia<Drone>::size_type i= 0;
 	while (i < this->_enjambre.size()){
-		if (this->_enjambre[i]_bateria < b ) {
-			cargarLaBateria(this, this->_enjambre[i]);
+		if (this->_enjambre[i].bateria() < b ) {
+			//this->cargarLaBateria(this->_enjambre[i]);
+			Drone d(this->_enjambre[i].id(), this->_enjambre[i].productosDisponibles());
+			this->_enjambre[i] = d;
 			i=i+1;
 		}
 		else 
@@ -224,39 +247,35 @@ std::ostream & operator<<(std::ostream & os, const Sistema & s)
 
 
 
-Secuencia<Posicion> parcelasDeCultivo(const Sistema s){
-	Secuencia<Posicion> parcelasDeCultivo ;
+Secuencia<Posicion> Sistema::parcelasDeCultivo() const{
+	Secuencia<Posicion> parcelasDeCultivo;
+
 	int i = 0 ;
 	int j = 0 ;
 
-	while (i < s_campo_dimensiones_ancho){
-		while (j < s_campo_dimensiones_largo){
-			if (s_campo_grilla[i][j] == Cultivo){
-				j= i+1;
-				Posicion p ;
-				p_x = i;
-				p_y = j;
+	while (i < this->campo().dimensiones().ancho){
+		while (j < this->campo().dimensiones().largo){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if (this->campo().contenido(p) == Cultivo){
 				parcelasDeCultivo.push_back(p);
 			}
 			j = j+1;
-
 		}
 		i=i+1;
-
 	}
 	return parcelasDeCultivo;
-
 }
 
-int cantCultivosCosechables(const Sistema s){
+int Sistema::cantCultivosCosechables() const{
 
 	int cuenta = 0;
-	int i = 0 ;
-	while (i< parcelasDeCultivo(s).size()){
-		if (s_estado[parcelasDeCultivo(s)[i].x][parcelasDeCultivo(s)[i].x] == ListoParaCocechar){
+	Secuencia<Posicion>::size_type i = 0 ;
+	while (i < this->parcelasDeCultivo().size()){
+		if (this->_estado.parcelas[this->parcelasDeCultivo()[i].x][this->parcelasDeCultivo()[i].y] == ListoParaCosechar){
 			cuenta = cuenta + 1;
 			i= i + 1 ;
-
 		}
 		else 
 			i= i+1;
@@ -264,33 +283,34 @@ int cantCultivosCosechables(const Sistema s){
 	return cuenta;
 }
 
-void cargarLaBateria(Sistema s , const Drone d) {
-	int i = 0;
-	while (i < s._enjambre.size() ) {
-		if(s_enjambre[i]._id == d_id){
-			s_enjambre[i]._bateria  = 100;
+/* No hay forma de cargar la batería ya que _bateria es privado y bateria() lo único que hace es devolver la batería que tiene
+// La única forma es creando un nuevo drone
+void cargarLaBateria(const Drone d) {
+	Secuencia<Drone>::size_type i = 0;
+	while (i < this->_enjambre.size() ) {
+		if(this->enjambre[i].id() == d_id){
+			this->enjambre[i].bateria()  = 100;
 			Secuencia<Posicion> nuevaTrayectoria;
-			s_enjambre[i]._trayectoria = nuevaTrayectoria;
-			s_enjambre[i]._enVuelo = false ;
+			this->enjambre[i]._trayectoria = nuevaTrayectoria;
+			this->enjambre[i]._enVuelo = false ;
 		}
 	} 
 }
-
+*/
 
 
 
 int dronesVolandoEnFila (Sistema s, int f) {
 
 	int cuenta = 0 ;
-	int i = 0 ;
-	while (i< s_enjambre.size()) {
-		if (s_enjambre[i]_enVuelo== true && s_enjambre[i].posicionActual().y == f){
+	Secuencia<Drone>::size_type i = 0 ;
+	while (i < s.enjambreDrones().size()) {
+		if (s.enjambreDrones()[i].enVuelo() == true && s.enjambreDrones()[i].posicionActual().y == f){
 			cuenta = cuenta + 1 ;
 			i = i + 1;
-		else 
+		}else {
 		    i = i + 1; 
-		} 
-
+		}
 	}
 	return cuenta;
 }
@@ -349,7 +369,7 @@ bool Sistema::posicionLibre(Posicion p) {
 	{
 		m = true;
 	}
-	reutrn m;
+	return m;
 }
 
 Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
@@ -362,7 +382,7 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 
 	p1.x = p.x - 1;
 	p1.y = p.y;
-	P[1] = p1
+	P[1] = p1;
 
 	p2.x = p.x;
 	p2.y = p.y + 1;
@@ -371,16 +391,18 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 	p3.x = p.x;
 	p3.y = p.y - 1;
 	P[3] = p3;
+
+	return P;
 }
 
 bool Sistema::HayDrone(Secuencia<Posicion> P) {
 	Secuencia<Drone> ds = this->_enjambre;
 	bool m = true;
-	int i = 0;
+	Secuencia<Drone>::size_type i = 0;
 	Drone d;
-	while (i < ds.size() && posicionActual(ds[i]) != P) {
+	while (i < ds.size() && buscarPosicion(P, ds[i].posicionActual()) ) {
 		i++;
-		if (i = ds.size())
+		if (i == ds.size())
 		{
 			m = false;
 		}
@@ -388,14 +410,28 @@ bool Sistema::HayDrone(Secuencia<Posicion> P) {
 	return m;
 }
 
+/// DEFINIR!!
+bool Sistema::noHayDrone(Posicion p){
+	return false;
+}
 
-Parcela Sistema::DondeEstaElGranero(Campo c) {
-	Dimension d = dimension(c);
+// no tengo ganas de es
+bool Sistema::buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const{
+	Secuencia<Posicion>::size_type i = 0;
+	while(i < ps.size() && (p.x != ps[i].x && p.y != ps[i].y)){
+		i++;
+	}
+	return i != ps.size();
+}
+
+
+Posicion Sistema::DondeEstaElGranero(Campo c) {
+	Dimension d = c.dimensiones();
 	int i = 0;
 	Posicion p;
-	while (i < d.largo && contenido(p) != Granero) {
+	while (i < d.largo && c.contenido(p) != Granero) {
 		int j = 0;
-		while (j < d.ancho && contenido(p) != Granero) {
+		while (j < d.ancho && c.contenido(p) != Granero) {
 			p.x = i;
 			p.y = j;
 		}
@@ -403,3 +439,7 @@ Parcela Sistema::DondeEstaElGranero(Campo c) {
 	return p;
 }
 
+/// DEFINIR!!!!!!!!1
+bool Sistema::buscarDrone(Drone d){
+	return false;
+}
