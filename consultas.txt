@@ -6,3 +6,5 @@ puedo preguntar posicionActual a un drone que no esta en vuelo?
 (si si se puede, entonces puedo preguntarle a los drones creados al principio de drone.cpp su posición actual, y tienen trayectoria vacia)
 
 preguntar si las funciones auxiliares tienen que estar adentro de la clase o no
+
+preguntar si las funciones de la stl que tomamos son validas para el tp (me contaron que en otros cuatris se pusieron la gorra)
