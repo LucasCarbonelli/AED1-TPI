@@ -261,14 +261,72 @@ void Sistema::fertilizarPorFilas(){
 
 
 
-
-
 void Sistema::volarYSensar(const Drone & d)
 {
 }
 
 void Sistema::mostrar(std::ostream & os) const
 {
+	// Muestra el campo del sistema con el estado debajo 
+
+	{
+	os << std::string(4, ' ');
+
+	for(int j = 0; j < this->_campo_dimension.largo; j++){
+		std::cout.setf (std::ios::left, std::ios::adjustfield);
+		std::cout.width(20);
+		os << j;
+	}
+
+	os << std::endl;
+
+	for(int i = 0; i < this->_campo_dimension.ancho; i++){
+		std::cout.width(4);
+		os << i;
+		for(int j = 0; j < this->_campo_dimension.largo; j++){
+			std::cout.setf (std::ios::left, std::ios::adjustfield);
+			std::cout.width(20);
+			os << this->_campo_grilla.parcelas[i][j];
+		}
+		os << std::endl;
+
+		for(int j = 0; j < this->_campo_dimension.largo; j++){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if (this->_campo().contenido(p) == Cultivo){
+				os << this->_estadoDelCultivo(p);
+			}
+		}
+		os << std::endl;
+	}
+
+}
+
+	//mostramos los drones del sistema 
+
+	for (int i = 0; i < this->_enjambre.size(); i++){
+
+		this->_enjambre[i].mostrar(os);
+		os << std::endl;
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 void Sistema::guardar(std::ostream & os) const
@@ -454,7 +512,6 @@ int Sistema::parcelasLibres(const Drone d ) {
 	else return d.posicionActual().x;
 } 
 
-//////terminar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -478,16 +535,6 @@ Secuencia<Producto> Sistema::mismosProductosDescontantoFertilizante(const Drone 
 
 	return productos;
 }
-
-
-//////terminar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
 
 
 
