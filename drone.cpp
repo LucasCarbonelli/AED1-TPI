@@ -62,8 +62,8 @@ bool Drone::vueloEscalerado() const
 Secuencia<InfoVueloCruzado> Drone::vuelosCruzados(const Secuencia<Drone>& ds)
 {
 	Secuencia<InfoVueloCruzado> ListaInfoVC;
-	int i = 0;
-	int j = 0;
+	Secuencia<Drone>::size_type i = 0;
+	Secuencia<Posicion>::size_type j = 0;
 	while (i < ds.size() && j < ds[i].vueloRealizado().size()) {
 		if (cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds) > 1 && buscarInfoVuelosCruzados(ListaInfoVC, ds[i].vueloRealizado()[j]))
 		{
@@ -95,7 +95,7 @@ void Drone::mostrar(std::ostream & os) const
 	} else {
 		os << "[";
 		os << "(" << std::to_string(this->_trayectoria[0].x) << "," << std::to_string(this->_trayectoria[0].y) << ")";
-		for(int i = 1; i < this->_trayectoria.size(); i++){
+		for(Secuencia<Posicion>::size_type i = 1; i < this->_trayectoria.size(); i++){
 			os << ", (";
 			os << std::to_string(this->_trayectoria[i].x) << "," << std::to_string(this->_trayectoria[i].y);
 			os << ")";
@@ -110,7 +110,7 @@ void Drone::mostrar(std::ostream & os) const
 		os << "Ninguno.";	
 	} else {
 		os << std::to_string(this->_productos[0]);
-		for(int i = 1; i < this->_productos.size(); i++){
+		for(Secuencia<Posicion>::size_type i = 1; i < this->_productos.size(); i++){
 			os << "," << std::to_string(this->_productos[i]);
 		}
 	}
@@ -128,7 +128,7 @@ void Drone::guardar(std::ostream & os) const
 	} else {
 		os << "[";
 		os << "[" << std::to_string(this->_trayectoria[0].x) << "," << std::to_string(this->_trayectoria[0].y) << "]";
-		for(int i = 1; i < this->_trayectoria.size(); i++) {
+		for(Secuencia<Posicion>::size_type i = 1; i < this->_trayectoria.size(); i++) {
 			os << ",[";
 			os << std::to_string(this->_trayectoria[i].x) << "," << std::to_string(this->_trayectoria[i].y);
 			os << "]";
@@ -141,7 +141,7 @@ void Drone::guardar(std::ostream & os) const
 	} else {
 		os << "[";
 		os << std::to_string(this->_productos[0]);
-		for(int i = 1; i < this->_productos.size(); i++){
+		for(Secuencia<Producto>::size_type i = 1; i < this->_productos.size(); i++){
 			os << "," << std::to_string(this->_productos[i]) << ",";
 		}
 		os << "]";
@@ -226,7 +226,7 @@ std::ostream & operator<<(std::ostream & os, const Drone & d)
 
 
 bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2){
-	int i =0 ;
+	Secuencia<Posicion>::size_type i =0 ;
 	bool esLaMisma= true ;
 	if (l1.size() == l2.size()) {
 		while (i < l1.size()){
@@ -239,13 +239,16 @@ bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2
 			}
 			
 		}
-	return esLaMisma;
 	}
+	else{
+		esLaMisma = false;
+	}
+	return esLaMisma;
 }
 
 
 bool escalerado (const Secuencia<Posicion> ps ) {
-	int i = 0 ;
+	Secuencia<Posicion>::size_type i = 0 ;
 	bool val = true ; 
 	while ( val == true && i < ps.size() -2 ){
 		if ((ps[i].x - ps[i+2].x ==1 || ps[i].x - ps[i+2].x == -1 ) && (ps[i].y - ps[i+2].y ==1 || ps[i].y - ps[i+2].y == -1 )) {
@@ -258,7 +261,7 @@ bool escalerado (const Secuencia<Posicion> ps ) {
 }
 
 bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i) {
-	int j=0; 
+	Secuencia<Drone>::size_type j=0; 
 	bool seCruzo = false ; // inicializo una variable que nos dice si hasta el momento un drone se cruzo con el drone del parametro
 	while (j < ds.size()){
 		if  ((d== ds[j]) == false && d.vueloRealizado()[i].x == ds[j].vueloRealizado()[i].x && d.vueloRealizado()[i].y == ds[i].vueloRealizado()[j].y){
@@ -274,10 +277,10 @@ bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i) {
 int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds) {
 	Secuencia<Drone> dronesCruzados ; // inicializo una secuencia vacia que se llama dronesCruzados y aca vamos a guardar los drones que se cruzaron. 
 	
-	int i = 0; // Con la variable i recorro la lista de drones ds.
+	Secuencia<Drone>::size_type i = 0; // Con la variable i recorro la lista de drones ds.
 
 	while (i < ds.size()){
-		int j = 0; // Con la variable j recorro el vuelo realizado de los drones.
+		Secuencia<Posicion>::size_type j = 0; // Con la variable j recorro el vuelo realizado de los drones.
 
 		while ( j < ( ds[i].vueloRealizado()).size() ){
 			
@@ -299,10 +302,10 @@ int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds) {
 
 
 Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) {
-	int j = 0;
+	Secuencia<Drone>::size_type j = 0;
 	Secuencia<Posicion> posicionesC;
 	while (j < ds.size()) {
-		int i = 0;
+		Secuencia<Posicion>::size_type i = 0;
 
 		while ( i < ds[j].vueloRealizado().size()) {
 			if (seCruzoConOtro(ds[j], ds, i))
@@ -319,7 +322,7 @@ Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) {
 
 bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p){
 
-	int i = 0 ;
+	Secuencia<InfoVueloCruzado>::size_type i = 0 ;
 	bool esta = false ; // no esta hasta que se demuestre lo contrario 
 	while (i<ls.size()){
 		if (ls[i].posicion.x == p.x && ls[i].posicion.y == p.y ) {
@@ -352,9 +355,9 @@ bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posici
 
 
 template <class T> bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
-	
+	bool estan = true;	
 	if (l1.size() == l2.size()){
-		bool estan= true;
+//		bool estan= true;
 		int i=0;
 		while (estan == true && i< l1.size() ){
 
@@ -363,11 +366,13 @@ template <class T> bool mismos (const Secuencia<T> l1 , const Secuencia<T> l2) {
 			}
 			else estan = false ;
 
-		return estan;
+//		return estan;
 		}
 	}
-	else
-		return false;
+	else{
+		estan = false;
+	}
+	return estan;
 }
 
 

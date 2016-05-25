@@ -1,5 +1,6 @@
 #include "campo.h"
 
+// Decidimos arbitrariamente que las dimensiones del campo sean 2x2 y que la Casa esté ubicada en (0,0) y el Granero en (1,1)
 Campo::Campo()
 {
 	this->_dimension.ancho = 2;
@@ -10,6 +11,7 @@ Campo::Campo()
 	this->_grilla.parcelas = g.parcelas;
 }
 
+// Decidimos arbitrariamente que las dimensiones del campo sean las menores capaces de contener a la Casa y el Granero en las posiciones que se pasan como parámetro
 Campo::Campo(const Posicion &posG, const Posicion &posC)
 {
 	this->_dimension.ancho = std::max(posG.x, posC.x) + 1;
@@ -23,13 +25,11 @@ Campo::Campo(const Posicion &posG, const Posicion &posC)
 Dimension Campo::dimensiones() const
 {
 	return this->_dimension;
-//	return Dimension();
 }
 
 Parcela Campo::contenido(const Posicion & p) const
 {
 	return this->_grilla.parcelas[p.x][p.y];
-//	return Parcela();
 }
 
 void Campo::mostrar(std::ostream & os) const
@@ -136,15 +136,15 @@ std::ostream & operator<<(std::ostream & os, const Parcela & p)
 std::ostream & operator<<(std::ostream & os, const Producto & p)
 {
 	switch(p){
-		case Fertilizante:		os << "Fertilizante";
+		case Fertilizante:			os << "Fertilizante";
 			break;
-		case Plaguicida: 	os << "Plaguicida";
+		case Plaguicida: 			os << "Plaguicida";
 			break;
-		case PlaguicidaBajoConsumo: 	os << "PlaguicidaBajoConsumo";
+		case PlaguicidaBajoConsumo: os << "PlaguicidaBajoConsumo";
 			break;
-		case Herbicida: 	os << "Herbicida";
+		case Herbicida: 			os << "Herbicida";
 			break;
-		case HerbicidaLargoAlcance: 	os << "HerbicidaLargoAlcance";
+		case HerbicidaLargoAlcance:	os << "HerbicidaLargoAlcance";
 			break;
 	}
 	return os;
@@ -153,17 +153,17 @@ std::ostream & operator<<(std::ostream & os, const Producto & p)
 std::ostream & operator<<(std::ostream & os, const EstadoCultivo & e)
 {
 	switch(e){
-		case RecienSembrado:		os << "RecienSembrado";
+		case RecienSembrado:	os << "RecienSembrado";
 			break;
 		case EnCrecimiento: 	os << "EnCrecimiento";
 			break;
-		case ListoParaCosechar: 	os << "ListoParaCosechar";
+		case ListoParaCosechar:	os << "ListoParaCosechar";
 			break;
-		case ConMaleza: 	os << "ConMaleza";
+		case ConMaleza: 		os << "ConMaleza";
 			break;
-		case ConPlaga: 	os << "ConPlaga";
+		case ConPlaga: 			os << "ConPlaga";
 			break;
-		case NoSensado: 	os << "NoSensado";
+		case NoSensado:			os << "NoSensado";
 			break;
 	}
 	return os;
