@@ -211,9 +211,57 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 }
 
 
-void Sistema::fertilizarPorFilas()
-{
+void Sistema::fertilizarPorFilas(){
+	this->_.enjambreDrones()::size_type i = 0 ;
+
+	while ( i < this->.enjambreDrones().size()){
+
+		if (this->.enjambreDrones()[i].enVuelo() == true){
+
+			//Creamos un nuevo con el mismo id que el anteria y descontandole los fertilizantes que vamos a usar. 
+
+			Drone d(this->.enjambreDrones()[i].id(), mismosProductosDescontandoFertlizante(this->_.enjambreDrones()[i]));
+
+			// Le asignamos la misma trayectoria  
+
+			d_trayectoria = this->.enjambreDrones()[i].vueloRealizado()  
+
+			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
+
+			int j = d.posicionActual().x;
+			while ( j < d.posicionActual().x - this->.recorridoMaximo(this->enjambre[i])){
+				Posicion p ;
+				p.x = j + 1;
+				p.y = this->.enjambreDrones()[i].posicionActual().y;
+				d_trayectoria.push_back(p);
+				j = j + 1;
+
+				// Si es posible le aplicamos el fertilizante a la parcela que agregamos.
+				if (this->.campo().contenido( p ) == Cultivo && ( this->.estadoDelCultivo(p) == RecienSembrado || this->.estadoDelCultivo(p) == EnCrecimiento)){
+					this->_estado[p.x][p.y] = ListoParaCosechar ;
+				}
+
+			d_enVuelo = true;
+			d_bateria = this->_enjambreDrones()[i].bateria() - this->.recorridoMaximo(this->._enjambreDrones()); 
+
+			this->_enjambre[i] = d;
+
+			}
+
+		i = i + 1;
+
+
+
+		} 
+	} 
+
 }
+
+
+
+
+
+
 
 void Sistema::volarYSensar(const Drone & d)
 {
@@ -315,11 +363,15 @@ int dronesVolandoEnFila (Sistema s, int f) {
 	return cuenta;
 }
 
-/*int recorridoMaximo(Sistema s, Drone d){
+
+
+int Sistema::recorridoMaximo(Drone d){
+
+return minimo( minimo( this->fertAplicable(d), d.bateria()) , s.parcelasLibres());
 
 }
 
-int minimo (int a , int b) {
+template <class T> T minimo (T a , T b) {
 	if (a < b ) {
 		return a 
 	}
@@ -327,8 +379,118 @@ int minimo (int a , int b) {
 		return b;
 }
 
-int fertAplicable(Sistema s, Drone d){
-*/
+
+template <class T> int cuenta(Secuencia <T> ls , T e) {
+	Secuencia<T>::size_type i = 0 ; 
+	int cuenta = 0 ;
+	while (i < ls.size()){
+		if (ls[i] == e) {
+			cuenta = cuenta +1 ;
+			i = i + 1;
+
+		}
+		else 
+			i = i+1 ;
+	}
+}
+
+
+int Sistema::fertAplicable(Drone d){
+	Secuencia<int> ls  ;
+	Secuencia<int>::size_type i = 0;
+	int i = 0;
+	while (i <= d.posicionActual().X){
+		if (this->cantFertilizables(i,d) <= cuenta(d.productosDisponibles(), Fertilizante) ){
+			ls.push_back(i);
+			i = i + 1;
+		}
+		else 
+			i = i + 1;
+
+
+	}
+	if ls.size() > 0 {
+		return d.posicionActual() - ls[0];
+	}
+	else 
+		return d.posicionActual();
+
+}
+
+int Sistema::cantFertilizables(const int i , Drone d){
+	int cantidad = 0;
+	int j = i ;
+	while ( j < d.posicionActual().x ){
+		if (this->_estado[j][d.posicionActual().y] == RecienSembrado || this->_estado[j][d.posicionActual().y] == EnCrecimiento ){
+			cantidad = cantidad + 1 ;
+			j = j + 1; 
+		}
+		else j = j + 1;
+
+	}
+}
+
+int Sistema::parcelasLibres(const Drone d ) {
+	Secuencia<int> libres  ;
+	Secuencia<int>::size_type i = 0;
+	while (i <= d.posicionActual().x){
+		Secuencia<Posicion>::size_type j = i ;
+		bool condicion = true ;
+		while ( condicion == true && j < d.posicionActual().x) {
+			if (this->_campo_grilla[j][d.posicionActual().y] == Cultivo){
+				j = j +1;
+			}
+			else {
+				j = j + 1;
+				condicion = false ;
+			}
+		}
+		if (condicion == true) { libres.push_back(i) };
+		i= i+1;
+	}
+	if (libres.size() > 0){ 
+		return d.posicionActual().x - libres[0]; 
+	}
+	else return d.posicionActual().x;
+} 
+
+//////terminar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+Secuencia<Producto> Sistema::mismosProductosDescontantoFertilizante(const Drone d){
+	Secuencia<Producto> productos;
+	Secuencia<Producto>::size_type i = 0;
+	int cuentaFert = this->.recorridoMaximo(d);
+	while( i < d.productosDisponibles.size()){
+		Producto p = d.productosDisponibles[i];
+		if (d.productosDisponibles()[i] == Fertilizante && cuentaFert > 0){
+			cuentaFert = cuentaFert - 1;
+		}
+		else 
+			productos.push_back(productos.push_back(p);
+
+
+		i = i + 1;
+
+
+	}
+
+	return productos;
+}
+
+
+//////terminar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
 
 
 
