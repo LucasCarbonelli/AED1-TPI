@@ -349,8 +349,9 @@ void Sistema::cargar(std::istream & is)
 	//que encuentre el segundo {, y que cargue el campo. que encuentre el cuarto {, y que tome desde uno anterior (osea [) el tamaño de ese [], que después haga un while
 	//(o for) donde cargue todos los drones dentro de ese []. luego, que busque el primer [[, y que ahi cargue los estados como dios manda.
 	const std::string parcelaLetraInicial = "REL"/*ConMalezaConPlaga*/"N";
-	const std::string caracterAnteriorAotrasCargas = " {";
+	const std::string caracterAnteriorAotrasCargas = "{";
 	const std::string caracterPosteriorAotrasCargas = "}";
+	const std::string corcheteAbierto = "[";
 	const std::string caracterUltimoAotrasCargas = "]}]"; //creo que va a agarrar el primero de estos, no esto en si... seria find? sin first_of
 	const std::string caracterAnteriorAestados = "[";
 	const std::string caracterPosteriorAestados = "]";
@@ -363,25 +364,26 @@ void Sistema::cargar(std::istream & is)
 	i = 1;
 	i = sistemaAlmacenado.find_first_of(caracterAnteriorAotrasCargas, i);
 	j = sistemaAlmacenado.find_first_of(caracterPosteriorAotrasCargas, i);
-	this->_campo = (sistemaAlmacenado.substr(i, j)).cargar();
+	this->_campo.cargar(sistemaAlmacenado.substr(i, j));
 
-	i = sistemaAlmacenado.find_first_of(caracterAnteriorAotrasCargas, j);
-	j = sistemaAlmacenado.find_first_of(caracterUltimoAotrasCargas, i);
+	i = sistemaAlmacenado.find_first_of(corcheteAbierto, j);
+	j = sistemaAlmacenado.find(caracterUltimoAotrasCargas, i);
+	j = sistemaAlmacenado.find_last_of(caracterPosteriorAestados, j);
 	int l = 0;
 	while (i < j) {
 		k = sistemaAlmacenado.find_first_of(caracterPosteriorAotrasCargas, i);
-		ds[l] = (sistemaAlmacenado.substr(i, k)).cargar();
-		i = k;
-		l++;
+		ds.push_back(cargar(sistemaAlmacenado.substr(i, k))));
+		i = sistemaAlmacenado.find_first_of(caracterAnteriorAotrasCargas, k);
 	}
 	this->_enjambre = ds;
 
 	i = sistemaAlmacenado.find_first_of(caracterAnteriorAestados, j);
+	i = i + 1;
 	j = sistemaAlmacenado.find_last_of(caracterPosteriorAestados, i);
 	while (i < j) {
 		k = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, i);
 		//le asigna a cada posicion cada estado correspondiente... con this y eso...
-		i = k;
+		i = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, k);
 	}
 }
 
