@@ -14,45 +14,44 @@ class Drone{
         bool enVuelo() const;
         const Secuencia<Posicion>& vueloRealizado() const;
         Posicion posicionActual() const;
-				const Secuencia<Producto>& productosDisponibles() const;
+                const Secuencia<Producto>& productosDisponibles() const;
 
         bool vueloEscalerado() const;
-				static Secuencia<InfoVueloCruzado>	vuelosCruzados(const Secuencia<Drone>& ds);
+                static Secuencia<InfoVueloCruzado>  vuelosCruzados(const Secuencia<Drone>& ds);
 
-		void mostrar(std::ostream& os) const;
-		void guardar(std::ostream& os) const;
-		void cargar(std::istream& is);
+        void mostrar(std::ostream& os) const;
+        void guardar(std::ostream& os) const;
+        void cargar(std::istream& is);
 
-    	bool operator==(const Drone& otroDrone) const;
+        bool operator==(const Drone& otroDrone) const;
 
-    	void moverA(const Posicion pos);
-    	void setBateria(const Carga c);
-    	void borrarVueloRealizado();
-    	void cambiarPosicionActual(const Posicion p);
-    	void sacarProducto(const Producto p);
+        void moverA(const Posicion pos);
+        void setBateria(const Carga c);
+        void borrarVueloRealizado();
+        void cambiarPosicionActual(const Posicion p);
+        void sacarProducto(const Producto p);
 
-	private:
-		ID _id;
-		Carga _bateria;
-		Secuencia<Posicion> _trayectoria;
-		Secuencia<Producto> _productos;
-		bool _enVuelo;
-		Posicion _posicionActual;
+    private:
+        ID _id;
+        Carga _bateria;
+        Secuencia<Posicion> _trayectoria;
+        Secuencia<Producto> _productos;
+        bool _enVuelo;
+        Posicion _posicionActual;
 
-		Producto stringAProducto(std::string s);
+        Producto stringAProducto(std::string s);
+
+
+        bool escalerado (const Secuencia<Posicion> ps );
+        bool seCruzoConOtro(Secuencia<Drone> ds, int i);
+        int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
+        template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
+        template <class T> int cuenta (const Secuencia <T> l1 , const T e);
+        bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
+        bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2);
 };
-
-bool escalerado (const Secuencia<Posicion> ps );
-bool seCruzoConOtro(Drone d, Secuencia<Drone> ds, int i);
-int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
-template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
-template <class T> int cuenta (const Secuencia <T> l1 , const T e);
-bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
-bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2);
-
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
 std::ostream & operator<<(std::ostream & os,const Drone & d);
 
 #endif // DRONE_H_INCLUDED
-
