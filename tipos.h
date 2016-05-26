@@ -28,9 +28,9 @@ struct Dimension {
 template<class T>
 struct Grilla {
     Grilla() {}
-	Grilla(Dimension d)	{
-		parcelas.resize(d.ancho, std::vector<T>(d.largo, Cultivo));
-	}
+    Grilla(Dimension d) {
+        parcelas.resize(d.ancho, std::vector<T>(d.largo, static_cast<T>(0)));
+    }
     std::vector< std::vector<T> > parcelas;
 };
 
