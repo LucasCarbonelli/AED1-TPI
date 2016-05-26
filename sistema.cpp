@@ -730,7 +730,7 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 ////tenes que modificar el sistema para sensar la parcela
 void Sistema::sensarParcela(Posicion p) {
 	switch(p) {
-		case estadoDelCultivo(p) == 
+		case estadoDelCultivo(p) == Culo;
 	}
 }
 
@@ -738,17 +738,17 @@ void Sistema::sensarParcela(Posicion p) {
 
 void Sistema::aplicarProductos(Drone d, Posicion p) {
 	switch(p)
-	case tieneProducto(d, Fertilizante) && (this->estadoDelCultivo(p) == RecienSembrado: this->estadoDelCultivo(p) == ListoParaCosechar && listaProductosSin(Fertilizante, d);
+	case tieneProducto(d, Fertilizante) && (this->estadoDelCultivo(p) == RecienSembrado: this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
 		break;
-	case tieneProducto(d, Fertilizante) && this->estadoDelCultivo(p) == EnCrecimiento):	this->estadoDelCultivo(p) == ListoParaCosechar && listaProductosSin(Fertilizante, d);
+	case tieneProducto(d, Fertilizante) && this->estadoDelCultivo(p) == EnCrecimiento):	this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
 		break;
-	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Herbicida, d)
+	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Herbicida)
 		break;
-	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(HerbicidaLargoAlcance, d);
+	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(HerbicidaLargoAlcance);
 		break;
-	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, Plaguicida) && d.bateria() => 10: this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Plaguicida, d);
+	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, Plaguicida) && d.bateria() => 10: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Plaguicida);
 		break; 
-	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(PlaguicidaLargoAlcan, d);
+	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(PlaguicidaLargoAlcance);
 		break;
 }
 
@@ -768,21 +768,6 @@ bool Sistema::tieneProducto(Drone d, Producto p) {
 }
 
 
-void listaProductosSin(Producto p, Drone d) {
-	Secuencia<Producto> ps;
-	if (tieneProducto(d, p))
-	{
-		int j = primerLugarCon(d.productosDisponibles(), p);
-		int i = 0;
-		while (i < d.productosDisponibles().size()) {
-			if (i != j)
-			{
-				ps[i] = d.productosDisponibles()[i]
-			}
-			i++;
-		}
-	d._productos = ps;
-}
 int Sistema::primerLugarCon(Secuencia<Producto> ps, Producto p) {
 	int m = ps.size() + 1;
 	//si no esta, va a devolver algo mas grande que el size de ps, entonces ya se ve que no estaba...
