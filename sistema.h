@@ -37,7 +37,7 @@ class Sistema {
 
 
         //Auxiliares
-
+        Secuencia<Posicion> parcelasDeCultivo() const;
         bool NoHayConstruccion(Posicion p);
         bool posicionLibre(Posicion p);
         Secuencia<Posicion> lugaresAdyacentes(Posicion p);
@@ -45,11 +45,11 @@ class Sistema {
         Posicion DondeEstaElGranero(Campo c);
 
         int cantCultivosCosechables() const;
-        Secuencia<Posicion> parcelasDeCultivo() const;
         bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
 
         bool noHayDrone(Posicion p); //falta definirla!
         bool buscarDrone(Drone d); //falta definirla!
+        int primerLugarCon(Secuencia<Producto> ps, Producto p);
 };
 
 //void cargarLaBateria(Sistema s , const Drone d);
