@@ -515,11 +515,10 @@ int Sistema::fertAplicable(Drone d){
 
 
 	}
-	if ls.size() > 0 {
+	if (ls.size() > 0) {
 		return d.posicionActual() - ls[0];
 	}
-	else 
-		return d.posicionActual();
+	else {return d.posicionActual();}
 
 }
 
