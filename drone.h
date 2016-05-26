@@ -14,16 +14,22 @@ class Drone{
         bool enVuelo() const;
         const Secuencia<Posicion>& vueloRealizado() const;
         Posicion posicionActual() const;
-		const Secuencia<Producto>& productosDisponibles() const;
+				const Secuencia<Producto>& productosDisponibles() const;
 
         bool vueloEscalerado() const;
-		static Secuencia<InfoVueloCruzado>	vuelosCruzados(const Secuencia<Drone>& ds);
+				static Secuencia<InfoVueloCruzado>	vuelosCruzados(const Secuencia<Drone>& ds);
 
 		void mostrar(std::ostream& os) const;
 		void guardar(std::ostream& os) const;
 		void cargar(std::istream& is);
 
-        bool operator==(const Drone& otroDrone) const;
+    	bool operator==(const Drone& otroDrone) const;
+
+    	void moverA(const Posicion pos);
+    	void setBateria(const Carga c);
+    	void borrarVueloRealizado();
+    	void cambiarPosicionActual(const Posicion p);
+    	void sacarProducto(const Producto p);
 
 	private:
 		ID _id;
@@ -31,6 +37,7 @@ class Drone{
 		Secuencia<Posicion> _trayectoria;
 		Secuencia<Producto> _productos;
 		bool _enVuelo;
+		Posicion _posicionActual;
 
 		Producto stringAProducto(std::string s);
 };

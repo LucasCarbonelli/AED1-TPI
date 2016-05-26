@@ -172,23 +172,18 @@ void Sistema::seExpandePlaga()
 	}
 }
 
-// La funcion buscarDrone(d, this) no está definida!!!!! Esta función hay que revisarla, la comento para que compile
 void Sistema::despegar(const Drone & d)
 {
-
-	//mismo problema que en seVinoLaMaleza con el tema de parametro con const
-	if (this->buscarDrone(d))
+	if (d == this->enjambreDrones()[buscarDrone(d)])
 	{
-		Drone D = d; //como asignador, se puede? sino hago un aux, o pongo todo lo que signfica acá.
 		if (posicionLibre(DondeEstaElGranero(this->_campo)))
 		{
-			//D._enVuelo && D._bateria = 100;
-			; // mañana vemos........
+			//this->enjambreDrones()[buscarDrone(d)]._enVuelo && this->enjambreDrones()[buscarDrone(d)]._bateria = 100 && posicionActual;
+			; // mañana vemos........ --->>> lo use devuelta che
 		}
 	}
 
 }
-
 bool Sistema::listoParaCosechar() const
 {
 	return this->cantCultivosCosechables() >= 0.9 * this->parcelasDeCultivo().size();
@@ -220,16 +215,16 @@ void Sistema::fertilizarPorFilas(){
 
 			//Creamos un nuevo con el mismo id que el anteria y descontandole los fertilizantes que vamos a usar. 
 
-			Drone d(this->enjambreDrones()[i].id(), mismosProductosDescontandoFertlizante(this->enjambreDrones()[i]));
+			Drone d(this->enjambreDrones()[i].id(), this->mismosProductosDescontandoFertilizante(this->enjambreDrones()[i]));
 
 			// Le asignamos la misma trayectoria  
 
-			d_trayectoria = this->enjambreDrones()[i].vueloRealizado()  
+			d_trayectoria = this->enjambreDrones()[i].vueloRealizado();
 
 			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
 
 			int j = d.posicionActual().x;
-			while ( j < d.posicionActual().x - this->recorridoMaximo(this->enjambre[i])){
+			while ( j < d.posicionActual().x - this->recorridoMaximo(this->enjambreDrones()[i])){
 				Posicion p ;
 				p.x = j + 1;
 				p.y = this->enjambreDrones()[i].posicionActual().y;
@@ -265,7 +260,7 @@ void Sistema::volarYSensar(const Drone & d)
 	p.x = -1;
 	p.y = -1;
 	while (i < ps.size()) {
-		//hacer parcelaValida (esta en rango y no hay construccion)
+		//hacer parcelaValida (esta en rango y no hay construccion y que no hay drone)
 		if (parcelaValida(p[i]))
 		{
 			p = p[i];
@@ -459,12 +454,12 @@ void cargarLaBateria(const Drone d) {
 
 
 
-int dronesVolandoEnFila (Sistema s, int f) {
+int Sistema::dronesVolandoEnFila (int f) {
 
 	int cuenta = 0 ;
 	Secuencia<Drone>::size_type i = 0 ;
-	while (i < s.enjambreDrones().size()) {
-		if (s.enjambreDrones()[i].enVuelo() == true && s.enjambreDrones()[i].posicionActual().y == f){
+	while (i < enjambreDrones().size()) {
+		if (enjambreDrones()[i].enVuelo() == true && enjambreDrones()[i].posicionActual().y == f){
 			cuenta = cuenta + 1 ;
 			i = i + 1;
 		}else {
@@ -482,7 +477,7 @@ return minimo( minimo( this->fertAplicable(d), d.bateria()) , s.parcelasLibres()
 
 }
 
-template <class T> T minimo (T a , T b) {
+template <class T> T Sistema::minimo (T a , T b) {
 	if (a < b ) {
 		return a 
 	}
@@ -491,7 +486,7 @@ template <class T> T minimo (T a , T b) {
 }
 
 
-template <class T> int cuenta(Secuencia <T> ls , T e) {
+template <class T> int Sistema::cuenta(Secuencia <T> ls , T e) {
 	Secuencia<T>::size_type i = 0 ; 
 	int cuenta = 0 ;
 	while (i < ls.size()){
@@ -568,7 +563,7 @@ int Sistema::parcelasLibres(const Drone d ) {
 
 
 
-Secuencia<Producto> Sistema::mismosProductosDescontantoFertilizante(const Drone d){
+Secuencia<Producto> Sistema::mismosProductosDescontandoFertilizante(const Drone d){
 	Secuencia<Producto> productos;
 	Secuencia<Producto>::size_type i = 0;
 	int cuentaFert = this->.recorridoMaximo(d);
@@ -669,20 +664,6 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 	return P;
 }
 
-bool Sistema::HayDrone(Secuencia<Posicion> P) {
-	Secuencia<Drone> ds = this->_enjambre;
-	bool m = true; 
-	Secuencia<Drone>::size_type i = 0;
-	Drone d;
-	while (i < ds.size() && buscarPosicion(P, ds[i].posicionActual()) ) {
-		i++;
-		if (i == ds.size())
-		{
-			m = false; 
-		}
-	}
-	return m;
-}
 
 /// DEFINIR!! no la defini porque uso !HayDrone
 bool Sistema::noHayDrone(Posicion p){
@@ -692,12 +673,11 @@ bool Sistema::noHayDrone(Posicion p){
 // no tengo ganas de es
 bool Sistema::buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const{
 	Secuencia<Posicion>::size_type i = 0;
-	while(i < ps.size() && (p.x != ps[i].x && p.y != ps[i].y)){
+	while(i < ps.size() && !(p.x == ps[i].x && p.y == ps[i].y)){
 		i++;
 	}
 	return i != ps.size();
 }
-
 
 Posicion Sistema::DondeEstaElGranero(Campo c) {
 	Dimension d = c.dimensiones();
@@ -716,8 +696,8 @@ Posicion Sistema::DondeEstaElGranero(Campo c) {
 
 int Sistema::buscarDrone(Drone d) {
 	int i = 0;
-	while ( i < this.enjambreDrones().size()) {
-		if (mismoDrone(this.enjambreDrones()[i], d))
+	while ( i < this->_enjambre.size()) {
+		if (this->_enjambre[i] == d))
 		{
 			break;
 		}
@@ -726,18 +706,9 @@ int Sistema::buscarDrone(Drone d) {
 	return i;
 }
 
-bool mismoDrone(Drone d, e) {
-	bool m = false;
-	//acá comparo una serie de cosas, tipo lista, que nose si puedo comparar así no mas... nose si pasara en otras parte del TP, habria que ver...
-	if (d.id == e.id && d.bateria() == e.bateria() && d.enVuelo == e.enVuelo && d.vueloRealizado() == e.vueloRealizado() && d.posicionActual() == e.posicionActual && d.productosDisponibles() == e.productosDisponibles())
-	{
-		m = true;
-	}
-	return m;
-}
 
 
-Posicion parcelaValida(Secuencia<Posicion> ps) {
+Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 	Posicion p;
 	// asi si no encuentra una valida, devuelve algo que no tiene sentido, como para no dejar que devuelva algo del campo pero no valido...
 	p.x = -1;
@@ -764,17 +735,25 @@ void Sistema::sensarParcela(Posicion p) {
 }
 
 
+
 void Sistema::aplicarProductos(Drone d, Posicion p) {
 	switch(p)
-	case (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento) && tieneProducto(d, Fertilizante):	this->estadoDelCultivo(p) == ListoParaCosechar && listaProductosSin(Fertilizante, Fertilizante, d);
+	case tieneProducto(d, Fertilizante) && (this->estadoDelCultivo(p) == RecienSembrado: this->estadoDelCultivo(p) == ListoParaCosechar && listaProductosSin(Fertilizante, d);
 		break;
-	case this->estadoDelCultivo(p) == ConMaleza && (tieneProducto(d, Herbicida) || tieneProducto(d, HerbicidaLargoAlcance)) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Herbicida, HerbicidaLargoAlcance, d);
+	case tieneProducto(d, Fertilizante) && this->estadoDelCultivo(p) == EnCrecimiento):	this->estadoDelCultivo(p) == ListoParaCosechar && listaProductosSin(Fertilizante, d);
 		break;
-	case this->estadoDelCultivo(p) == ConPlaga && ((tieneProducto(d, Plaguicida) && d.bateria() => 10) || (tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() => 5)):	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Plaguicida, PlaguicidaLargoAlcan, d);
+	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Herbicida, d)
+		break;
+	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(HerbicidaLargoAlcance, d);
+		break;
+	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, Plaguicida) && d.bateria() => 10: this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(Plaguicida, d);
+		break; 
+	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && listaProductosSin(PlaguicidaLargoAlcan, d);
 		break;
 }
 
-bool tieneProducto(Drone d, Producto p) {
+
+bool Sistema::tieneProducto(Drone d, Producto p) {
 	bool m = false;
 	int i = 0;
 	while (i < d.productosDisponibles().size()) {
@@ -788,39 +767,23 @@ bool tieneProducto(Drone d, Producto p) {
 	return m;
 }
 
-void listaProductosSin(Producto s, p, Drone d) {
+
+void listaProductosSin(Producto p, Drone d) {
 	Secuencia<Producto> ps;
-	if (tieneProducto(d, s))
+	if (tieneProducto(d, p))
 	{
-		int j = primerLugarCon(d.productosDisponibles(), s);
+		int j = primerLugarCon(d.productosDisponibles(), p);
 		int i = 0;
 		while (i < d.productosDisponibles().size()) {
 			if (i != j)
 			{
 				ps[i] = d.productosDisponibles()[i]
 			}
-			
+			i++;
 		}
-	}
-	else
-	{
-		if (tieneProducto(d, p))
-		{
-			int j = primerLugarCon(d.productosDisponibles(), p);
-			int i = 0;
-			while (i < d.productosDisponibles().size()) {
-				if (i != j)
-				{
-					ps[i] = d.productosDisponibles()[i]
-				}
-			
-			}
-		}
-	}
 	d._productos = ps;
 }
-
-int primerLugarCon(Secuencia<Producto> ps, Producto p) {
+int Sistema::primerLugarCon(Secuencia<Producto> ps, Producto p) {
 	int m = ps.size() + 1;
 	//si no esta, va a devolver algo mas grande que el size de ps, entonces ya se ve que no estaba...
 	int i = 0;

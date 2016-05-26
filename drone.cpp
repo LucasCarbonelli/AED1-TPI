@@ -10,7 +10,11 @@ Drone::Drone()
 	this->_trayectoria = pos  ;
 	Secuencia <Producto> productos ;
 	this->_productos = productos;
-	this-> _enVuelo = false;
+	this->_enVuelo = false;
+	Posicion p;
+	p.x = 0 ;
+	p.y = 0 ;
+	this->_posicionActual = p;  
 }
 
 Drone::Drone(ID i, const std::vector<Producto>& ps)
@@ -20,7 +24,11 @@ Drone::Drone(ID i, const std::vector<Producto>& ps)
 	Secuencia<Posicion> pos ; 
 	this->_trayectoria = pos  ;
 	this->_productos = ps ;
-	this-> _enVuelo = false;
+	this->_enVuelo = false;
+	Posicion p;
+	p.x = 0 ;
+	p.y = 0 ;
+	this->_posicionActual = p;
 }
 
 ID Drone::id() const
@@ -46,7 +54,7 @@ const Secuencia<Posicion>& Drone::vueloRealizado() const
 Posicion Drone::posicionActual() const
 {
 
-	return this->_trayectoria [this->_trayectoria.size() -1 ];
+	return this->_posicionActual;
 }
 
 const Secuencia<Producto>& Drone::productosDisponibles() const
@@ -420,4 +428,29 @@ Producto Drone::stringAProducto(std::string s){
 	}
 */
 	return prod;
+}
+
+
+void Drone::moverA(const Posicion pos){
+	this->_trayectoria.push_back(pos);
+	this->_posicionActual = pos ; 
+	this->_bateria = this.bateria() - 1; 
+}
+void Drone::setBateria(const Carga c){
+	this->_bateria = c ;
+}
+void Drone::borrarVueloRealizado(){
+	Secuencia<Posicion> p ;
+	this->_trayectoria = p;
+}
+void Drone::cambiarPosicionActual(const Posicion p){
+	this->_posicionActual = p;
+}
+void Drone::sacarProducto(const Producto p){
+	Secuencia<Producto> productos ;
+	Secuencia<Producto>::size_type i = 0;
+	bool seQuito = false;
+	while (i < this->productosDisponibles().size()){
+		if this->productosDisponibles(){}
+	}
 }
