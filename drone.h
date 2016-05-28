@@ -14,10 +14,10 @@ class Drone{
         bool enVuelo() const;
         const Secuencia<Posicion>& vueloRealizado() const;
         Posicion posicionActual() const;
-                const Secuencia<Producto>& productosDisponibles() const;
+        const Secuencia<Producto>& productosDisponibles() const;
 
         bool vueloEscalerado() const;
-                static Secuencia<InfoVueloCruzado>  vuelosCruzados(const Secuencia<Drone>& ds);
+        static Secuencia<InfoVueloCruzado>  vuelosCruzados(const Secuencia<Drone>& ds);
 
         void mostrar(std::ostream& os) const;
         void guardar(std::ostream& os) const;
@@ -42,13 +42,14 @@ class Drone{
         Producto stringAProducto(std::string s);
 
 
-        bool escalerado (const Secuencia<Posicion> ps );
-        bool seCruzoConOtro(Secuencia<Drone> ds, int i);
-        int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
-        template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2);
-        template <class T> int cuenta (const Secuencia <T> l1 , const T e);
-        bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
-        bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2);
+        bool escalerado() const;
+        bool seCruzoConOtro(Secuencia<Drone> ds, int i) const ;
+        static int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
+        static Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) ;
+        template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2) const;
+        template <class T> int cuenta (const Secuencia <T> l1 , const T e) const ;
+        static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
+        static bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2) ;
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
