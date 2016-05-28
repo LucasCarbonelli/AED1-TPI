@@ -1,7 +1,10 @@
 #include <iostream>
+#include <fstream>
 
 #include "tipos.h"
 #include "campo.h"
+#include "drone.h"
+#include "sistema.h"
 
 using namespace std;
 
@@ -45,9 +48,20 @@ int main()
 
 	cout << parc << endl << parg << endl;
 
-	cout << endl << "\"guadar un campo\":" << endl;
+	cout << endl << "Mostrar por pantalla el tipo Producto:" << endl;
 
-	p2.guardar(cout);
+	Producto prod1 = Fertilizante;
+	Producto prod2 = PlaguicidaBajoConsumo;
+
+	cout << prod1 << endl << prod2 << endl;
+
+	cout << endl << "Campo guardado en \"salidaCampo.txt\"" << endl;
+
+	ofstream campoOut("salidaCampo.txt");
+	if(campoOut.is_open()){
+		p2.guardar(campoOut);
+		campoOut.close();
+	}
 
 	cout << endl << endl << "\"Cargar\" un Campo y mostrarlo:" << endl;
 
@@ -58,6 +72,37 @@ int main()
 	p3.cargar(cin);
 	
 	cout << endl << p3;
+	
+
+	cout << endl << endl << "\"Cargar\" un Drone y mostrarlo:" << endl;
+
+	Drone d;
+	d.cargar(cin);
+	cout << endl << d;
+
+	cout << endl << endl << "Drone guardado en \"salidaDrone.txt\"" << endl;
+
+	ofstream droneOut("salidaDrone.txt");
+	if(droneOut.is_open()){
+		d.guardar(droneOut);
+		droneOut.close();
+	}
+
+	cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+
+	Sistema s;
+	s.cargar(cin);
+	cout << endl << s;
+
+	cout << endl << "Sistema guardado en \"salidaSistema.txt\"" << endl;
+
+	ofstream sistemaOut("salidaSistema.txt");
+	if(sistemaOut.is_open()){
+		s.guardar(sistemaOut);
+		sistemaOut.close();
+	}
+	
+	cout << endl;
 
     return 0;
 }
