@@ -154,12 +154,13 @@ void Sistema::seExpandePlaga()
 
 void Sistema::despegar(const Drone & d)
 {
-	if (d == this->enjambreDrones()[buscarDrone(d)])
+	if (d == enjambreDrones()[buscarDrone(d)])
 	{
-		if (posicionLibre(DondeEstaElGranero(this->_campo)))
+		if (posicionLibre(DondeEstaElGranero(campo)))
 		{
-			//this->enjambreDrones()[buscarDrone(d)]._enVuelo && this->enjambreDrones()[buscarDrone(d)]._bateria = 100 && posicionActual;
-			; // mañana vemos........ --->>> lo use devuelta che
+			
+			enjambreDrones()[buscarDrone(d)].moverA(damePosicionLibre(DondeEstaElGranero(campo)));
+
 		}
 	}
 

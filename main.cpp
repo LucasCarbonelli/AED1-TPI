@@ -62,7 +62,7 @@ int main()
 		p2.guardar(campoOut);
 		campoOut.close();
 	}
-/*
+
 	cout << endl << endl << "\"Cargar\" un Campo y mostrarlo:" << endl;
 
 	// escribir (o copiar en la consola) por ejemplo
@@ -72,7 +72,7 @@ int main()
 	p3.cargar(cin);
 	
 	cout << endl << p3;
-	*/
+	
 
 	cout << endl << endl << "\"Cargar\" un Drone y mostrarlo:" << endl;
 
@@ -106,6 +106,151 @@ int main()
 	}
 	
 	cout << endl;
+
+	cout << "Ahora vamos a cargar el campo y el drone que pasaste en un nuevo sistema! que divertido!" << endl;
+	
+	Secuencia<Drone> ds;
+	ds.push_back(d);
+	Sistema sistemaDivertido(p3, ds);
+
+	sistemaDivertido.mostrar(cout);
+
+	
+
+	Secuencia<Drone>::size_type i = 0;
+	while (i < sistemaDivertido.enjambre().size()) {
+		sistemaDivertido.enjambre()[i].mostrar(cout);
+		i++;
+	}
+
+	int l = 0;
+	cout << "elegi lo que queres hacer papurri" << endl;
+	cin >> l;
+
+	if (l == 1)
+	{
+		sistemaDivertido.campo().mostrar(cout);
+		sistemaDivertido.campo().crecer();
+		sistemaDivertido.campo().mostrar(cout);
+	}
+
+	if (l == 2)
+	{
+		cout << "ingresa lista de parcelas: " << endl;
+		Secuencia<Posicion> ps;
+		cin >> ps;
+		sistemaDivertido.seVinoLaMaleza(ps);
+		sistemaDivertido.campo().mostrar(cout);
+	}
+
+	if (l == 3)
+	{
+		sistemaDivertido.campo().seExpandePlaga();
+		sistemaDivertido.campo().mostrar(cout);
+	}
+
+	if (l == 4)
+	{
+		int n = -1;
+		cout << "ingresa el drone que te gusta: " << endl;
+		cin >> n;
+		Drone D = sistemaDivertido.enjambreDrones()[n];
+		sistemaDivertido.despegar(D);
+		
+	}
+
+	if (l == 5)
+	{
+		/* code */
+	}
+
+
+
+
+/*	int tipoDeDato = 0;
+	cout << "qué queres toquetear?" << endl;
+	cin >> tipoDeDato;
+	if (tipoDeDato == 1)
+	{
+		//con Campo
+		cout << "qué queres hacer?" << endl;
+		string A;
+		cin >> A;
+		cout << campo.A();
+	} */
+	/*if (tipoDeDato == 2)
+	{
+		//con Drone
+		cout << "Ingresa lo que queres hacer YA: " << endl;
+		int metodo = 0;
+		cin >> metodo;
+		switch(metodo) {
+			case metodo == 1:	cout << d.id() << endl;
+			break;
+			case metodo == 2:	cout << d.bateria() << endl;
+			break;
+			case metodo == 3:	cout << d.enVuelo() << endl;
+			break;
+			case metodo == 4:	cout << d.vueloRealizado() << endl;
+			break;
+			case metodo == 5:	cout << d.posicionActual() << endl;
+			break;
+			case metodo == 6:	cout << d.productosDisponibles() << endl;
+			break;
+			case metodo == 7:	cout << d.vueloEscalerado() << endl;
+			break;
+			case metodo == 8:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 9:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 10:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 11:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 12:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 13:	cout << d.vuelosCruzados() << endl;
+			break;
+		}
+	}*/
+	/*if (tipoDeDato == 3)
+	{
+		cout << "Ingresa lo que queres hacer YA: " << endl;
+		int metodo = 0;
+		cin >> metodo;
+		switch(metodo) {
+			case metodo == 1:	cout << d.id() << endl;
+			break;
+			case metodo == 2:	cout << d.bateria() << endl;
+			break;
+			case metodo == 3:	cout << d.enVuelo() << endl;
+			break;
+			case metodo == 4:	cout << d.vueloRealizado() << endl;
+			break;
+			case metodo == 5:	cout << d.posicionActual() << endl;
+			break;
+			case metodo == 6:	cout << d.productosDisponibles() << endl;
+			break;
+			case metodo == 7:	cout << d.vueloEscalerado() << endl;
+			break;
+			case metodo == 8:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 9:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 10:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 11:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 12:	cout << d.vuelosCruzados() << endl;
+			break;
+			case metodo == 13:	cout << d.vuelosCruzados() << endl;
+			break;
+		}
+	}*/
+
+
+
+
 
     return 0;
 }
