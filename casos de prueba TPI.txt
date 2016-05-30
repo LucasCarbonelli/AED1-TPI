@@ -1,0 +1,10 @@
+{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true [2,0]}
+
+{ S{ C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]}[{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true[2,0]},{ D 15 46 [[0,1],[1,1],[2,1],[2,2]] [HerbicidaLargoAlcance, Fertilizante, Plaguicida] true [2,2]}][[NoSensado,EnCrecimiento,NoSensado], [ConMaleza,NoSensado,ConPlaga],EnCrecimiento,ListoParaCosechar, ConPlaga]]}
+
+{ C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]}
+
+{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [] true [2,0]}
+
+
+{S {C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]} [] [[NoSensado,EnCrecimiento,NoSensado], [ConMaleza,NoSensado,ConPlaga],EnCrecimiento,ListoParaCosechar, ConPlaga]]}
