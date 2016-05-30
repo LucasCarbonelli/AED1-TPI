@@ -10,33 +10,21 @@ Sistema::Sistema()
 	// Creo un listado de drones vacio.
 	Secuencia<Drone> ds; 
 	this->_enjambre = ds;
-	// Creo la grilla correspondiente al campo y le asigno el estado noSensado a todos los cultivos.
-	//Grilla<EstadoCultivo> EC(c.dimensiones());
 
-	// La estructura Grilla no es muy genérica.... si le pasas una posición al constructor te intenta poner "Cultivo" en todas las parcelas
-	// para que no falle al compilar hay que crear una grilla vacía y modificarla después
-	// Con esto, todas las posiciones cambian a NoSensado incluyendo la posición donde está la Casa y el Granero ¿está bien que sea así?
-	Grilla<EstadoCultivo> eC;
-	eC.parcelas.resize(c.dimensiones().ancho, std::vector<EstadoCultivo>(c.dimensiones().largo, NoSensado));
-	this->_estado.parcelas = eC.parcelas;
-	/*
+	// Creo la grilla correspondiente al campo y le asigno el estado noSensado a todos los cultivos.
+	Grilla<EstadoCultivo> EC(c.dimensiones());
+	
 	int i = 0;
 	while(i < c.dimensiones().ancho){
 		int j = 0;
 		while(j < c.dimensiones().largo){
-			Posicion p;
-			p.x = i;
-			p.y = j;
-//			if (c.contenido(p) == Cultivo) {this->_estado.parcelas[i][j] = NoSensado;}
-			if (c.contenido(p) == Cultivo) {EC.parcelas[i][j] = NoSensado;}
+			EC.parcelas[i][j] = NoSensado;
 			j++;
 		}
 		i++;
 	}
+	
 	this->_estado.parcelas = EC.parcelas;
-	*/
-//	this->_estado = EC;
-
 }
 
 Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
@@ -44,29 +32,20 @@ Sistema::Sistema(const Campo & c, const Secuencia<Drone>& ds)
 	this->_campo = c;
 	this->_enjambre = ds;
 
-	Grilla<EstadoCultivo> eC;
-	eC.parcelas.resize(c.dimensiones().ancho, std::vector<EstadoCultivo>(c.dimensiones().largo, NoSensado));
-	this->_estado.parcelas = eC.parcelas;
-
-	/* idem anterior
+	// idem anterior
 	Grilla<EstadoCultivo> EC(c.dimensiones());
+	
 	int i = 0;
 	while(i < c.dimensiones().ancho){
 		int j = 0;
 		while(j < c.dimensiones().largo){
-			Posicion p;
-			p.x = i;
-			p.y = j;
-//			if (c.contenido(p) == Cultivo) {this->_estado.parcelas[i][j] = NoSensado;};
-			if (c.contenido(p) == Cultivo) {EC.parcelas[i][j] = NoSensado;};
+			EC.parcelas[i][j] = NoSensado;
 			j++;
 		}
 		i++;
-
 	}
+	
 	this->_estado.parcelas = EC.parcelas;
-//	this->_estado = EC;
-*/
 }
 
 const Campo& Sistema::campo() const
@@ -287,10 +266,9 @@ void Sistema::mostrar(std::ostream & os) const
 {
 	// Muestra el campo del sistema con el estado debajo 
 
-	{
 	os << std::string(4, ' ');
 
-	for(int j = 0; j < this->campo().dimensiones().largo; j++){
+	for(int j = 0; j < this->_campo.dimensiones().largo; j++){
 		std::cout.setf (std::ios::left, std::ios::adjustfield);
 		std::cout.width(20);
 		os << j;
@@ -298,43 +276,35 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::endl;
 
-	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
+	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
 		std::cout.width(4);
 		os << i;
-		for(int j = 0; j < this->campo().dimensiones().largo; j++){
+		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			os << this->campo().contenido(p);
+			os << this->_campo.contenido(p);
 		}
 		os << std::endl;
 
-		for(int j = 0; j < this->campo().dimensiones().largo; j++){
-			Posicion p;
-			p.x = i;
-			p.y = j;
-			if (this->campo().contenido(p) == Cultivo){
-				os << this->estadoDelCultivo(p);
-			}
+		os << std::string(4, ' ');
+		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+			std::cout.setf (std::ios::left, std::ios::adjustfield);
+			std::cout.width(20);
+			os << this->_estado.parcelas[i][j];
 		}
 		os << std::endl;
 	}
 
-}
+	//mostramos los drones del sistema
 
-	//mostramos los drones del sistema 
-
-	for (int i = 0; i < this->_enjambre.size(); i++){
-
+	for (Secuencia<Drone>::size_type i = 0; i < this->_enjambre.size(); i++){
+		os << std::endl;
 		this->_enjambre[i].mostrar(os);
 		os << std::endl;
-
 	}
-
-
-
 }
 
 void Sistema::guardar(std::ostream & os) const
@@ -360,7 +330,6 @@ void Sistema::guardar(std::ostream & os) const
 	}
 	os << "]}";
 }
-
 
 void Sistema::cargar(std::istream & is)
 {
@@ -408,14 +377,10 @@ void Sistema::cargar(std::istream & is)
 	this->_estado.parcelas = ec.parcelas;
 }
 
-bool Sistema::operator==(const Sistema & otroSistema) const
-{
-	return false;
-}
-
 std::ostream & operator<<(std::ostream & os, const Sistema & s)
 {
 	// TODO: insert return statement here
+	s.mostrar(os);
 	return os;
 }
 
@@ -521,12 +486,13 @@ template <class T> int Sistema::cuenta(Secuencia <T> ls , T e) {
 		else 
 			i = i+1 ;
 	}
+	return cuenta;
 }
 
 
 int Sistema::fertAplicable(Drone d){
 	Secuencia<int> ls  ;
-	Secuencia<int>::size_type i = 0;
+	int i = 0;
 	while (i <= d.posicionActual().x){
 		if (this->cantFertilizables(i,d) <= cuenta(d.productosDisponibles(), Fertilizante) ){
 			ls.push_back(i);
@@ -558,14 +524,15 @@ int Sistema::cantFertilizables(const int i , Drone d){
 		else j = j + 1;
 
 	}
+	return cantidad;
 }
 
 int Sistema::parcelasLibres(const Drone d ) {
 	Secuencia<int> libres  ;
-	Secuencia<int>::size_type i = 0;
+	int i = 0;
 	//acá sólo quedaron dos warnings
 	while (i <= d.posicionActual().x){
-		Secuencia<Posicion>::size_type j = i ;
+		int j = i ;
 		bool condicion = true ;
 		while ( condicion == true && j < d.posicionActual().x) {
 			if ((_campo).contenido(d.posicionActual()) == Cultivo){

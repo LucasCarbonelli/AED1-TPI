@@ -65,9 +65,10 @@ void Campo::guardar(std::ostream & os) const
 		os << "[";
 		for(int j = 0; j < this->_dimension.largo; j++){
 			os << this->_grilla.parcelas[i][j];
-			if(j != this->_dimension.largo) os << ",";
+			if(j < this->_dimension.largo - 1) os << ",";
 		}
 		os << "]";
+		if(i < this->_dimension.ancho - 1) os << ", ";
 	}
 
 	os << "]}";
@@ -80,10 +81,11 @@ void Campo::cargar(std::istream & is)
 	const std::string caracterPosteriorPrimerNumeros = ",";
 	const std::string caracterPosteriorSegundoNumeros = "]";
 	const std::string caracterPosteriorParcela = ",]";
+	const char caracterFinal = '}';
 	std::string campoAlmacenado;
 	std::string::size_type i, j;
 
-	std::getline(is, campoAlmacenado);
+	std::getline(is, campoAlmacenado, caracterFinal);
 	
 	i = 0;
 	i = campoAlmacenado.find_first_of(numeros, i);

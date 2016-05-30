@@ -1,4 +1,5 @@
 #include "drone.h"
+#include "campo.h"
 #include <sstream>
 
 Drone::Drone()
@@ -467,26 +468,11 @@ template <class T> int Drone::cuenta (const Secuencia <T> l1 , const T e) const 
 Producto Drone::stringAProducto(std::string s){
 	Producto prod;
 
-	if(s == "Plaguicida") prod = Plaguicida;
+	if(s == "Fertilizante") prod = Fertilizante;
+	else if(s == "Plaguicida") prod = Plaguicida;
 	else if(s == "PlaguicidaBajoConsumo") prod = PlaguicidaBajoConsumo;
 	else if(s == "Herbicida") prod = Herbicida;
 	else if(s == "HerbicidaLargoAlcance") prod = HerbicidaLargoAlcance;
 
-/*
-	switch(s){
-		case "Plaguicida":
-			prod = Plaguicida;
-			break;
-		case "PlaguicidaBajoConsumo":
-			prod = PlaguicidaBajoConsumo;
-			break;
-		case "Herbicida":
-			prod = Herbicida;
-			break;
-		case "HerbicidaLargoAlcance":
-			prod = HerbicidaLargoAlcance;
-			break
-	}
-*/
 	return prod;
 }

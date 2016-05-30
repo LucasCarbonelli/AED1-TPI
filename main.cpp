@@ -62,7 +62,7 @@ int main()
 		p2.guardar(campoOut);
 		campoOut.close();
 	}
-
+/*
 	cout << endl << endl << "\"Cargar\" un Campo y mostrarlo:" << endl;
 
 	// escribir (o copiar en la consola) por ejemplo
@@ -72,13 +72,15 @@ int main()
 	p3.cargar(cin);
 	
 	cout << endl << p3;
-	
+	*/
 
 	cout << endl << endl << "\"Cargar\" un Drone y mostrarlo:" << endl;
 
 	Drone d;
 	d.cargar(cin);
 	cout << endl << d;
+
+	cout << endl << "El vuelo es escalerado?" << d.vueloEscalerado() << endl;
 
 	cout << endl << endl << "Drone guardado en \"salidaDrone.txt\"" << endl;
 
@@ -91,6 +93,7 @@ int main()
 	cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
 	Sistema s;
+	cout << "falla aca??";
 	s.cargar(cin);
 	cout << endl << s;
 
