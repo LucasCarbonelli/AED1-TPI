@@ -1,6 +1,7 @@
 #include "sistema.h"
 #include <algorithm>
 
+
 Sistema::Sistema()
 {
 	// Creo un campo con el constructor por defecto.
@@ -213,82 +214,73 @@ void Sistema::fertilizarPorFilas(){
 
 		if (this->enjambreDrones()[i].enVuelo() == true){
 
-			//Creamos un nuevo con el mismo id que el anteria y descontandole los fertilizantes que vamos a usar. 
+			// Usamos d para lo poner this->enjambreDrones()[i] y que el codigo quede mas "lindo"
+			Drone d =  this->enjambreDrones()[i] ;
 
-			Drone d(this->enjambreDrones()[i].id(), this->mismosProductosDescontandoFertilizante(this->enjambreDrones()[i]));
-
-			// Le asignamos la misma trayectoria  
-
-			d_trayectoria = this->enjambreDrones()[i].vueloRealizado();
 
 			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
 
 			int j = d.posicionActual().x;
-			while ( j < d.posicionActual().x - this->recorridoMaximo(this->enjambreDrones()[i])){
+			int recorridoMaximo = this->recorridoMaximo(this->enjambreDrones()[i]);
+			while ( j < d.posicionActual().x - recorridoMaximo ){
 				Posicion p ;
 				p.x = j + 1;
 				p.y = this->enjambreDrones()[i].posicionActual().y;
-				d_trayectoria.push_back(p);
+				d.moverA(p);
+				Carga nuevaCarga = d.bateria() - 1; 
+				d.setBateria(nuevaCarga);
 				j = j + 1;
 
 				// Si es posible le aplicamos el fertilizante a la parcela que agregamos.
 				if (this->campo().contenido( p ) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
-					this->_estado[p.x][p.y] = ListoParaCosechar ;
+					this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
 				}
-
-			d_enVuelo = true;
-			d.setBateria(this->enjambreDrones()[i].bateria() - this->recorridoMaximo(this->enjambreDrones())); 
-
-			this->_enjambre[i] = d;
-
-			}
 
 		i = i + 1;
 
 
 
 		} 
-	} 
+	}
+
+} 
 
 }
 
 void Sistema::volarYSensar(const Drone & d)
 {
 	Secuencia<Posicion> ps = lugaresAdyacentes(d.posicionActual());
-//	Secuencia<Posicion>::size_type i = 0;
 	Posicion p = parcelaValida(ps);
-//	p.x = -1;
-//	p.y = -1;
-//	while (i < ps.size()) {
-//		if (parcelaValida(ps[i]) == d.posicionActual())
-//		{
-//			p = ps[i];
-//			break;
-//		}
-//		i++;
-//	}
-//	Secuencia<Posicion>::size_type j = 0;
-//	Secuencia<Posicion> PS;
-//	int n = d.vueloRealizado().size();
-//	for (int j = 0; j < n; ++j)
-//	{
-//		PS[j] = d.vueloRealizado()[j];
-//	}
-//	PS[n] = p;
-//	d._trayectoria = PS;
-	//me dice que no se usa así esto de abajo, no entiendo por qué
-	d.moverA(p);
-	int bateriaVieja = d.bateria();
-	d.setBateria(bateriaVieja - 1);
-	if (this->estadoDelCultivo(p) == NoSensado)
-	{
+
+	/////// si ninguna de las parcelas era valida movias el drone a (-1,-1) y das un sistema invalido por que hay un drone en cualquier lugar .  
+	if ( p.x != -1 && p.y != -1){
+
+		// tenias que fijarte si tiene bateria para para aplicar los productos por que consumen bateria , sino tambien le ponias al drone bateria negativo y el sistema es invalido.
+
+		///estabas modifiando el drone lo cual no podes hacer por el const , lo que habia que modifilar era el sistema.
+
+		/*d.moverA(p);
+		int bateriaVieja = d.bateria(); //  el tipo era carga , no int 
+		d.setBateria(bateriaVieja - 1);*/
+
+		this->_enjambre[buscarDrone(d)].moverA(p);
+		Carga nuevaCarga = d.bateria() - 1 ;
+		this->_enjambre[buscarDrone(d)].setBateria(nuevaCarga - 1);
+
+
+
+		if (this->estadoDelCultivo(p) == NoSensado)
+		{
 		//pero si esta NoSensado, como puedo pasarlo a sensado? le pongo un valor que yo quiera? no aclara el programa... supongo que si... podria poner this->estadoDelCultivo(p) == algo
 		sensarParcela(p);
-	}
-	else
-	{
+		}
+		else
+		{
 		aplicarProductos(d,p);
-	}
+		}
+
+	} 
+	
 }
 
 void Sistema::mostrar(std::ostream & os) const
@@ -298,7 +290,7 @@ void Sistema::mostrar(std::ostream & os) const
 	{
 	os << std::string(4, ' ');
 
-	for(int j = 0; j < this->_campo_dimension.largo; j++){
+	for(int j = 0; j < this->campo().dimensiones().largo; j++){
 		std::cout.setf (std::ios::left, std::ios::adjustfield);
 		std::cout.width(20);
 		os << j;
@@ -306,22 +298,25 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::endl;
 
-	for(int i = 0; i < this->_campo_dimension.ancho; i++){
+	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
 		std::cout.width(4);
 		os << i;
-		for(int j = 0; j < this->_campo_dimension.largo; j++){
+		for(int j = 0; j < this->campo().dimensiones().largo; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
-			os << this->_campo_grilla.parcelas[i][j];
-		}
-		os << std::endl;
-
-		for(int j = 0; j < this->_campo_dimension.largo; j++){
 			Posicion p;
 			p.x = i;
 			p.y = j;
-			if (this->_campo().contenido(p) == Cultivo){
-				os << this->_estadoDelCultivo(p);
+			os << this->campo().contenido(p);
+		}
+		os << std::endl;
+
+		for(int j = 0; j < this->campo().dimensiones().largo; j++){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if (this->campo().contenido(p) == Cultivo){
+				os << this->estadoDelCultivo(p);
 			}
 		}
 		os << std::endl;
@@ -344,49 +339,73 @@ void Sistema::mostrar(std::ostream & os) const
 
 void Sistema::guardar(std::ostream & os) const
 {
+	os << "{ S ";
+	this->_campo.guardar(os);
+	os << " [";
+	for(Secuencia<Drone>::size_type i = 0; i < this->_enjambre.size(); i++){
+		_enjambre[i].guardar(os);
+		if(i < this->_enjambre.size() - 1) os << ", ";
+	}
+	os << "] ";
+
+	os << "[";
+	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
+		os << "[";
+		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+			os << this->_estado.parcelas[i][j];
+			if(j < this->_campo.dimensiones().largo - 1) os << ",";
+		}
+		os << "]";
+		if(i < this->_campo.dimensiones().ancho - 1) os << ", ";
+	}
+	os << "]}";
 }
+
 
 void Sistema::cargar(std::istream & is)
 {
-	//que encuentre el segundo {, y que cargue el campo. que encuentre el cuarto {, y que tome desde uno anterior (osea [) el tamaño de ese [], que después haga un while
-	//(o for) donde cargue todos los drones dentro de ese []. luego, que busque el primer [[, y que ahi cargue los estados como dios manda.
-	const std::string parcelaLetraInicial = "REL"/*ConMalezaConPlaga*/"N";
-	const std::string caracterAnteriorAotrasCargas = "{";
-	const std::string caracterPosteriorAotrasCargas = "}";
-	const std::string corcheteAbierto = "[";
-	const std::string caracterUltimoAotrasCargas = "]}]"; //creo que va a agarrar el primero de estos, no esto en si... seria find? sin first_of
+	const std::string parcelaLetraInicial = "RELCN";
 	const std::string caracterAnteriorAestados = "[";
-	const std::string caracterPosteriorAestados = "]";
+	const std::string caracterPosteriorAestados = ",]";
+	const char caracterFinListaDrones = ']';
 	std::string sistemaAlmacenado;
-	std::string::size_type i, j, k;
+	std::string::size_type i, j;
 	Secuencia<Drone> ds;
 
-	std::getline(is, sistemaAlmacenado);
+	// Cargar Campo
 
-	i = 1;
-	i = sistemaAlmacenado.find_first_of(caracterAnteriorAotrasCargas, i);
-	j = sistemaAlmacenado.find_first_of(caracterPosteriorAotrasCargas, i);
-	this->_campo.cargar(sistemaAlmacenado.substr(i, j));
+	this->_campo.cargar(is);
 
-	i = sistemaAlmacenado.find_first_of(corcheteAbierto, j);
-	j = sistemaAlmacenado.find(caracterUltimoAotrasCargas, i);
-	j = sistemaAlmacenado.find_last_of(caracterPosteriorAestados, j);
-	int l = 0;
-	while (i < j) {
-		k = sistemaAlmacenado.find_first_of(caracterPosteriorAotrasCargas, i);
-		ds.push_back(cargar(sistemaAlmacenado.substr(i, k))));
-		i = sistemaAlmacenado.find_first_of(caracterAnteriorAotrasCargas, k);
+	// Cargar Drones
+
+	char c;
+	is >> c;
+
+	while(c != caracterFinListaDrones){
+		Drone d;
+		d.cargar(is);
+		ds.push_back(d);
+		is >> c;
 	}
+
 	this->_enjambre = ds;
 
-	i = sistemaAlmacenado.find_first_of(caracterAnteriorAestados, j);
-	i = i + 1;
-	j = sistemaAlmacenado.find_last_of(caracterPosteriorAestados, i);
-	while (i < j) {
-		k = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, i);
-		//le asigna a cada posicion cada estado correspondiente... con this y eso...
-		i = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, k);
+	// Cargar EstadoCultivo
+
+	Grilla<EstadoCultivo> ec(_campo.dimensiones());
+	std::getline(is, sistemaAlmacenado);
+
+	i = 0;
+
+	for(int posAncho = 0; posAncho < this->_campo.dimensiones().ancho; posAncho++){
+		for(int posLargo = 0; posLargo < this->_campo.dimensiones().largo; posLargo++){
+			i = sistemaAlmacenado.find_first_of(parcelaLetraInicial, i);
+			j = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, i);
+			ec.parcelas[posAncho][posLargo] = stringAEstadoCultivo(sistemaAlmacenado.substr(i, j-i));
+			i = j;
+		}
 	}
+	this->_estado.parcelas = ec.parcelas;
 }
 
 bool Sistema::operator==(const Sistema & otroSistema) const
@@ -477,13 +496,13 @@ int Sistema::dronesVolandoEnFila (int f) {
 
 int Sistema::recorridoMaximo(Drone d){
 
-return minimo( minimo( this->fertAplicable(d), d.bateria()) , s.parcelasLibres());
+return minimo( minimo( this->fertAplicable(d), d.bateria()) ,parcelasLibres(d));
 
 }
 
 template <class T> T Sistema::minimo (T a , T b) {
 	if (a < b ) {
-		return a 
+		return a; 
 	}
 	else 
 		return b;
@@ -491,7 +510,7 @@ template <class T> T Sistema::minimo (T a , T b) {
 
 
 template <class T> int Sistema::cuenta(Secuencia <T> ls , T e) {
-	Secuencia<T>::size_type i = 0 ; 
+	Secuencia<Producto>::size_type i = 0 ; 
 	int cuenta = 0 ;
 	while (i < ls.size()){
 		if (ls[i] == e) {
@@ -508,8 +527,7 @@ template <class T> int Sistema::cuenta(Secuencia <T> ls , T e) {
 int Sistema::fertAplicable(Drone d){
 	Secuencia<int> ls  ;
 	Secuencia<int>::size_type i = 0;
-	int i = 0;
-	while (i <= d.posicionActual().X){
+	while (i <= d.posicionActual().x){
 		if (this->cantFertilizables(i,d) <= cuenta(d.productosDisponibles(), Fertilizante) ){
 			ls.push_back(i);
 			i = i + 1;
@@ -520,9 +538,9 @@ int Sistema::fertAplicable(Drone d){
 
 	}
 	if (ls.size() > 0) {
-		return d.posicionActual() - ls[0];
+		return d.posicionActual().x - ls[0];
 	}
-	else {return d.posicionActual();}
+	else {return d.posicionActual().x;}
 
 }
 
@@ -530,7 +548,10 @@ int Sistema::cantFertilizables(const int i , Drone d){
 	int cantidad = 0;
 	int j = i ;
 	while ( j < d.posicionActual().x ){
-		if (this->_estado[j][d.posicionActual().y] == RecienSembrado || this->_estado[j][d.posicionActual().y] == EnCrecimiento ){
+		Posicion p ;
+		p.x = i;
+		p.y = d.posicionActual().y;
+		if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento ){
 			cantidad = cantidad + 1 ;
 			j = j + 1; 
 		}
@@ -570,20 +591,22 @@ int Sistema::parcelasLibres(const Drone d ) {
 Secuencia<Producto> Sistema::mismosProductosDescontandoFertilizante(const Drone d){
 	Secuencia<Producto> productos;
 	Secuencia<Producto>::size_type i = 0;
-	int cuentaFert = this->.recorridoMaximo(d);
-	while( i < d.productosDisponibles.size()){
-		Producto p = d.productosDisponibles[i];
+	int cuentaFert = this->recorridoMaximo(d);
+	while( i < d.productosDisponibles().size()){
+		Producto p = d.productosDisponibles()[i];
 		if (d.productosDisponibles()[i] == Fertilizante && cuentaFert > 0){
 			cuentaFert = cuentaFert - 1;
 		}
 		else 
-			productos.push_back(productos.push_back(p);
-
+			productos.push_back(p);
 
 		i = i + 1;
-
+	
 
 	}
+
+
+	
 
 	return productos;
 }
@@ -742,6 +765,8 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 //la duda que esta arriba, que hago acá? le asigno yo un estado que se me cante? 
 ////tenes que modificar el sistema para sensar la parcela
 void Sistema::sensarParcela(Posicion p) {
+
+	this->_estado.parcelas[p.x][p.y] = RecienSembrado;
 	
 }
 
@@ -750,21 +775,51 @@ void Sistema::sensarParcela(Posicion p) {
 void Sistema::aplicarProductos(Drone d, Posicion p) {
 	//revisar: después del : uso &&, pero sacarProducto no devuelve bool, y a su vez digo estadoCultivo==, osea bool, no asignación, y la idea es asignarlo
 	//además, parece que switch funciona con un int en (), no con un tipo cualquier, ver eso
-	switch(6)
-	case this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante): this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
-		break;
-	case this->estadoDelCultivo(p) == EnCrecimiento && tieneProducto(d, Fertilizante):	this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
-		break;
-	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Herbicida);
-		break;
-	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(HerbicidaLargoAlcance);
-		break;
-	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, Plaguicida) && d.bateria() => 10: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Plaguicida);
-		break; 
-	case this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(PlaguicidaLargoAlcance);
-		break;
-}
+	/////faltaba cambiarle la bateria al drone si es que uso productos
 
+
+
+	if (this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante))
+	{
+		this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+		d.sacarProducto(Fertilizante);
+	}
+	if (this->estadoDelCultivo(p) == EnCrecimiento && tieneProducto(d, Fertilizante))
+	{
+		this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+		d.sacarProducto(Fertilizante);
+	}
+	if (this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() >= 5)
+	{
+		this->_estado.parcelas[p.x][p.y] = RecienSembrado;
+		d.sacarProducto(Herbicida);
+		Carga nuevaCarga = d.bateria() - 5;
+		d.setBateria(nuevaCarga);
+	}
+	if (this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() >= 5)
+	{
+		this->_estado.parcelas[p.x][p.y] = RecienSembrado;
+		d.sacarProducto(HerbicidaLargoAlcance);
+		Carga nuevaCarga = d.bateria() - 5;
+		d.setBateria(nuevaCarga);
+	}
+	if (this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, Plaguicida) && d.bateria() >= 10)
+	{
+		this->_estado.parcelas[p.x][p.y] = RecienSembrado;
+		d.sacarProducto(Plaguicida);
+		Carga nuevaCarga = d.bateria() - 10;
+		d.setBateria(nuevaCarga);
+	}
+	if (this->estadoDelCultivo(p) == ConPlaga && tieneProducto(d, PlaguicidaBajoConsumo) && d.bateria() >= 5)
+	{
+		this->_estado.parcelas[p.x][p.y] = RecienSembrado;
+		d.sacarProducto(PlaguicidaBajoConsumo);	
+		Carga nuevaCarga = d.bateria() - 5;
+		d.setBateria(nuevaCarga);
+	}
+
+
+}
 
 bool Sistema::tieneProducto(Drone d, Producto p) {
 	bool m = false;
@@ -793,3 +848,42 @@ int Sistema::primerLugarCon(Secuencia<Producto> ps, Producto p) {
 	}
 	return m;
 }
+
+
+EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
+	EstadoCultivo ec;
+
+	if(s == "RecienSembrado") ec = RecienSembrado;
+	else if(s == "EnCrecimiento") ec = EnCrecimiento;
+	else if(s == "ListoParaCosechar") ec = ListoParaCosechar;
+	else if(s == "ConMaleza") ec = ConMaleza;
+	else if(s == "ConPlaga") ec = ConPlaga;
+	else if(s == "NoSensado") ec = NoSensado;
+
+	return ec;
+}
+
+
+
+
+
+/*Grilla<EstadoCultivo> nuevoEstado;
+					for (int i = 0; i < this->campo().dimensiones().ancho; ++i)
+					{
+						Secuencia<EstadoCultivo> estadoLargo;
+
+						for (int j = 0; j < this->campo().dimensiones().largo ; ++j)
+						{
+							if ( i == p.x || j == p.y){
+								estadoLargo.push_back(ListoParaCosechar); 
+
+							}
+							else{
+								Posicion po;
+								po.x = i;
+								po.y = j; 
+								estadoLargo.push_back(this->estadoDelCultivo(po));
+							}
+						}
+						nuevoEstado.push_back(estadoLargo);
+					}*/

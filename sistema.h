@@ -46,7 +46,7 @@ class Sistema {
         int cantFertilizables(const int i , Drone d);
         int parcelasLibres(const Drone d );
         Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);
-        bool Sistema::HayDrone(Posicion P)
+        bool HayDrone(Posicion P);
         bool NoHayConstruccion(Posicion p);
         bool posicionLibre(Posicion p);
         Secuencia<Posicion> lugaresAdyacentes(Posicion p);
@@ -59,6 +59,7 @@ class Sistema {
         bool tieneProducto(Drone d, Producto p);
         void listaProductosSin(Producto s, Producto p, Drone d);
         int primerLugarCon(Secuencia<Producto> ps, Producto p);
+        EstadoCultivo stringAEstadoCultivo(const std::string s) const;
 
 
 
