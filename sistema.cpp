@@ -237,7 +237,7 @@ void Sistema::fertilizarPorFilas(){
 				}
 
 			d_enVuelo = true;
-			d_bateria = this->enjambreDrones()[i].bateria() - this->recorridoMaximo(this->enjambreDrones()); 
+			d.setBateria(this->enjambreDrones()[i].bateria() - this->recorridoMaximo(this->enjambreDrones())); 
 
 			this->_enjambre[i] = d;
 
@@ -254,30 +254,32 @@ void Sistema::fertilizarPorFilas(){
 
 void Sistema::volarYSensar(const Drone & d)
 {
-	Secuencia<Posicions> ps = lugaresAdyacentes(d.posicionActual());
-	int i = 0;
-	Posicion p;
-	p.x = -1;
-	p.y = -1;
-	while (i < ps.size()) {
-		//hacer parcelaValida (esta en rango y no hay construccion y que no hay drone)
-		if (parcelaValida(p[i]))
-		{
-			p = p[i];
-			break;
-		}
-		i++;
-	}
-	int j = 0;
-	Secuencia<Posicion> PS;
-	int n = d.vueloRealizado().size();
-	for (int j = 0; j < n; ++j)
-	{
-		PS[j] = d.vueloRealizado()[j];
-	}
-	PS[n] = p;
-	d._trayectoria = PS;
-	d._bateria = d.bateria() - 1;
+	Secuencia<Posicion> ps = lugaresAdyacentes(d.posicionActual());
+//	Secuencia<Posicion>::size_type i = 0;
+	Posicion p = parcelaValida(ps);
+//	p.x = -1;
+//	p.y = -1;
+//	while (i < ps.size()) {
+//		if (parcelaValida(ps[i]) == d.posicionActual())
+//		{
+//			p = ps[i];
+//			break;
+//		}
+//		i++;
+//	}
+//	Secuencia<Posicion>::size_type j = 0;
+//	Secuencia<Posicion> PS;
+//	int n = d.vueloRealizado().size();
+//	for (int j = 0; j < n; ++j)
+//	{
+//		PS[j] = d.vueloRealizado()[j];
+//	}
+//	PS[n] = p;
+//	d._trayectoria = PS;
+	//me dice que no se usa así esto de abajo, no entiendo por qué
+	d.moverA(p);
+	int bateriaVieja = d.bateria();
+	d.setBateria(bateriaVieja - 1);
 	if (this->estadoDelCultivo(p) == NoSensado)
 	{
 		//pero si esta NoSensado, como puedo pasarlo a sensado? le pongo un valor que yo quiera? no aclara el programa... supongo que si... podria poner this->estadoDelCultivo(p) == algo
@@ -540,19 +542,20 @@ int Sistema::cantFertilizables(const int i , Drone d){
 int Sistema::parcelasLibres(const Drone d ) {
 	Secuencia<int> libres  ;
 	Secuencia<int>::size_type i = 0;
+	//acá sólo quedaron dos warnings
 	while (i <= d.posicionActual().x){
 		Secuencia<Posicion>::size_type j = i ;
 		bool condicion = true ;
 		while ( condicion == true && j < d.posicionActual().x) {
-			if (this->_campo_grilla[j][d.posicionActual().y] == Cultivo){
+			if ((_campo).contenido(d.posicionActual()) == Cultivo){
 				j = j +1;
 			}
 			else {
 				j = j + 1;
-				condicion = false ;
+				condicion = false;
 			}
 		}
-		if (condicion == true) { libres.push_back(i) };
+		if (condicion == true) { libres.push_back(i); }
 		i= i+1;
 	}
 	if (libres.size() > 0){ 
@@ -600,7 +603,22 @@ int minimo (int a , int b) {
 int fertAplicable(Sistema s, Drone d){
 */
 
-
+bool Sistema::HayDrone(Posicion P) {
+	Secuencia<Drone> ds = this->_enjambre;
+	bool m = true;
+	Secuencia<Drone>::size_type i = 0;
+	Drone d;
+	//ya esta arreglado, lo puesto en /**/ se puede sacar
+	while (i < ds.size() /*&& buscarPosicion(P, ds[i].posicionActual())*/ ) {
+		i++;
+		if ((ds[i].posicionActual().x == P.x) && (ds[i].posicionActual().y == P.y))
+		{
+			m = false;
+			break;
+		}
+	}
+	return m;
+}
 
 bool Sistema::NoHayConstruccion(Posicion p) {
 	bool m = false;
@@ -666,15 +684,9 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 }
 
 
-/// DEFINIR!! no la defini porque uso !HayDrone
-bool Sistema::noHayDrone(Posicion p){
-	return false;
-}
-
-// no tengo ganas de es
 bool Sistema::buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const{
 	Secuencia<Posicion>::size_type i = 0;
-	while(i < ps.size() && !(p.x == ps[i].x && p.y == ps[i].y)){
+	while(i < ps.size() && !(p.x == ps[i].x && p.y == ps[i].y)) {
 		i++;
 	}
 	return i != ps.size();
@@ -696,9 +708,9 @@ Posicion Sistema::DondeEstaElGranero(Campo c) {
 
 
 int Sistema::buscarDrone(Drone d) {
-	int i = 0;
-	while ( i < this->_enjambre.size()) {
-		if (this->_enjambre[i] == d))
+	Secuencia<Drone>::size_type i = 0;
+	while ( i < _enjambre.size()) {
+		if (_enjambre[i] == d)
 		{
 			break;
 		}
@@ -714,7 +726,7 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 	// asi si no encuentra una valida, devuelve algo que no tiene sentido, como para no dejar que devuelva algo del campo pero no valido...
 	p.x = -1;
 	p.y = -1;
-	int i = 0;
+	Secuencia<Posicion>::size_type i = 0;
 	while ( i < ps.size()) {
 		if (NoHayConstruccion(ps[i]) && !HayDrone(ps[i]))
 		{
@@ -730,20 +742,20 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 //la duda que esta arriba, que hago acá? le asigno yo un estado que se me cante? 
 ////tenes que modificar el sistema para sensar la parcela
 void Sistema::sensarParcela(Posicion p) {
-	switch(p) {
-		case estadoDelCultivo(p) == Culo;
-	}
+	
 }
 
 
 
 void Sistema::aplicarProductos(Drone d, Posicion p) {
-	switch(p)
-	case tieneProducto(d, Fertilizante) && (this->estadoDelCultivo(p) == RecienSembrado: this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
+	//revisar: después del : uso &&, pero sacarProducto no devuelve bool, y a su vez digo estadoCultivo==, osea bool, no asignación, y la idea es asignarlo
+	//además, parece que switch funciona con un int en (), no con un tipo cualquier, ver eso
+	switch(6)
+	case this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante): this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
 		break;
-	case tieneProducto(d, Fertilizante) && this->estadoDelCultivo(p) == EnCrecimiento):	this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
+	case this->estadoDelCultivo(p) == EnCrecimiento && tieneProducto(d, Fertilizante):	this->estadoDelCultivo(p) == ListoParaCosechar && d.sacarProducto(Fertilizante);
 		break;
-	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Herbicida)
+	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, Herbicida) && d.bateria() => 5: this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(Herbicida);
 		break;
 	case this->estadoDelCultivo(p) == ConMaleza && tieneProducto(d, HerbicidaLargoAlcance) && d.bateria() => 5:	this->estadoDelCultivo(p) == RecienSembrado && d.sacarProducto(HerbicidaLargoAlcance);
 		break;
@@ -756,9 +768,9 @@ void Sistema::aplicarProductos(Drone d, Posicion p) {
 
 bool Sistema::tieneProducto(Drone d, Producto p) {
 	bool m = false;
-	int i = 0;
+	Secuencia<Producto>::size_type i = 0;
 	while (i < d.productosDisponibles().size()) {
-		if (d.productosDisponibles[i] == p)
+		if (p == d.productosDisponibles()[i])
 		{
 			m = true;
 			break;
@@ -772,7 +784,7 @@ bool Sistema::tieneProducto(Drone d, Producto p) {
 int Sistema::primerLugarCon(Secuencia<Producto> ps, Producto p) {
 	int m = ps.size() + 1;
 	//si no esta, va a devolver algo mas grande que el size de ps, entonces ya se ve que no estaba...
-	int i = 0;
+	Secuencia<Producto>::size_type i = 0;
 	while (i < ps.size()) {
 		if (ps[i] == p)
 		{

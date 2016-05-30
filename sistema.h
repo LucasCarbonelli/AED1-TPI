@@ -46,10 +46,10 @@ class Sistema {
         int cantFertilizables(const int i , Drone d);
         int parcelasLibres(const Drone d );
         Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);
+        bool Sistema::HayDrone(Posicion P)
         bool NoHayConstruccion(Posicion p);
         bool posicionLibre(Posicion p);
         Secuencia<Posicion> lugaresAdyacentes(Posicion p);
-        bool noHayDrone(Posicion p);
         bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
         Posicion DondeEstaElGranero(Campo c);
         int buscarDrone(Drone d) ;
