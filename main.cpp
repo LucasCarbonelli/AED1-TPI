@@ -116,7 +116,7 @@ int main()
 	cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
 	Sistema s;
-	cout << "falla aca??";
+//	cout << "falla aca??";
 	s.cargar(cin);
 	cout << endl << s;
 
@@ -139,7 +139,7 @@ int main()
 
 	if (l == 1)
 	{
-		s.mostrar(cout);
+		//da Violación de segmento
 		s.crecer();
 		s.mostrar(cout);
 	}
@@ -162,23 +162,31 @@ int main()
 			i++;
 		}
 		s.seVinoLaMaleza(ps);
-		s.campo().mostrar(cout);
+		s.mostrar(cout);
 	}
 
 	if (l == 3)
 	{
+		//da Violación de segmento
 		s.seExpandePlaga();
-		s.campo().mostrar(cout);
+		s.mostrar(cout);
 	}
 
 	if (l == 4)
 	{
+		//no hace lo que tendría que hacer: modificar algún drone de enjambre, el que yo le diga. De hecho, tendrías que pasarle un sistema
+		//donde el drone que le hagas despegar esté en el granero, sino tampoco tiene mucho sentido. Igual, esto emula el dron que vos le
+		//decis, y de ahi le hace despegar... cómo se traga que es s. de un drone que no esta en enjambre? ni idea
+		//--> osea claro, es un requiere que esté, si vos pasas fruta, por ahi el programa te devuelve algo, que es fruta en todo caso...
+		//igual sigue el problema de que no modifica un drone de enjambre...
 		int n = -1;
 		cout << "ingresa el drone que te gusta: " << endl;
 		cin >> n;
-		Drone D = s.enjambreDrones()[n];
+		Drone D(s.enjambreDrones()[n].id(), s.enjambreDrones()[n].productosDisponibles());
 		s.despegar(D);
-		
+		D.mostrar(cout);
+		s.mostrar(cout);
+		cout << endl;		
 	}
 
 	if (l == 5)
