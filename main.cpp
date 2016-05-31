@@ -193,8 +193,8 @@ int main()
 
 	if (l == 5)
 	{
-		/* code */
-	/*}
+		// code //
+	}
 */
             ///////////////////////////////////////////////////pruebas de Drone////////////////////////////////////////
 	/*Secuencia<Drone> ds;
@@ -233,53 +233,65 @@ int main()
 */   
      //////////////////////////////////////////////////////Pruebas de Sistema/////////////////////////////////////////////////////////////////////
 
+    cout << "Pruebas de Sistema" << endl;
+    cout << "0 igualdad entre sistemas" << endl;
+    cout << "1 void crecer()" << endl;
 
+    int nroFuncion;
+    cout << endl << "¿Qué función quiere probar? ";
+    cin >> nroFuncion;
 
-	cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+    switch(nroFuncion){
+    	case 0:	{
+			// Igualdad de Sistemas
+			cout << "Igualdad de Sistemas" << endl;
+			cout << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
-	Sistema s;
-	s.cargar(cin);
-	cout << endl << s;
+			Sistema s1;
+			s1.cargar(cin);
+			cout << endl << s1 << endl;
 
-	cout << endl << "Sistema guardado en \"salidaSistema.txt\"" << endl;
+			cout << "\"Cargar\" otro Sistema y mostrarlo:" << endl;
+			Sistema s2;
+			s2.cargar(cin);
+			cout << endl << s2 << endl;
 
-	ofstream sistemaOut("salidaSistema.txt");
-	if(sistemaOut.is_open()){
-		s.guardar(sistemaOut);
-		sistemaOut.close();
-	}
+			if(s1 == s2){
+				cout << endl << "Los dos sistemas cargados son iguales" << endl;
+			} else {
+				cout << endl << "Los dos sistemas cargados son distintos" << endl;
+			}
+			break;
+		}
 
+		case 1:	{
+	// void crecer()
+			cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
-	cout <<endl << " CRECER "<< endl ; 
-	Posicion p;
-	p.x = 2;
-	p.y = 0; 
-	cout << endl << s.estadoDelCultivo(p);
+			Sistema s;
+			s.cargar(cin);
+			cout << endl << s;
 
-	s.crecer() ;
-	cout <<endl << " CRECER "<< endl ;
-	s.mostrar(cout);
+			cout << endl << "Sistema guardado en \"salidaSistema.txt\"" << endl;
 
-	
-	cout << endl;
+			ofstream sistemaOut("salidaSistema.txt");
+			if(sistemaOut.is_open()){
+				s.guardar(sistemaOut);
+				sistemaOut.close();
+			}
 
-// Igualdad de Sistemas
+			cout <<endl << " CRECER "<< endl ; 
+			Posicion p;
+			p.x = 2;
+			p.y = 0; 
+			cout << endl << s.estadoDelCultivo(p);
 
-	cout << "Igualdad de Sistemas" << endl;
-	cout << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+			s.crecer() ;
+			cout <<endl << " CRECER "<< endl ;
+			s.mostrar(cout);
 
-	Sistema s1;
-	s1.cargar(cin);
-	cout << endl << s1 << endl;
-
-	cout << "\"Cargar\" otro Sistema y mostrarlo:" << endl;
-	Sistema s2;
-	s2.cargar(cin);
-	cout << endl << s2 << endl;
-
-	if(s1 == s2){
-		cout << endl << "Los dos sistemas cargados son iguales" << endl;
-	} else {
-		cout << endl << "Los dos sistemas cargados son distintos" << endl;
-	}
+			cout << endl;
+			break;
+		}
+    }
 }
