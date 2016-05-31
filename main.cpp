@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
 
-	//COSAS DE CARGAR CAMPO, NI IDEA QUE ES ESTO, CREO QUE SON PRUEBAS O QUE SE YO
+/*	//COSAS DE CARGAR CAMPO, NI IDEA QUE ES ESTO, CREO QUE SON PRUEBAS O QUE SE YO
 
 	Posicion g = {7, 3};
 	Posicion c = {5, 10};
@@ -194,7 +194,77 @@ int main()
 	if (l == 5)
 	{
 		/* code */
+	/*}
+*/
+            ///////////////////////////////////////////////////pruebas de Drone////////////////////////////////////////
+	/*Secuencia<Drone> ds;
+
+	for (Secuencia<Drone>::size_type i = 0; i < 4; ++i)
+	{
+		cout << endl << endl << "\"Cargar\" un Drone y mostrarlo:" << endl;
+
+		Drone d;
+		d.cargar(cin);
+		cout << endl << d;
+		ds.push_back(d);
+
+		cout << endl << "El vuelo es escalerado?" << d.vueloEscalerado() << endl;
+
 	}
 
+	Secuencia<InfoVueloCruzado> vuelos;
+	vuelos = Drone::vuelosCruzados(ds);
+
+	cout << endl << "vuelosCruzados: " << "[";
+
+	for (Secuencia<InfoVueloCruzado>::size_type i = 0; i < vuelos.size(); ++i)
+	{
+		cout<< "[" << "("<< vuelos[i].posicion.x << ","<<  vuelos[i].posicion.y << ")" << ","<< vuelos[i].cantidadCruces << "]";
+	}
+
+	cout << endl;
+
+	cout << "cuantos hay" <<vuelos.size() <<endl ;
+
+
+
     return 0;
+
+*/   
+     //////////////////////////////////////////////////////Pruebas de Sistema/////////////////////////////////////////////////////////////////////
+
+
+
+	cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+
+	Sistema s;
+	s.cargar(cin);
+	cout << endl << s;
+
+	cout << endl << "Sistema guardado en \"salidaSistema.txt\"" << endl;
+
+	ofstream sistemaOut("salidaSistema.txt");
+	if(sistemaOut.is_open()){
+		s.guardar(sistemaOut);
+		sistemaOut.close();
+	}
+
+
+	cout <<endl << " CRECER "<< endl ; 
+	Posicion p;
+	p.x = 2;
+	p.y = 0; 
+	cout << endl << s.estadoDelCultivo(p);
+
+	s.crecer() ;
+	cout <<endl << " CRECER "<< endl ;
+	s.mostrar(cout);
+
+	
+	cout << endl;
+
+
+
+
+
 }

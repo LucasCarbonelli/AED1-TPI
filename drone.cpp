@@ -74,7 +74,7 @@ Secuencia<InfoVueloCruzado> Drone::vuelosCruzados(const Secuencia<Drone>& ds)
 	Secuencia<Drone>::size_type i = 0;
 	Secuencia<Posicion>::size_type j = 0;
 	while (i < ds.size() && j < ds[i].vueloRealizado().size()) {
-		if (cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds)  > 1 && buscarInfoVuelosCruzados(ListaInfoVC, ds[i].vueloRealizado()[j]))
+		if (cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds)  > 1 && buscarInfoVuelosCruzados(ListaInfoVC, ds[i].vueloRealizado()[j]) == false )
 		{
 			InfoVueloCruzado VC;
 			VC.posicion = ds[i].vueloRealizado()[j];
@@ -288,14 +288,21 @@ std::ostream & operator<<(std::ostream & os, const Drone & d)
 
 bool Drone::escalerado() const {
 	Secuencia<Posicion>::size_type i = 0 ;
-	bool val = true ; 
-	while ( val == true && i < this->vueloRealizado().size() -2 ){
-		if ((vueloRealizado()[i].x - vueloRealizado()[i+2].x ==1 || vueloRealizado()[i].x - vueloRealizado()[i+2].x == -1 ) && (vueloRealizado()[i].y - vueloRealizado()[i+2].y ==1 || vueloRealizado()[i].y - vueloRealizado()[i+2].y == -1 )) {
-			i = i+1;
+	bool val = false; 
+	if (enVuelo()){
+		val = true;
+		if (vueloRealizado().size() > 1){
+			while ( val == true && i < this->vueloRealizado().size() -2 ){
+				if ((vueloRealizado()[i].x - vueloRealizado()[i+2].x ==1 || vueloRealizado()[i].x - vueloRealizado()[i+2].x == -1 ) && (vueloRealizado()[i].y - vueloRealizado()[i+2].y ==1 || vueloRealizado()[i].y - vueloRealizado()[i+2].y == -1 )) {
+					i = i+1;
+				}
+				else 
+					val = false;
+			}
 		}
-		else 
-			val = false;
+
 	}
+
 	return val;
 }
 
@@ -303,11 +310,11 @@ bool Drone::seCruzoConOtro(Secuencia<Drone> ds, int i) const {
 	Secuencia<Drone>::size_type j=0; 
 	bool seCruzo = false ; // inicializo una variable que nos dice si hasta el momento un drone se cruzo con el drone del parametro
 	while (j < ds.size()){
-		if  (( this->id() == ds[j].id() ) == false && this->vueloRealizado()[i].x == ds[j].vueloRealizado()[i].x && this->vueloRealizado()[i].y == ds[i].vueloRealizado()[j].y){
+		if  (( this->id() != ds[j].id() ) && this->vueloRealizado()[i].x == ds[j].vueloRealizado()[i].x && this->vueloRealizado()[i].y == ds[j].vueloRealizado()[i].y){
 			seCruzo = true; // si se cruzo con otro drone distinto en la posicion i-esima entonces cambiamos la variable a true
-			j=j+1;
+			
 		}
-		else j=j+1;
+		j++;
 	}
 	return seCruzo; 
 }
@@ -502,3 +509,5 @@ Posicion Drone::extraerPosicion(const std::string s) const {
 	pos.y = std::stoi(s.substr(i, s.size()));
 	return pos;
 }
+
+
