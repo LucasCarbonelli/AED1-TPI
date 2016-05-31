@@ -50,6 +50,7 @@ class Sistema {
         bool NoHayConstruccion(Posicion p);
         bool posicionLibre(Posicion p);
         Secuencia<Posicion> lugaresAdyacentes(Posicion p);
+        Posicion damePosicionLibre(Secuencia<Posicion> ps);
         bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
         Posicion DondeEstaElGranero(Campo c);
         int buscarDrone(Drone d) ;

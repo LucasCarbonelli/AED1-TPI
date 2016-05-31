@@ -156,11 +156,12 @@ void Sistema::despegar(const Drone & d)
 {
 	if (d == enjambreDrones()[buscarDrone(d)])
 	{
-		if (posicionLibre(DondeEstaElGranero(campo)))
+		if (posicionLibre(DondeEstaElGranero(_campo)))
 		{
-			
-			enjambreDrones()[buscarDrone(d)].moverA(damePosicionLibre(DondeEstaElGranero(campo)));
-
+			Posicion p = damePosicionLibre(lugaresAdyacentes(DondeEstaElGranero(_campo)));
+			//No aclaro que bateria = 100 ya que es un requiere para el drone que pasa. Lo unico que asegura que realmente cambio
+			// es su estado de vuelo, y su posición actual (incluida en su trayectoria, todo esto ya tenido en cuenta en moverA).
+			_enjambre[buscarDrone(d)].moverA(p);
 		}
 	}
 
@@ -651,6 +652,8 @@ bool Sistema::posicionLibre(Posicion p) {
 	return m;
 }
 
+
+
 Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 	Secuencia<Posicion> P;
 	Posicion p0, p1, p2, p3;
@@ -672,6 +675,24 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
 	P[3] = p3;
 
 	return P;
+}
+
+
+Posicion Sistema::damePosicionLibre(Secuencia<Posicion> ps) {
+	Secuencia<Posicion>::size_type i = 0;
+	Posicion p;
+	p.x = -1;
+	p.y = -1;
+	while (i < ps.size()) {
+		if (!HayDrone(ps[i]))
+		{
+			p.x = ps[i].x;
+			p.y = ps[i].y;
+			break;
+		}
+		i++;
+	}
+	return p;
 }
 
 
