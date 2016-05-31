@@ -80,10 +80,10 @@ void Sistema::crecer()
 				else if (this->_estado.parcelas[i][j] == EnCrecimiento) {
 					this->_estado.parcelas[i][j] = ListoParaCosechar;
 				}
-
+				j++;
 				
 			}
-
+			i++;
 		}
 	}
 }
