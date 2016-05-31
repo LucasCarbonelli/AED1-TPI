@@ -10,9 +10,23 @@ CAMPOS:
 DRONES:
 
 { D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true [2,0]}
+{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] false [2,0]}
 
 //sin productos
-{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [] true [2,0]}
+
+{ D 1 50 [[1,2],[1,1],[1,0],[2,0]] [] true [2,0]}
+{ D 1 50 [[1,2],[1,1],[1,0],[2,0]] [] false [2,0]}
+
+//con trayectoria vacia
+
+{ D 12 83 [] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true [2,0]}
+{ D 12 83 [] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] false [2,0]}
+
+//con trayectoria vacia y sin productos
+
+{ D 12 83 [] [] true [2,0]}
+{ D 12 83 [   ]   [ ] true [2,0]}
+{ D 12 83 [] [] false [2,0]}
 
 //también probar con trayectoria vacia, con false en vuelo, y cambiando la posición actual a una que no sea la ultima de la trayectoria...
 

@@ -4,31 +4,35 @@
 #include "tipos.h"
 
 class Campo {
-	public:
-		Campo();
-		Campo(const Posicion &posG, const Posicion &posC);
+public:
+    Campo();
 
-		Dimension dimensiones() const;
-		Parcela contenido(const Posicion &pos) const;
+    Campo(const Posicion &posG, const Posicion &posC, Dimension dimension);
 
-		void mostrar(std::ostream& os) const;
-		void guardar(std::ostream& os) const;
-		void cargar (std::istream& is);
+    Campo(const Posicion &posG, const Posicion &posC);
 
-		bool operator==(const Campo& otroCampo) const;
+    Dimension dimensiones() const;
 
-	private:
-		Dimension _dimension;
-		Grilla<Parcela> _grilla;
+    Parcela contenido(const Posicion &pos) const;
 
-		// Auxiliares
+    void mostrar(std::ostream &os) const;
 
-		Parcela stringAParcela(std::string s);
+    void guardar(std::ostream &os) const;
+
+    void cargar(std::istream &is);
+
+    bool operator==(const Campo &otroCampo) const;
+
+private:
+    Dimension _dimension;
+    Grilla<Parcela> _grilla;
+
+    // --> Defina sus funciones auxiliares debajo...
+
+    Parcela stringAParcela(const std::string s) const;
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
-std::ostream & operator<<(std::ostream & os, const Campo & c);
-std::ostream & operator<<(std::ostream & os, const Parcela & p);
-std::ostream & operator<<(std::ostream & os, const Producto & p);
-std::ostream & operator<<(std::ostream & os, const EstadoCultivo & e);
+std::ostream &operator<<(std::ostream &os, const Campo &c);
+
 #endif // CAMPO_H_INCLUDED

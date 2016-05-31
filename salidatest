@@ -1,0 +1,1011 @@
+Running main() from gtest_main.cc
+[==========] Running 30 tests from 11 test cases.
+[----------] Global test environment set-up.
+[----------] 2 tests from test_campo
+[ RUN      ] test_campo.crear_campo_y_sus_observadores_funcionan_ok
+[       OK ] test_campo.crear_campo_y_sus_observadores_funcionan_ok (0 ms)
+[ RUN      ] test_campo.guardar_y_cargar_campo_funcionan_ok
+[       OK ] test_campo.guardar_y_cargar_campo_funcionan_ok (1 ms)
+[----------] 2 tests from test_campo (1 ms total)
+
+[----------] 9 tests from test_drone_lo_basico
+[ RUN      ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok
+[       OK ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.igualdad_drone_funciona_ok
+[       OK ] test_drone_lo_basico.igualdad_drone_funciona_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.mover_a_funciona_ok
+[       OK ] test_drone_lo_basico.mover_a_funciona_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.set_bateria_funciona_ok
+[       OK ] test_drone_lo_basico.set_bateria_funciona_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.borrar_vuelo_realizado_funciona_ok
+[       OK ] test_drone_lo_basico.borrar_vuelo_realizado_funciona_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.cambiar_posicion_actual_funciona_ok
+[       OK ] test_drone_lo_basico.cambiar_posicion_actual_funciona_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.sacar_producto_funciona_ok
+/home/linuxbook/AED1/TPI_test/tests/test_drone_lo_basico.cpp:93: Failure
+Value of: test::mismos(d1.productosDisponibles(), {PlaguicidaBajoConsumo, Herbicida})
+  Actual: false
+Expected: true
+[  FAILED  ] test_drone_lo_basico.sacar_producto_funciona_ok (1 ms)
+[ RUN      ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok
+[       OK ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok (0 ms)
+[ RUN      ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok
+[       OK ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok (1 ms)
+[----------] 9 tests from test_drone_lo_basico (2 ms total)
+
+[----------] 3 tests from test_drone_vuelo_escalerado
+[ RUN      ] test_drone_vuelo_escalerado.siempre_ascendente_es_escalerado
+[       OK ] test_drone_vuelo_escalerado.siempre_ascendente_es_escalerado (0 ms)
+[ RUN      ] test_drone_vuelo_escalerado.siempre_descendente_es_escalerado
+[       OK ] test_drone_vuelo_escalerado.siempre_descendente_es_escalerado (0 ms)
+[ RUN      ] test_drone_vuelo_escalerado.recto_no_es_escalerado
+[       OK ] test_drone_vuelo_escalerado.recto_no_es_escalerado (0 ms)
+[----------] 3 tests from test_drone_vuelo_escalerado (0 ms total)
+
+[----------] 3 tests from test_drone_vuelos_cruzados
+[ RUN      ] test_drone_vuelos_cruzados.ninguno_cruzado
+[       OK ] test_drone_vuelos_cruzados.ninguno_cruzado (0 ms)
+[ RUN      ] test_drone_vuelos_cruzados.cruce_al_final
+[       OK ] test_drone_vuelos_cruzados.cruce_al_final (1 ms)
+[ RUN      ] test_drone_vuelos_cruzados.varios_cruces
+[       OK ] test_drone_vuelos_cruzados.varios_cruces (1 ms)
+[----------] 3 tests from test_drone_vuelos_cruzados (2 ms total)
+
+[----------] 2 tests from test_sistema_lo_basico
+[ RUN      ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:11: Failure
+Value of: RecienSembrado
+Expected: s1.estadoDelCultivo({i, j})
+Which is: NoSensado
+[  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok (16 ms)
+[ RUN      ] test_sistema_lo_basico.crecer_funciona_ok
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:31: Failure
+Value of: EnCrecimiento
+Expected: s1.estadoDelCultivo({0, 2})
+Which is: RecienSembrado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:33: Failure
+Value of: EnCrecimiento
+Expected: s1.estadoDelCultivo({1, 1})
+Which is: RecienSembrado
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:34: Failure
+Value of: ListoParaCosechar
+Expected: s1.estadoDelCultivo({1, 2})
+Which is: EnCrecimiento
+/home/linuxbook/AED1/TPI_test/tests/test_sistema_lo_basico.cpp:37: Failure
+Value of: ListoParaCosechar
+Expected: s1.estadoDelCultivo({2, 2})
+Which is: EnCrecimiento
+[  FAILED  ] test_sistema_lo_basico.crecer_funciona_ok (0 ms)
+[----------] 2 tests from test_sistema_lo_basico (16 ms total)
+
+[----------] 2 tests from test_sistema_se_vino_la_maleza
+[ RUN      ] test_sistema_se_vino_la_maleza.lista_vacia_no_modifica_nada
+[       OK ] test_sistema_se_vino_la_maleza.lista_vacia_no_modifica_nada (0 ms)
+[ RUN      ] test_sistema_se_vino_la_maleza.se_pone_con_maleza_las_posiciones_de_la_lista
+[       OK ] test_sistema_se_vino_la_maleza.se_pone_con_maleza_las_posiciones_de_la_lista (0 ms)
+[----------] 2 tests from test_sistema_se_vino_la_maleza (0 ms total)
+
+[----------] 2 tests from test_sistema_se_expande_plaga
+[ RUN      ] test_sistema_se_expande_plaga.si_no_hay_plaga_no_cambia
+[       OK ] test_sistema_se_expande_plaga.si_no_hay_plaga_no_cambia (1 ms)
+[ RUN      ] test_sistema_se_expande_plaga.si_hay_plaga_se_expande

@@ -11,6 +11,13 @@ Campo::Campo()
 	this->_grilla.parcelas = g.parcelas;
 }
 
+Campo::Campo(const Posicion &posG, const Posicion &posC, Dimension dimension) {
+    _dimension = dimension;
+    _grilla = Grilla<Parcela>(_dimension);
+    _grilla.parcelas[posG.x][posG.y] = Granero;
+    _grilla.parcelas[posC.x][posC.y] = Casa;
+}
+
 // Decidimos arbitrariamente que las dimensiones del campo sean las menores capaces de contener a la Casa y el Granero en las posiciones que se pasan como parámetro
 Campo::Campo(const Posicion &posG, const Posicion &posC)
 {
@@ -122,58 +129,10 @@ std::ostream & operator<<(std::ostream & os, const Campo & c)
 	return os;
 }
 
-std::ostream & operator<<(std::ostream & os, const Parcela & p)
-{
-	switch(p){
-		case Casa:		os << "Casa";
-			break;
-		case Cultivo: 	os << "Cultivo";
-			break;
-		case Granero: 	os << "Granero";
-			break;
-	}
-	return os;
-}
-
-std::ostream & operator<<(std::ostream & os, const Producto & p)
-{
-	switch(p){
-		case Fertilizante:			os << "Fertilizante";
-			break;
-		case Plaguicida: 			os << "Plaguicida";
-			break;
-		case PlaguicidaBajoConsumo: os << "PlaguicidaBajoConsumo";
-			break;
-		case Herbicida: 			os << "Herbicida";
-			break;
-		case HerbicidaLargoAlcance:	os << "HerbicidaLargoAlcance";
-			break;
-	}
-	return os;
-}
-
-std::ostream & operator<<(std::ostream & os, const EstadoCultivo & e)
-{
-	switch(e){
-		case RecienSembrado:	os << "RecienSembrado";
-			break;
-		case EnCrecimiento: 	os << "EnCrecimiento";
-			break;
-		case ListoParaCosechar:	os << "ListoParaCosechar";
-			break;
-		case ConMaleza: 		os << "ConMaleza";
-			break;
-		case ConPlaga: 			os << "ConPlaga";
-			break;
-		case NoSensado:			os << "NoSensado";
-			break;
-	}
-	return os;
-}
 
 // Auxiliares
 
-Parcela Campo::stringAParcela(std::string s){
+Parcela Campo::stringAParcela(const std::string s) const {
 	Parcela p;
 
 	if(s == "Casa") p = Casa;
