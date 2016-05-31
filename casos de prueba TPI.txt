@@ -36,7 +36,9 @@ SISTEMAS:
 { S{ C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]}[{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true [2,0]},{ D 15 46 [[0,1],[1,1],[2,1],[2,2]] [HerbicidaLargoAlcance, Fertilizante, Plaguicida] true [2,2]}][[NoSensado,EnCrecimiento,NoSensado], [ConMaleza,NoSensado,ConPlaga],[EnCrecimiento,ListoParaCosechar, ConPlaga]]}
 
 //sin enjambre de drones
-{S {C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]} [] [[NoSensado,EnCrecimiento,NoSensado], [ConMaleza,NoSensado,ConPlaga],EnCrecimiento,ListoParaCosechar, ConPlaga]]}
+{S {C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]} [] [[NoSensado,EnCrecimiento,NoSensado], [ConMaleza,NoSensado,ConPlaga], [EnCrecimiento,ListoParaCosechar, ConPlaga]]}
+
+{S {C [2,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo]]} [] [[ListoParaCosechar,EnCrecimiento,NoSensado], [RecienSembrado,NoSensado,RecienSembrado]]}
 
 //sistema con ninguna parcela NoSensado
 { S{ C [3,3] [[Cultivo,Cultivo,Granero], [Cultivo,Casa,Cultivo], [Cultivo, Cultivo,Cultivo]]}[{ D 12 83 [[1,2],[1,1],[1,0],[2,0]] [PlaguicidaBajoConsumo, Herbicida, Fertilizante] true [2,0]},{ D 15 46 [[0,1],[1,1],[2,1],[2,2]] [HerbicidaLargoAlcance, Fertilizante, Plaguicida] true [2,2]}][[RecienSembrado,EnCrecimiento,RecienSembrado], [ConMaleza,RecienSembrado,ConPlaga],[EnCrecimiento,ListoParaCosechar, ConPlaga]]}

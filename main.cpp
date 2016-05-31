@@ -280,12 +280,6 @@ int main()
 				sistemaOut.close();
 			}
 
-			cout <<endl << " CRECER "<< endl ; 
-			Posicion p;
-			p.x = 2;
-			p.y = 0; 
-			cout << endl << s.estadoDelCultivo(p);
-
 			s.crecer() ;
 			cout <<endl << " CRECER "<< endl ;
 			s.mostrar(cout);

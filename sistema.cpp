@@ -68,24 +68,23 @@ void Sistema::crecer()
 	int i = 0;
 	int j = 0;
 	Campo c = this->campo();
-	while(i < c.dimensiones().largo){
-		while(j < c.dimensiones().ancho){
+	while(i < c.dimensiones().ancho){
+		j = 0;
+		while(j < c.dimensiones().largo){
 			Posicion pos;
-			pos.x = j;
-			pos.y = i;
+			pos.x = i;
+			pos.y = j;
 			if (c.contenido(pos) == Cultivo){
 				if (this->estadoDelCultivo(pos) == RecienSembrado) {
-					this->_estado.parcelas[j][i] = EnCrecimiento;
+					this->_estado.parcelas[i][j] = EnCrecimiento;
 				}
-				if (this->estadoDelCultivo(pos) == EnCrecimiento) {
-					this->_estado.parcelas[j][i] = ListoParaCosechar;
+				else if (this->estadoDelCultivo(pos) == EnCrecimiento) {
+					this->_estado.parcelas[i][j] = ListoParaCosechar;
 				}
 			}
 			j++;
-				
 		}
 		i++;
-		
 	}
 }
 

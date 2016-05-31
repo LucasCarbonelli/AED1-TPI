@@ -6,7 +6,7 @@ Running main() from gtest_main.cc
 [       OK ] test_campo.crear_campo_y_sus_observadores_funcionan_ok (0 ms)
 [ RUN      ] test_campo.guardar_y_cargar_campo_funcionan_ok
 [       OK ] test_campo.guardar_y_cargar_campo_funcionan_ok (1 ms)
-[----------] 2 tests from test_campo (1 ms total)
+[----------] 2 tests from test_campo (2 ms total)
 
 [----------] 9 tests from test_drone_lo_basico
 [ RUN      ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok
@@ -24,7 +24,7 @@ Running main() from gtest_main.cc
 [ RUN      ] test_drone_lo_basico.sacar_producto_funciona_ok
 [       OK ] test_drone_lo_basico.sacar_producto_funciona_ok (0 ms)
 [ RUN      ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok
-[       OK ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok (0 ms)
+[       OK ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok (1 ms)
 [ RUN      ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok
 [       OK ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok (1 ms)
 [----------] 9 tests from test_drone_lo_basico (2 ms total)
@@ -44,8 +44,8 @@ Running main() from gtest_main.cc
 [ RUN      ] test_drone_vuelos_cruzados.cruce_al_final
 [       OK ] test_drone_vuelos_cruzados.cruce_al_final (0 ms)
 [ RUN      ] test_drone_vuelos_cruzados.varios_cruces
-[       OK ] test_drone_vuelos_cruzados.varios_cruces (1 ms)
-[----------] 3 tests from test_drone_vuelos_cruzados (2 ms total)
+[       OK ] test_drone_vuelos_cruzados.varios_cruces (3 ms)
+[----------] 3 tests from test_drone_vuelos_cruzados (4 ms total)
 
 [----------] 2 tests from test_sistema_lo_basico
 [ RUN      ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok
@@ -973,25 +973,9 @@ Which is: NoSensado
 Value of: RecienSembrado
 Expected: s1.estadoDelCultivo({i, j})
 Which is: NoSensado
-[  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok (15 ms)
+[  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok (16 ms)
 [ RUN      ] test_sistema_lo_basico.crecer_funciona_ok
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_lo_basico.cpp:31: Failure
-Value of: EnCrecimiento
-Expected: s1.estadoDelCultivo({0, 2})
-Which is: RecienSembrado
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_lo_basico.cpp:33: Failure
-Value of: EnCrecimiento
-Expected: s1.estadoDelCultivo({1, 1})
-Which is: RecienSembrado
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_lo_basico.cpp:34: Failure
-Value of: ListoParaCosechar
-Expected: s1.estadoDelCultivo({1, 2})
-Which is: EnCrecimiento
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_lo_basico.cpp:37: Failure
-Value of: ListoParaCosechar
-Expected: s1.estadoDelCultivo({2, 2})
-Which is: EnCrecimiento
-[  FAILED  ] test_sistema_lo_basico.crecer_funciona_ok (0 ms)
+[       OK ] test_sistema_lo_basico.crecer_funciona_ok (0 ms)
 [----------] 2 tests from test_sistema_lo_basico (16 ms total)
 
 [----------] 2 tests from test_sistema_se_vino_la_maleza
