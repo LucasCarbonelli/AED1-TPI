@@ -263,8 +263,23 @@ int main()
 	
 	cout << endl;
 
+// Igualdad de Sistemas
 
+	cout << "Igualdad de Sistemas" << endl;
+	cout << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
+	Sistema s1;
+	s1.cargar(cin);
+	cout << endl << s1 << endl;
 
+	cout << "\"Cargar\" otro Sistema y mostrarlo:" << endl;
+	Sistema s2;
+	s2.cargar(cin);
+	cout << endl << s2 << endl;
 
+	if(s1 == s2){
+		cout << endl << "Los dos sistemas cargados son iguales" << endl;
+	} else {
+		cout << endl << "Los dos sistemas cargados son distintos" << endl;
+	}
 }

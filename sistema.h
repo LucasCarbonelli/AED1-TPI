@@ -40,8 +40,8 @@ class Sistema {
         int cantCultivosCosechables() const;
         int dronesVolandoEnFila ( int f);
         int recorridoMaximo(Drone d);
-        template <class T> T minimo (T a , T b);
-        template <class T> int cuenta(Secuencia <T> ls , T e);
+        template <class T> T minimo (const T a, const T b) const;
+        template <class T> int cuenta(const Secuencia <T> ls, const T e) const;
         int fertAplicable(Drone d);
         int cantFertilizables(const int i , Drone d);
         int parcelasLibres(const Drone d );
@@ -61,6 +61,8 @@ class Sistema {
         void listaProductosSin(Producto s, Producto p, Drone d);
         int primerLugarCon(Secuencia<Producto> ps, Producto p);
         EstadoCultivo stringAEstadoCultivo(const std::string s) const;
+        bool igualEstadoDelCultivo(const Sistema& otroSistema) const;
+        bool igualEnjambreDrones(const Sistema& otroSistema) const;
 
 
 
