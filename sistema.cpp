@@ -339,6 +339,7 @@ void Sistema::cargar(std::istream & is)
 	const std::string parcelaLetraInicial = "RELCN";
 	const std::string caracterAnteriorAestados = "[";
 	const std::string caracterPosteriorAestados = ",]";
+	const char caracterInicioListaDrones = '[';
 	const char caracterFinListaDrones = ']';
 	std::string sistemaAlmacenado;
 	std::string::size_type i, j;
@@ -351,6 +352,12 @@ void Sistema::cargar(std::istream & is)
 	// Cargar Drones
 
 	char c;
+	is >> c;
+
+	while(c != caracterInicioListaDrones){
+		is >> c;
+	}
+
 	is >> c;
 
 	while(c != caracterFinListaDrones){
@@ -378,6 +385,11 @@ void Sistema::cargar(std::istream & is)
 		}
 	}
 	this->_estado.parcelas = ec.parcelas;
+}
+
+bool Sistema::operator==(const Sistema & otroSistema) const
+{
+	return this->campo() == otroSistema.campo() && this->igualEstadoDelCultivo(otroSistema) && this->igualEnjambreDrones(otroSistema);
 }
 
 std::ostream & operator<<(std::ostream & os, const Sistema & s)
@@ -468,7 +480,7 @@ return minimo( minimo( this->fertAplicable(d), d.bateria()) ,parcelasLibres(d));
 
 }
 
-template <class T> T Sistema::minimo (T a , T b) {
+template <class T> T Sistema::minimo (const T a , const T b) const {
 	if (a < b ) {
 		return a; 
 	}
@@ -477,14 +489,13 @@ template <class T> T Sistema::minimo (T a , T b) {
 }
 
 
-template <class T> int Sistema::cuenta(Secuencia <T> ls , T e) {
+template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const {
 	Secuencia<Producto>::size_type i = 0 ; 
 	int cuenta = 0 ;
 	while (i < ls.size()){
 		if (ls[i] == e) {
 			cuenta = cuenta +1 ;
 			i = i + 1;
-
 		}
 		else 
 			i = i+1 ;
@@ -853,7 +864,30 @@ EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 	return ec;
 }
 
+bool Sistema::igualEstadoDelCultivo(const Sistema& otroSistema) const {
+	bool igualEstado = true;
+	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
+		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+			Posicion p;
+			p.x = i;
+			p.y = j;
+			if(this->estadoDelCultivo(p) != otroSistema.estadoDelCultivo(p)){
+				igualEstado = false;
+			}
+		}
+	}
+	return igualEstado;
+}
 
+bool Sistema::igualEnjambreDrones(const Sistema& otroSistema) const {
+	bool igualEnjambre = true;
+	for(Secuencia<Drone>::size_type i = 0; i < this->enjambreDrones().size(); i++){
+		if(cuenta(this->enjambreDrones(), this->enjambreDrones()[i]) != cuenta(otroSistema.enjambreDrones(), this->enjambreDrones()[i])){
+			igualEnjambre = false;
+		}
+	}
+	return igualEnjambre;
+}
 
 
 
@@ -877,3 +911,4 @@ EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 						}
 						nuevoEstado.push_back(estadoLargo);
 					}*/
+
