@@ -170,80 +170,32 @@ void Drone::guardar(std::ostream & os) const
 
 void Drone::cargar(std::istream & is)
 {
-	const std::string numeros = "0123456789";
-	const std::string productoLetraInicial = "PFH";
-	const std::string caracterEspacio = " ";
-	const std::string caracterAbreCorchete = "[";
-	const std::string caracterCierraCorchete = "]";
-	//const std::string caracterCierraCorcheteDoble = "]]";
-	//const std::string caracterPosteriorPrimerNumero = ",";
-	const std::string caracterPosteriorProducto = ",]";
-	const std::string caracterEnVuelo = "tf";
 	const char caracterFinal = '}';
-	std::string droneAlmacenado;
-	std::string::size_type i, j;
+	const char caracterDrone = 'D';
+	char c;
 
-	std::getline(is, droneAlmacenado, caracterFinal);
+	is >> c;
 
-	//Busco el primer numero y el espacio que le sigue, para identificar el Id.
-	i = 0;
-	i = droneAlmacenado.find_first_of(numeros, i);
-	j = droneAlmacenado.find(caracterEspacio, i);
-	this->_id = std::stoi(droneAlmacenado.substr(i, j-i));
+	// Busco la letra D de drone para que solo queden espacios entre la entrada is y el id
 
-	//Busco el numero siguiente y el proximo espacio, para identificar la carga de la bateria.
-	i = j;
-	i = droneAlmacenado.find_first_of(numeros, i);
-	j = droneAlmacenado.find(caracterEspacio, i);
-	this->_bateria = std::stoi(droneAlmacenado.substr(i, j-i));
-	i = j;
-
-
-	Secuencia<Posicion> vueloR;
-	// Busco el primer corchete de la lista de posiciones alcanzadas:
-	i = droneAlmacenado.find_first_of(caracterAbreCorchete, i); 
-	// Si se abre el corchete y el siguiente caracter no lo cierra => La lista de posiciones tiene elementos.
-	while (droneAlmacenado.substr(i+1, 1) != caracterCierraCorchete) {
-		Posicion pos;
-		i = droneAlmacenado.find_first_of(numeros, i);
-		j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-		pos.x = std::stoi(droneAlmacenado.substr(i, j-i));
-		i = j;
-		i = droneAlmacenado.find_first_of(numeros, i);
-		j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-		pos.y = std::stoi(droneAlmacenado.substr(i, j-i));
-		vueloR.push_back(pos);
-		i = j;
-	}
-	this->_trayectoria = vueloR;
-	// Si la lista tiene posiciones, entonces el drone esta en vuelo:
-	this->_enVuelo = (vueloR.size() > 0);
-
-	Secuencia<Producto> productosDisp;
-	// Busco el siguiente corchete, que abre la lista de productos del drone:
-	i = droneAlmacenado.find_first_of(caracterAbreCorchete, i);
-	while (droneAlmacenado.substr(i, 1) != caracterCierraCorchete) {
-		i = droneAlmacenado.find_first_of(productoLetraInicial, i);
-		j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-		productosDisp.push_back(Drone::stringAProducto(droneAlmacenado.substr(i, j-i)));
-		i = j;
-	}
-	this->_productos = productosDisp;
-
-	i = droneAlmacenado.find_first_of(caracterEnVuelo, i);
-	if(droneAlmacenado[i] == 't'){
-		this->_enVuelo = true;
-	} else {
-		this->_enVuelo = false;
+	while(c != caracterDrone){
+		is >> c;
 	}
 
-	i = droneAlmacenado.find_first_of(numeros, i);
-	j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-	this->_posicionActual.x = std::stoi(droneAlmacenado.substr(i, j-i));
-	i = j;
-	i = droneAlmacenado.find_first_of(numeros, i);
-	j = droneAlmacenado.find_first_of(caracterPosteriorProducto, i);
-	this->_posicionActual.y = std::stoi(droneAlmacenado.substr(i, j-i));
+	is >> this->_id;
+	is >> this->_bateria;
+
+	guardarTrayectoria(is);
+	guardarProductos(is);
+	guardarVuelo(is);
+	guardarPosicionActual(is);
+
+	// Busco sacar de la entrada is la llave con la que termina el drone para poder usar esta función en Sistema::cargar
+
+	is >> c;
+	while(c != caracterFinal){
+		is >> c;
+	}
 }
 
 
@@ -466,7 +418,7 @@ template <class T> int Drone::cuenta (const Secuencia <T> l1 , const T e) const 
 //hacer eliminarRepetidos
 
 
-Producto Drone::stringAProducto(std::string s){
+Producto Drone::stringAProducto(const std::string s) const {
 	Producto prod;
 
 	if(s == "Fertilizante") prod = Fertilizante;
@@ -476,4 +428,77 @@ Producto Drone::stringAProducto(std::string s){
 	else if(s == "HerbicidaLargoAlcance") prod = HerbicidaLargoAlcance;
 
 	return prod;
+}
+
+void Drone::guardarTrayectoria(std::istream & is){
+	std::string pos;
+	Secuencia<Posicion> trayecto;
+	const char cierraPosicion = ']';
+
+	std::getline(is, pos, cierraPosicion);
+	while(esPosicion(pos)){
+		trayecto.push_back(extraerPosicion(pos));
+		std::getline(is, pos, cierraPosicion);
+	}
+	this->_trayectoria = trayecto;
+}
+
+void Drone::guardarProductos(std::istream & is){
+	Secuencia<Producto> listaProductos;
+	const std::string productoLetraInicial = "PFH";
+	const std::string caracterPosteriorProducto = ",]";
+	const char cierraProductos = ']';
+	std::string prod;
+	std::getline(is, prod, cierraProductos);
+	std::string::size_type i, j;
+	i = 0;
+	i = prod.find_first_of(productoLetraInicial, i);
+
+	while (i < prod.size()) {
+		i = prod.find_first_of(productoLetraInicial, i);
+		j = prod.find_first_of(caracterPosteriorProducto, i);
+		listaProductos.push_back(stringAProducto(prod.substr(i, j-i)));
+		i = j;
+	}
+	this->_productos = listaProductos;
+}
+
+void Drone::guardarVuelo(std::istream & is){
+	const char cFalse = 'f';
+	const char cTrue = 't';
+
+	char c;
+	is >> c;
+	while(c != cTrue && c != cFalse){
+		is >> c;
+	}
+
+	this->_enVuelo = (c == cTrue);
+}
+
+void Drone::guardarPosicionActual(std::istream & is){
+	std::string pos;
+	const char cierraPosicion = ']';
+	std::getline(is, pos, cierraPosicion);
+	this->_posicionActual = extraerPosicion(pos);
+}
+
+bool Drone::esPosicion(const std::string s) const {
+	const std::string numeros = "0123456789";
+	return s.find_first_of(numeros) < s.size();
+}
+
+Posicion Drone::extraerPosicion(const std::string s) const {
+	const std::string numeros = "0123456789";
+	const char caracterPosteriorX = ',';
+	std::string::size_type i, j;
+
+	Posicion pos;
+	i = s.find_first_of(numeros);
+	j = s.find_first_of(caracterPosteriorX, i);
+	pos.x = std::stoi(s.substr(i, j-i));
+	i = j;
+	i = s.find_first_of(numeros, i);
+	pos.y = std::stoi(s.substr(i, s.size()));
+	return pos;
 }

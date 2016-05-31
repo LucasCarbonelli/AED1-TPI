@@ -39,8 +39,7 @@ class Drone{
         bool _enVuelo;
         Posicion _posicionActual;
 
-        Producto stringAProducto(std::string s);
-
+        // Auxiliares
 
         bool escalerado() const;
         bool seCruzoConOtro(Secuencia<Drone> ds, int i) const ;
@@ -50,6 +49,13 @@ class Drone{
         template <class T> int cuenta (const Secuencia <T> l1 , const T e) const ;
         static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
         static bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2) ;
+        Producto stringAProducto(const std::string s) const;
+        void guardarTrayectoria(std::istream & is);
+        void guardarProductos(std::istream & is);
+        void guardarVuelo(std::istream & is);
+        void guardarPosicionActual(std::istream & is);
+        bool esPosicion(const std::string s) const;
+        Posicion extraerPosicion(const std::string s) const;
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.

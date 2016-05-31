@@ -83,7 +83,9 @@ int main()
 	d.cargar(cin);
 	cout << endl << d;
 
-	cout << endl << "El vuelo es escalerado?" << d.vueloEscalerado() << endl;
+	if(!(d.enVuelo() && d.vueloRealizado().size() == 0)){
+		cout << endl << "El vuelo es escalerado?" << d.vueloEscalerado() << endl;	
+	}
 
 	cout << endl << endl << "Drone guardado en \"salidaDrone.txt\"" << endl;
 
