@@ -236,8 +236,7 @@ void Drone::sacarProducto(const Producto p)
 		if (seSaco == false &&  this->productosDisponibles()[i] == p){
 			seSaco = true;
 		}
-
-		if (seSaco == true || this->productosDisponibles()[i] != p ){
+		else {
 			Producto p = this->productosDisponibles()[i]; 
 			productosSinP.push_back(p);
 		}
