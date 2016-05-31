@@ -122,33 +122,32 @@ void Sistema::seExpandePlaga()
 	Secuencia<Posicion>::size_type k = 0;
 	while (k < PosConPlaga.size()) {
 		Posicion p;
-		p.x = PosConPlaga[k].x;
-		p.y = PosConPlaga[k].y;
 		//al final x es el largo o el ancho??
-		if (PosConPlaga[k].x + 1 <= this->campo().dimensiones().largo && NoHayConstruccion(p))
+		if (PosConPlaga[k].x + 1 < this->campo().dimensiones().ancho)
 		{
 			p.x = PosConPlaga[k].x + 1;
-			this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			p.y = PosConPlaga[k].y;
+			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		//nose si es necesario aclarar que en este caso esa pos debe ser menor que el largo, ya que si la pos original era menor al largo, -1 lo va a ser seguro.
-		if (PosConPlaga[k].x - 1 >= 0 && PosConPlaga[k].x - 1 <= this->campo().dimensiones().largo && NoHayConstruccion(p))
+		if (PosConPlaga[k].x - 1 >= 0 && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x - 1;
-			this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			p.y = PosConPlaga[k].y;
+			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].y + 1 <= this->campo().dimensiones().ancho && NoHayConstruccion(p))
+		if (PosConPlaga[k].y + 1 < this->campo().dimensiones().largo && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y + 1;
-			this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		//idem arriba.
-		if (PosConPlaga[k].y - 1 >= 0 && PosConPlaga[k].y - 1 <= this->campo().dimensiones().ancho && NoHayConstruccion(p))
+		if (PosConPlaga[k].y - 1 >= 0 && NoHayConstruccion(p))
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y - 1;
-			this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
+		k++;
 	}
 }
 

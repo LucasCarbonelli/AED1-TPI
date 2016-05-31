@@ -6,7 +6,7 @@ Running main() from gtest_main.cc
 [       OK ] test_campo.crear_campo_y_sus_observadores_funcionan_ok (0 ms)
 [ RUN      ] test_campo.guardar_y_cargar_campo_funcionan_ok
 [       OK ] test_campo.guardar_y_cargar_campo_funcionan_ok (1 ms)
-[----------] 2 tests from test_campo (2 ms total)
+[----------] 2 tests from test_campo (1 ms total)
 
 [----------] 9 tests from test_drone_lo_basico
 [ RUN      ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok
@@ -40,12 +40,12 @@ Running main() from gtest_main.cc
 
 [----------] 3 tests from test_drone_vuelos_cruzados
 [ RUN      ] test_drone_vuelos_cruzados.ninguno_cruzado
-[       OK ] test_drone_vuelos_cruzados.ninguno_cruzado (1 ms)
+[       OK ] test_drone_vuelos_cruzados.ninguno_cruzado (0 ms)
 [ RUN      ] test_drone_vuelos_cruzados.cruce_al_final
 [       OK ] test_drone_vuelos_cruzados.cruce_al_final (0 ms)
 [ RUN      ] test_drone_vuelos_cruzados.varios_cruces
-[       OK ] test_drone_vuelos_cruzados.varios_cruces (3 ms)
-[----------] 3 tests from test_drone_vuelos_cruzados (4 ms total)
+[       OK ] test_drone_vuelos_cruzados.varios_cruces (2 ms)
+[----------] 3 tests from test_drone_vuelos_cruzados (2 ms total)
 
 [----------] 2 tests from test_sistema_lo_basico
 [ RUN      ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok
@@ -973,7 +973,7 @@ Which is: NoSensado
 Value of: RecienSembrado
 Expected: s1.estadoDelCultivo({i, j})
 Which is: NoSensado
-[  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok (16 ms)
+[  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok (15 ms)
 [ RUN      ] test_sistema_lo_basico.crecer_funciona_ok
 [       OK ] test_sistema_lo_basico.crecer_funciona_ok (0 ms)
 [----------] 2 tests from test_sistema_lo_basico (16 ms total)
@@ -989,3 +989,8 @@ Which is: NoSensado
 [ RUN      ] test_sistema_se_expande_plaga.si_no_hay_plaga_no_cambia
 [       OK ] test_sistema_se_expande_plaga.si_no_hay_plaga_no_cambia (0 ms)
 [ RUN      ] test_sistema_se_expande_plaga.si_hay_plaga_se_expande
+[       OK ] test_sistema_se_expande_plaga.si_hay_plaga_se_expande (0 ms)
+[----------] 2 tests from test_sistema_se_expande_plaga (0 ms total)
+
+[----------] 2 tests from test_sistema_despegar
+[ RUN      ] test_sistema_despegar.si_todas_estan_libres_comienza_vuelo_en_alguna_al_lado_del_granero_en_rango
