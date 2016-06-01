@@ -66,9 +66,9 @@ private:
     bool enRango(const Posicion &p) const;
     bool noHayDrone(Posicion p) const;
     Secuencia<Drone>::size_type buscarDrone(Drone d) const;
-
     Secuencia<Posicion> parcelasDeCultivo() const;
     int cantCultivosCosechables() const;
+    
     int dronesVolandoEnFila ( int f);
     int recorridoMaximo(Drone d);
     template <class T> T minimo (const T a, const T b) const;

@@ -476,10 +476,6 @@ Secuencia<Drone>::size_type Sistema::buscarDrone(Drone d) const {
 	return i;
 }
 
-
-
-
-
 Secuencia<Posicion> Sistema::parcelasDeCultivo() const{
 	Secuencia<Posicion> parcelasDeCultivo;
 
@@ -487,6 +483,7 @@ Secuencia<Posicion> Sistema::parcelasDeCultivo() const{
 	int j = 0 ;
 
 	while (i < this->campo().dimensiones().ancho){
+		j = 0;
 		while (j < this->campo().dimensiones().largo){
 			Posicion p;
 			p.x = i;
@@ -515,6 +512,8 @@ int Sistema::cantCultivosCosechables() const{
 	}
 	return cuenta;
 }
+
+
 
 /* No hay forma de cargar la batería ya que _bateria es privado y bateria() lo único que hace es devolver la batería que tiene
 // La única forma es creando un nuevo drone
