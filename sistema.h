@@ -68,8 +68,8 @@ private:
     bool enRango(const Posicion &p) const;
     bool noHayDrone(Posicion p) const;
     Secuencia<Drone>::size_type buscarDrone(Drone d) const;
-    Secuencia<Posicion> parcelasDeCultivo() const;
     int cantCultivosCosechables() const;
+    int contarFilas(int i) const ;
     template <class T> int cuenta(const Secuencia <T> ls , const T e) const;
 
     void sensarParcela(Posicion p);

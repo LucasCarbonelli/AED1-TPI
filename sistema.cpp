@@ -168,7 +168,7 @@ void Sistema::despegar(const Drone & d)
 
 bool Sistema::listoParaCosechar() const
 {
-	return this->cantCultivosCosechables() >= 0.9 * this->parcelasDeCultivo().size();
+	return cantCultivosCosechables() >= 0.9 * ((campo().dimensiones().ancho * campo().dimensiones().largo) - 2);
 }
 
 void Sistema::aterrizarYCargarBaterias(Carga b){
@@ -179,14 +179,10 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 			//this->cargarLaBateria(this->_enjambre[i]);
 			Drone d(this->_enjambre[i].id(), this->_enjambre[i].productosDisponibles());
 			this->_enjambre[i] = d;
-			i=i+1;
 		}
-		else 
-			i=i+1;
+	i=i+1;
 	}
-
 }
-
 
 
 
@@ -469,42 +465,37 @@ Secuencia<Drone>::size_type Sistema::buscarDrone(Drone d) const {
 	return i;
 }
 
-Secuencia<Posicion> Sistema::parcelasDeCultivo() const{
-	Secuencia<Posicion> parcelasDeCultivo;
-
+int Sistema::cantCultivosCosechables() const{
+	int cuenta = 0 ;
 	int i = 0 ;
-	int j = 0 ;
 
 	while (i < this->campo().dimensiones().ancho){
-		j = 0;
-		while (j < this->campo().dimensiones().largo){
-			Posicion p;
-			p.x = i;
-			p.y = j;
-			if (this->campo().contenido(p) == Cultivo){
-				parcelasDeCultivo.push_back(p);
-			}
-			j = j+1;
-		}
+		cuenta = cuenta + contarFilas(i);
+
 		i=i+1;
-	}
-	return parcelasDeCultivo;
-}
-
-int Sistema::cantCultivosCosechables() const{
-
-	int cuenta = 0;
-	Secuencia<Posicion>::size_type i = 0 ;
-	while (i < this->parcelasDeCultivo().size()){
-		if (this->_estado.parcelas[this->parcelasDeCultivo()[i].x][this->parcelasDeCultivo()[i].y] == ListoParaCosechar){
-			cuenta = cuenta + 1;
-			i= i + 1 ;
-		}
-		else 
-			i= i+1;
 	}
 	return cuenta;
 }
+
+int Sistema::contarFilas(int i ) const {
+	int cuenta = 0 ;
+	int j = 0; 
+	while (j < this->campo().dimensiones().largo){
+		Posicion p;
+		p.x = i;
+		p.y = j;
+		if (this->campo().contenido(p) == Cultivo){
+			if (this->estadoDelCultivo(p) == ListoParaCosechar){
+			cuenta = cuenta + 1;
+			} 
+		}
+		j++;
+	}
+	return cuenta;
+
+}
+
+
 
 
 
@@ -516,10 +507,8 @@ template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const
 	while (i < ls.size()){
 		if (ls[i] == e) {
 			cuenta = cuenta +1 ;
-			i = i + 1;
 		}
-		else 
-			i = i+1 ;
+		i = i+1 ;
 	}
 	return cuenta;
 }
