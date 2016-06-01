@@ -127,25 +127,25 @@ void Sistema::seExpandePlaga()
 		{
 			p.x = PosConPlaga[k].x + 1;
 			p.y = PosConPlaga[k].y;
-			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(noHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].x - 1 >= 0 && NoHayConstruccion(p))
+		if (PosConPlaga[k].x - 1 >= 0)
 		{
 			p.x = PosConPlaga[k].x - 1;
 			p.y = PosConPlaga[k].y;
-			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(noHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].y + 1 < this->campo().dimensiones().largo && NoHayConstruccion(p))
+		if (PosConPlaga[k].y + 1 < this->campo().dimensiones().largo)
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y + 1;
-			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(noHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
-		if (PosConPlaga[k].y - 1 >= 0 && NoHayConstruccion(p))
+		if (PosConPlaga[k].y - 1 >= 0)
 		{
 			p.x = PosConPlaga[k].x;
 			p.y = PosConPlaga[k].y - 1;
-			if(NoHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
+			if(noHayConstruccion(p)) this->_estado.parcelas[p.x][p.y] = ConPlaga;
 		}
 		k++;
 	}
@@ -153,18 +153,19 @@ void Sistema::seExpandePlaga()
 
 void Sistema::despegar(const Drone & d)
 {
-	if (d == enjambreDrones()[buscarDrone(d)])
-	{
-		if (posicionLibre(DondeEstaElGranero(_campo)))
-		{
-			Posicion p = damePosicionLibre(lugaresAdyacentes(DondeEstaElGranero(_campo)));
-			//No aclaro que bateria = 100 ya que es un requiere para el drone que pasa. Lo unico que asegura que realmente cambio
-			// es su estado de vuelo, y su posición actual (incluida en su trayectoria, todo esto ya tenido en cuenta en moverA).
-			_enjambre[buscarDrone(d)].moverA(p);
+	// Por requiere hay al menos una parcela de cultivo libre a distancia 1 del granero
+	Posicion posicionLibre;
+	Secuencia<Posicion> listaPosicionesAdyacentes = lugaresAdyacentes(dondeEstaElGranero());
+
+	for(Secuencia<Posicion>::size_type i = 0; i < listaPosicionesAdyacentes.size(); i++){
+		if( noHayDrone(listaPosicionesAdyacentes[i]) && noHayConstruccion(listaPosicionesAdyacentes[i]) ){
+			posicionLibre = listaPosicionesAdyacentes[i];
 		}
 	}
 
+	_enjambre[buscarDrone(d)].moverA(posicionLibre);
 }
+
 bool Sistema::listoParaCosechar() const
 {
 	return this->cantCultivosCosechables() >= 0.9 * this->parcelasDeCultivo().size();
@@ -401,6 +402,83 @@ std::ostream & operator<<(std::ostream & os, const Sistema & s)
 //Auxiliares
 
 
+bool Sistema::noHayConstruccion(Posicion p) const {
+	return this->_campo.contenido(p) == Cultivo;
+}
+
+Posicion Sistema::dondeEstaElGranero() const {
+	Posicion granero;
+
+	for(int i = 0; i < _campo.dimensiones().ancho; i++){
+		for(int j = 0; j < _campo.dimensiones().largo; j++){
+			Posicion p = {i, j};
+			if(_campo.contenido(p) == Granero){
+				granero = p;
+			}
+		}
+	}
+
+	return granero;
+}
+
+Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) const {
+	Secuencia<Posicion> listaPos;
+	Posicion p0, p1, p2, p3;
+	
+	p0.x = p.x + 1;
+	p0.y = p.y;
+	if(enRango(p0)) listaPos.push_back(p0);
+
+	p1.x = p.x - 1;
+	p1.y = p.y;
+	if(enRango(p1)) listaPos.push_back(p1);
+
+	p2.x = p.x;
+	p2.y = p.y + 1;
+	if(enRango(p2)) listaPos.push_back(p2);
+
+	p3.x = p.x;
+	p3.y = p.y - 1;
+	if(enRango(p3)) listaPos.push_back(p3);
+
+	return listaPos;
+}
+
+bool Sistema::enRango(const Posicion &p) const {
+	return p.x >= 0 && p.x < _campo.dimensiones().ancho && p.y >= 0 && p.y < _campo.dimensiones().largo;
+}
+
+bool Sistema::noHayDrone(Posicion p) const {
+	Secuencia<Drone> ds = this->_enjambre;
+	bool m = true;
+	Secuencia<Drone>::size_type i = 0;
+
+	while (i < ds.size() ) {
+		if ((ds[i].posicionActual().x == p.x) && (ds[i].posicionActual().y == p.y))
+		{
+			m = false;
+			break;
+		}
+		i++;
+	}
+	return m;
+}
+
+Secuencia<Drone>::size_type Sistema::buscarDrone(Drone d) const {
+	Secuencia<Drone>::size_type i = 0;
+	while ( i < _enjambre.size()) {
+		if (_enjambre[i] == d)
+		{
+			break;
+		}
+		i++;
+	}
+	return i;
+}
+
+
+
+
 
 Secuencia<Posicion> Sistema::parcelasDeCultivo() const{
 	Secuencia<Posicion> parcelasDeCultivo;
@@ -565,8 +643,6 @@ int Sistema::parcelasLibres(const Drone d ) {
 } 
 
 
-
-
 Secuencia<Producto> Sistema::mismosProductosDescontandoFertilizante(const Drone d){
 	Secuencia<Producto> productos;
 	Secuencia<Producto>::size_type i = 0;
@@ -605,35 +681,13 @@ int minimo (int a , int b) {
 int fertAplicable(Sistema s, Drone d){
 */
 
-bool Sistema::HayDrone(Posicion P) {
-	Secuencia<Drone> ds = this->_enjambre;
-	bool m = true;
-	Secuencia<Drone>::size_type i = 0;
-	Drone d;
-	//ya esta arreglado, lo puesto en /**/ se puede sacar
-	while (i < ds.size() /*&& buscarPosicion(P, ds[i].posicionActual())*/ ) {
-		i++;
-		if ((ds[i].posicionActual().x == P.x) && (ds[i].posicionActual().y == P.y))
-		{
-			m = false;
-			break;
-		}
-	}
-	return m;
-}
-
-bool Sistema::NoHayConstruccion(Posicion p) {
-	bool m = false;
-	if (this->_campo.contenido(p) == Cultivo)
-	{
-		m = true;
-	}
-	return m;
-}
 
 
-bool Sistema::posicionLibre(Posicion p) {
-	bool m = false;
+
+/*
+
+bool Sistema::posicionLibre(Posicion p) const {
+	//bool m = false;
 	Secuencia<Posicion> P = lugaresAdyacentes(p);
 	
 	bool m1, m2, m3, m4;
@@ -660,34 +714,11 @@ bool Sistema::posicionLibre(Posicion p) {
 		m = true;
 	}
 	return m;
+	return !HayDrone(P[0]) || !HayDrone(P[1]) || !HayDrone(P[2]) || !HayDrone(P[3]);
 }
+*/
 
-
-
-Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) {
-	Secuencia<Posicion> P;
-	Posicion p0, p1, p2, p3;
-	
-	p0.x = p.x + 1;
-	p0.y = p.y;
-	P[0] = p0;
-
-	p1.x = p.x - 1;
-	p1.y = p.y;
-	P[1] = p1;
-
-	p2.x = p.x;
-	p2.y = p.y + 1;
-	P[2] = p2;
-
-	p3.x = p.x;
-	p3.y = p.y - 1;
-	P[3] = p3;
-
-	return P;
-}
-
-
+/*
 Posicion Sistema::damePosicionLibre(Secuencia<Posicion> ps) {
 	Secuencia<Posicion>::size_type i = 0;
 	Posicion p;
@@ -704,7 +735,7 @@ Posicion Sistema::damePosicionLibre(Secuencia<Posicion> ps) {
 	}
 	return p;
 }
-
+*/
 
 bool Sistema::buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const{
 	Secuencia<Posicion>::size_type i = 0;
@@ -714,34 +745,6 @@ bool Sistema::buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) con
 	return i != ps.size();
 }
 
-Posicion Sistema::DondeEstaElGranero(Campo c) {
-	Dimension d = c.dimensiones();
-	int i = 0;
-	Posicion p;
-	while (i < d.largo && c.contenido(p) != Granero) {
-		int j = 0;
-		while (j < d.ancho && c.contenido(p) != Granero) {
-			p.x = i;
-			p.y = j;
-		}
-	}
-	return p;
-}
-
-
-int Sistema::buscarDrone(Drone d) {
-	Secuencia<Drone>::size_type i = 0;
-	while ( i < _enjambre.size()) {
-		if (_enjambre[i] == d)
-		{
-			break;
-		}
-		i++;
-	}
-	return i;
-}
-
-
 
 Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 	Posicion p;
@@ -750,7 +753,7 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 	p.y = -1;
 	Secuencia<Posicion>::size_type i = 0;
 	while ( i < ps.size()) {
-		if (NoHayConstruccion(ps[i]) && !HayDrone(ps[i]))
+		if (noHayConstruccion(ps[i]) && !noHayDrone(ps[i]))
 		{
 			p = ps[i];
 			break;

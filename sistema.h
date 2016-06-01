@@ -60,6 +60,13 @@ private:
 
     // --> Defina sus funciones auxiliares debajo...
 
+    bool noHayConstruccion(Posicion p) const;
+    Posicion dondeEstaElGranero() const;
+    Secuencia<Posicion> lugaresAdyacentes(Posicion p) const;
+    bool enRango(const Posicion &p) const;
+    bool noHayDrone(Posicion p) const;
+    Secuencia<Drone>::size_type buscarDrone(Drone d) const;
+
     Secuencia<Posicion> parcelasDeCultivo() const;
     int cantCultivosCosechables() const;
     int dronesVolandoEnFila ( int f);
@@ -69,15 +76,10 @@ private:
     int fertAplicable(Drone d);
     int cantFertilizables(const int i , Drone d);
     int parcelasLibres(const Drone d );
-    Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);
-    bool HayDrone(Posicion P);
-    bool NoHayConstruccion(Posicion p);
-    bool posicionLibre(Posicion p);
-    Secuencia<Posicion> lugaresAdyacentes(Posicion p);
-    Posicion damePosicionLibre(Secuencia<Posicion> ps);
+    Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);  
+    //bool posicionLibre(Posicion p) const;
+    //Posicion damePosicionLibre(Secuencia<Posicion> ps);
     bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
-    Posicion DondeEstaElGranero(Campo c);
-    int buscarDrone(Drone d) ;
     Posicion parcelaValida(Secuencia<Posicion> ps);
     void sensarParcela(Posicion p);
     void aplicarProductos(Drone d, Posicion p);
