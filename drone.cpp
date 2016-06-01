@@ -291,18 +291,21 @@ bool Drone::escalerado() const {
 	if (enVuelo()){
 		val = true;
 		if (vueloRealizado().size() > 1){
-			while ( val == true && i < this->vueloRealizado().size() -2 ){
-				if ((vueloRealizado()[i].x - vueloRealizado()[i+2].x ==1 || vueloRealizado()[i].x - vueloRealizado()[i+2].x == -1 ) && (vueloRealizado()[i].y - vueloRealizado()[i+2].y ==1 || vueloRealizado()[i].y - vueloRealizado()[i+2].y == -1 )) {
-					i = i+1;
-				}
-				else 
+			while ( i < this->vueloRealizado().size() -2 ){
+				if (!esEscalerado(i)) {
 					val = false;
+				}
+				i++;
 			}
 		}
 
 	}
 
 	return val;
+}
+
+bool Drone::esEscalerado(int i) const {
+	return (vueloRealizado()[i].x - vueloRealizado()[i+2].x ==1 || vueloRealizado()[i].x - vueloRealizado()[i+2].x == -1 ) && (vueloRealizado()[i].y - vueloRealizado()[i+2].y ==1 || vueloRealizado()[i].y - vueloRealizado()[i+2].y == -1 );
 }
 
 bool Drone::seCruzoConOtro(Secuencia<Drone> ds, int i) const {

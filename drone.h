@@ -49,6 +49,7 @@ class Drone{
         template <class T> int cuenta (const Secuencia <T> l1 , const T e) const ;
         static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
         static bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2) ;
+        bool esEscalerado(int i) const;
         Producto stringAProducto(const std::string s) const;
         void guardarTrayectoria(std::istream & is);
         void guardarProductos(std::istream & is);
