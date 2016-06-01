@@ -5,12 +5,12 @@ Running main() from gtest_main.cc
 [ RUN      ] test_campo.crear_campo_y_sus_observadores_funcionan_ok
 [       OK ] test_campo.crear_campo_y_sus_observadores_funcionan_ok (0 ms)
 [ RUN      ] test_campo.guardar_y_cargar_campo_funcionan_ok
-[       OK ] test_campo.guardar_y_cargar_campo_funcionan_ok (0 ms)
-[----------] 2 tests from test_campo (0 ms total)
+[       OK ] test_campo.guardar_y_cargar_campo_funcionan_ok (1 ms)
+[----------] 2 tests from test_campo (1 ms total)
 
 [----------] 9 tests from test_drone_lo_basico
 [ RUN      ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok
-[       OK ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok (0 ms)
+[       OK ] test_drone_lo_basico.crear_drone_y_sus_observadores_funcionan_ok (1 ms)
 [ RUN      ] test_drone_lo_basico.igualdad_drone_funciona_ok
 [       OK ] test_drone_lo_basico.igualdad_drone_funciona_ok (0 ms)
 [ RUN      ] test_drone_lo_basico.mover_a_funciona_ok
@@ -24,10 +24,10 @@ Running main() from gtest_main.cc
 [ RUN      ] test_drone_lo_basico.sacar_producto_funciona_ok
 [       OK ] test_drone_lo_basico.sacar_producto_funciona_ok (0 ms)
 [ RUN      ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok
-[       OK ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok (1 ms)
+[       OK ] test_drone_lo_basico.guardar_y_cargar_funcionan_ok (0 ms)
 [ RUN      ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok
-[       OK ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok (0 ms)
-[----------] 9 tests from test_drone_lo_basico (1 ms total)
+[       OK ] test_drone_lo_basico.guardar_y_cargar_trayectoria_funciona_ok (1 ms)
+[----------] 9 tests from test_drone_lo_basico (2 ms total)
 
 [----------] 3 tests from test_drone_vuelo_escalerado
 [ RUN      ] test_drone_vuelo_escalerado.siempre_ascendente_es_escalerado
@@ -980,7 +980,7 @@ Which is: NoSensado
 
 [----------] 2 tests from test_sistema_se_vino_la_maleza
 [ RUN      ] test_sistema_se_vino_la_maleza.lista_vacia_no_modifica_nada
-[       OK ] test_sistema_se_vino_la_maleza.lista_vacia_no_modifica_nada (0 ms)
+[       OK ] test_sistema_se_vino_la_maleza.lista_vacia_no_modifica_nada (1 ms)
 [ RUN      ] test_sistema_se_vino_la_maleza.se_pone_con_maleza_las_posiciones_de_la_lista
 [       OK ] test_sistema_se_vino_la_maleza.se_pone_con_maleza_las_posiciones_de_la_lista (0 ms)
 [----------] 2 tests from test_sistema_se_vino_la_maleza (1 ms total)
@@ -1001,36 +1001,27 @@ Which is: NoSensado
 
 [----------] 3 tests from test_sistema_listo_para_cosechar
 [ RUN      ] test_sistema_listo_para_cosechar.si_es_menos_del_90_por_ciento_retorna_false
-[       OK ] test_sistema_listo_para_cosechar.si_es_menos_del_90_por_ciento_retorna_false (0 ms)
+[       OK ] test_sistema_listo_para_cosechar.si_es_menos_del_90_por_ciento_retorna_false (1 ms)
 [ RUN      ] test_sistema_listo_para_cosechar.si_es_exactamente_el_90_por_ciento_retorna_true
-[       OK ] test_sistema_listo_para_cosechar.si_es_exactamente_el_90_por_ciento_retorna_true (1 ms)
+[       OK ] test_sistema_listo_para_cosechar.si_es_exactamente_el_90_por_ciento_retorna_true (0 ms)
 [ RUN      ] test_sistema_listo_para_cosechar.si_es_mas_del_90_por_ciento_retorna_true
 [       OK ] test_sistema_listo_para_cosechar.si_es_mas_del_90_por_ciento_retorna_true (0 ms)
 [----------] 3 tests from test_sistema_listo_para_cosechar (1 ms total)
 
 [----------] 1 test from test_sistema_volar_y_sensar
 [ RUN      ] test_sistema_volar_y_sensar.todo_libre
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_volar_y_sensar.cpp:47: Failure
-Value of: cambiado.posicionActual() == opt1 || cambiado.posicionActual() == opt2
-  Actual: false
-Expected: true
-/home/linuxbook/AED1/TPI_Test/tests/test_sistema_volar_y_sensar.cpp:49: Failure
-Value of: s1.estadoDelCultivo(cambiado.posicionActual()) == NoSensado
-  Actual: true
-Expected: false
-[  FAILED  ] test_sistema_volar_y_sensar.todo_libre (0 ms)
+[       OK ] test_sistema_volar_y_sensar.todo_libre (0 ms)
 [----------] 1 test from test_sistema_volar_y_sensar (0 ms total)
 
 [----------] 1 test from test_sistema
 [ RUN      ] test_sistema.guardar_y_cargar_sistema_funcionan_ok
-[       OK ] test_sistema.guardar_y_cargar_sistema_funcionan_ok (2 ms)
-[----------] 1 test from test_sistema (2 ms total)
+[       OK ] test_sistema.guardar_y_cargar_sistema_funcionan_ok (1 ms)
+[----------] 1 test from test_sistema (1 ms total)
 
 [----------] Global test environment tear-down
 [==========] 30 tests from 11 test cases ran. (24 ms total)
-[  PASSED  ] 28 tests.
-[  FAILED  ] 2 tests, listed below:
+[  PASSED  ] 29 tests.
+[  FAILED  ] 1 test, listed below:
 [  FAILED  ] test_sistema_lo_basico.crear_sistema_y_sus_observadores_funcionan_ok
-[  FAILED  ] test_sistema_volar_y_sensar.todo_libre
 
- 2 FAILED TESTS
+ 1 FAILED TEST

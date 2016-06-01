@@ -230,6 +230,30 @@ void Sistema::fertilizarPorFilas(){
 
 void Sistema::volarYSensar(const Drone & d)
 {
+	// Por requiere hay al menos una parcela de cultivo libre a distancia 1 del posición actual del drone
+	Posicion posicionLibre;
+	Carga bateriaVieja;
+	Drone &droneD = _enjambre[buscarDrone(d)];
+	Secuencia<Posicion> listaPosicionesAdyacentes = lugaresAdyacentes(d.posicionActual());
+
+	for(Secuencia<Posicion>::size_type i = 0; i < listaPosicionesAdyacentes.size(); i++){
+		if( noHayConstruccion(listaPosicionesAdyacentes[i]) ){
+			posicionLibre = listaPosicionesAdyacentes[i];
+		}
+	}
+
+	droneD.moverA(posicionLibre);
+	bateriaVieja = droneD.bateria();
+	droneD.setBateria(bateriaVieja - 1);
+
+	if(this->estadoDelCultivo(posicionLibre) == NoSensado) {
+		sensarParcela(posicionLibre);		// Elección arbitraria del estado
+	}
+	else{
+		aplicarProductos(droneD, posicionLibre);
+	}
+
+	/*
 	Secuencia<Posicion> ps = lugaresAdyacentes(d.posicionActual());
 	Posicion p = parcelaValida(ps);
 
@@ -240,9 +264,9 @@ void Sistema::volarYSensar(const Drone & d)
 
 		///estabas modifiando el drone lo cual no podes hacer por el const , lo que habia que modifilar era el sistema.
 
-		/*d.moverA(p);
+		d.moverA(p);
 		int bateriaVieja = d.bateria(); //  el tipo era carga , no int 
-		d.setBateria(bateriaVieja - 1);*/
+		d.setBateria(bateriaVieja - 1);
 
 		this->_enjambre[buscarDrone(d)].moverA(p);
 		Carga nuevaCarga = d.bateria() - 1 ;
@@ -261,7 +285,7 @@ void Sistema::volarYSensar(const Drone & d)
 		}
 
 	} 
-	
+	*/
 }
 
 void Sistema::mostrar(std::ostream & os) const
@@ -515,21 +539,6 @@ int Sistema::cantCultivosCosechables() const{
 
 
 
-/* No hay forma de cargar la batería ya que _bateria es privado y bateria() lo único que hace es devolver la batería que tiene
-// La única forma es creando un nuevo drone
-void cargarLaBateria(const Drone d) {
-	Secuencia<Drone>::size_type i = 0;
-	while (i < this->_enjambre.size() ) {
-		if(this->enjambre[i].id() == d_id){
-			this->enjambre[i].bateria()  = 100;
-			Secuencia<Posicion> nuevaTrayectoria;
-			this->enjambre[i]._trayectoria = nuevaTrayectoria;
-			this->enjambre[i]._enVuelo = false ;
-		}
-	} 
-}
-*/
-
 
 
 int Sistema::dronesVolandoEnFila (int f) {
@@ -763,22 +772,17 @@ Posicion Sistema::parcelaValida(Secuencia<Posicion> ps) {
 }
 
 
-//la duda que esta arriba, que hago acá? le asigno yo un estado que se me cante? 
-////tenes que modificar el sistema para sensar la parcela
-void Sistema::sensarParcela(Posicion p) {
 
-	this->_estado.parcelas[p.x][p.y] = RecienSembrado;
-	
+
+//la duda que esta arriba, que hago acá? le asigno yo un estado que se me cante?
+void Sistema::sensarParcela(Posicion p) {
+	this->_estado.parcelas[p.x][p.y] = RecienSembrado;	
 }
 
-
-
-void Sistema::aplicarProductos(Drone d, Posicion p) {
+void Sistema::aplicarProductos(Drone &d, Posicion p) {
 	//revisar: después del : uso &&, pero sacarProducto no devuelve bool, y a su vez digo estadoCultivo==, osea bool, no asignación, y la idea es asignarlo
 	//además, parece que switch funciona con un int en (), no con un tipo cualquier, ver eso
 	/////faltaba cambiarle la bateria al drone si es que uso productos
-
-
 
 	if (this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante))
 	{
@@ -818,8 +822,6 @@ void Sistema::aplicarProductos(Drone d, Posicion p) {
 		Carga nuevaCarga = d.bateria() - 5;
 		d.setBateria(nuevaCarga);
 	}
-
-
 }
 
 bool Sistema::tieneProducto(Drone d, Producto p) {

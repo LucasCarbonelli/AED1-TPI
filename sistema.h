@@ -68,7 +68,7 @@ private:
     Secuencia<Drone>::size_type buscarDrone(Drone d) const;
     Secuencia<Posicion> parcelasDeCultivo() const;
     int cantCultivosCosechables() const;
-    
+
     int dronesVolandoEnFila ( int f);
     int recorridoMaximo(Drone d);
     template <class T> T minimo (const T a, const T b) const;
@@ -82,7 +82,9 @@ private:
     bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
     Posicion parcelaValida(Secuencia<Posicion> ps);
     void sensarParcela(Posicion p);
-    void aplicarProductos(Drone d, Posicion p);
+
+    void aplicarProductos(Drone &d, Posicion p);
+    
     bool tieneProducto(Drone d, Producto p);
     void listaProductosSin(Producto s, Producto p, Drone d);
     int primerLugarCon(Secuencia<Producto> ps, Producto p);
