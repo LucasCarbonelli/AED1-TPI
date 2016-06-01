@@ -70,23 +70,8 @@ private:
     Secuencia<Drone>::size_type buscarDrone(Drone d) const;
     Secuencia<Posicion> parcelasDeCultivo() const;
     int cantCultivosCosechables() const;
+    template <class T> int cuenta(const Secuencia <T> ls , const T e) const;
 
-    int dronesVolandoEnFila ( int f);
-    int recorridoMaximo(Drone d);
-    template <class T> T minimo (const T a, const T b) const;
-    template <class T> int cuenta(const Secuencia <T> ls, const T e) const;
-    //int fertAplicable(Drone d);
-    int cantFertilizables(const int i , Drone d);
-    int parcelasLibres(const Drone d );
-
-    Posicion dondeEstaLaCasa() const;
-
-    Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);  
-    //bool posicionLibre(Posicion p) const;
-    //Posicion damePosicionLibre(Secuencia<Posicion> ps);
-    bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
-    Posicion parcelaValida(Secuencia<Posicion> ps);
-    
     void sensarParcela(Posicion p);
 
     void aplicarProductos(Drone &d, Posicion p);
