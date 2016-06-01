@@ -193,39 +193,38 @@ void Sistema::fertilizarPorFilas(){
 
 	while ( i < this->enjambreDrones().size()){
 
-		if (this->enjambreDrones()[i].enVuelo() == true){
+		if (this->enjambreDrones()[i].enVuelo()){
 
 			// Usamos d para lo poner this->enjambreDrones()[i] y que el codigo quede mas "lindo"
-			Drone d =  this->enjambreDrones()[i] ;
-
+			Drone &d = _enjambre[i];
+			//Drone d =  this->enjambreDrones()[i] ;
 
 			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
 
-			int j = d.posicionActual().x;
-			int recorridoMaximo = this->recorridoMaximo(this->enjambreDrones()[i]);
-			while ( j < d.posicionActual().x - recorridoMaximo ){
-				Posicion p ;
-				p.x = j + 1;
-				p.y = this->enjambreDrones()[i].posicionActual().y;
+			Posicion posIncial = d.posicionActual();
+			Posicion p = posIncial;
+
+			if (this->campo().contenido(p) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
+				this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+				}
+
+			int j = posIncial.x - 1;
+			int recorridoMaximo = this->recorridoMaximo(d);
+			while ( j > posIncial.x - recorridoMaximo ){
+				p.x = j;
 				d.moverA(p);
 				Carga nuevaCarga = d.bateria() - 1; 
 				d.setBateria(nuevaCarga);
-				j = j + 1;
-
+				
 				// Si es posible le aplicamos el fertilizante a la parcela que agregamos.
-				if (this->campo().contenido( p ) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
+				if (this->campo().contenido(p) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
 					this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
 				}
-
+				j = j - 1;
+			}
+		}
 		i = i + 1;
-
-
-
-		} 
-	}
-
-} 
-
+	} 
 }
 
 void Sistema::volarYSensar(const Drone & d)
@@ -625,6 +624,43 @@ int Sistema::cantFertilizables(const int i , Drone d){
 	return cantidad;
 }
 
+int Sistema::parcelasLibres(const Drone d){
+	int cantidadParcelasLibres;
+	Posicion casa = dondeEstaLaCasa();
+	Posicion granero = dondeEstaElGranero();
+	Posicion dActual = d.posicionActual();
+
+	if(casa.y == dActual.y && granero.y == dActual.y){
+		if(casa.x > granero.x) cantidadParcelasLibres = dActual.x - casa.x;
+		else cantidadParcelasLibres = dActual.x - granero.x;
+	}
+	else if(casa.y == dActual.y){
+		cantidadParcelasLibres = dActual.x - casa.x;
+	}
+	else if(granero.y == dActual.y){
+		cantidadParcelasLibres = dActual.x - granero.x;
+	}
+	else cantidadParcelasLibres = dActual.x;
+
+	return cantidadParcelasLibres;
+}
+
+Posicion Sistema::dondeEstaLaCasa() const {
+	Posicion casa;
+
+	for(int i = 0; i < _campo.dimensiones().ancho; i++){
+		for(int j = 0; j < _campo.dimensiones().largo; j++){
+			Posicion p = {i, j};
+			if(_campo.contenido(p) == Casa){
+				casa = p;
+			}
+		}
+	}
+
+	return casa;
+}
+
+/*
 int Sistema::parcelasLibres(const Drone d ) {
 	Secuencia<int> libres  ;
 	int i = 0;
@@ -648,7 +684,8 @@ int Sistema::parcelasLibres(const Drone d ) {
 		return d.posicionActual().x - libres[0]; 
 	}
 	else return d.posicionActual().x;
-} 
+}
+*/
 
 
 Secuencia<Producto> Sistema::mismosProductosDescontandoFertilizante(const Drone d){

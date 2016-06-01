@@ -76,11 +76,15 @@ private:
     int fertAplicable(Drone d);
     int cantFertilizables(const int i , Drone d);
     int parcelasLibres(const Drone d );
+
+    Posicion dondeEstaLaCasa() const;
+
     Secuencia<Producto> mismosProductosDescontandoFertilizante(const Drone d);  
     //bool posicionLibre(Posicion p) const;
     //Posicion damePosicionLibre(Secuencia<Posicion> ps);
     bool buscarPosicion(const Secuencia<Posicion> ps, const Posicion p) const;
     Posicion parcelaValida(Secuencia<Posicion> ps);
+    
     void sensarParcela(Posicion p);
 
     void aplicarProductos(Drone &d, Posicion p);

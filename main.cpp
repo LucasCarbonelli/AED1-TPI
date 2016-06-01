@@ -236,6 +236,7 @@ int main()
     cout << "Pruebas de Sistema" << endl;
     cout << "0 igualdad entre sistemas" << endl;
     cout << "1 void crecer()" << endl;
+    cout << "2 void fertilizarPorFilas()" << endl;
 
     int nroFuncion;
     cout << endl << "¿Qué función quiere probar? ";
@@ -285,6 +286,18 @@ int main()
 			s.mostrar(cout);
 
 			cout << endl;
+			break;
+		}
+
+		case 2:	{
+			cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+
+			Sistema s;
+			s.cargar(cin);
+			cout << endl << s;
+
+			s.fertilizarPorFilas();
+			cout << endl << s;
 			break;
 		}
     }
