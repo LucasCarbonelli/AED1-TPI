@@ -41,6 +41,8 @@ public:
     void cargar(std::istream &is);
 
     bool operator==(const Sistema &otroSistema) const;
+    int fertAplicable(Drone d);
+
 
 private:
     Campo _campo;
@@ -73,7 +75,7 @@ private:
     int recorridoMaximo(Drone d);
     template <class T> T minimo (const T a, const T b) const;
     template <class T> int cuenta(const Secuencia <T> ls, const T e) const;
-    int fertAplicable(Drone d);
+    //int fertAplicable(Drone d);
     int cantFertilizables(const int i , Drone d);
     int parcelasLibres(const Drone d );
 

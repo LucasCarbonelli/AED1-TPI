@@ -188,7 +188,7 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 }
 
 
-void Sistema::fertilizarPorFilas(){
+/*void Sistema::fertilizarPorFilas(){
 	Secuencia<Posicion>::size_type i = 0 ;
 
 	while ( i < this->enjambreDrones().size()){
@@ -204,13 +204,14 @@ void Sistema::fertilizarPorFilas(){
 			Posicion posIncial = d.posicionActual();
 			Posicion p = posIncial;
 
-			if (this->campo().contenido(p) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
+			if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento){
 				this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+				d.sacarProducto(Fertilizante);
 				}
 
 			int j = posIncial.x - 1;
 			int recorridoMaximo = this->recorridoMaximo(d);
-			while ( j > posIncial.x - recorridoMaximo ){
+			while ( tieneProducto(d,Fertilizante) && j > posIncial.x - recorridoMaximo ){
 				p.x = j;
 				d.moverA(p);
 				Carga nuevaCarga = d.bateria() - 1; 
@@ -219,12 +220,54 @@ void Sistema::fertilizarPorFilas(){
 				// Si es posible le aplicamos el fertilizante a la parcela que agregamos.
 				if (this->campo().contenido(p) == Cultivo && ( this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)){
 					this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+					d.sacarProducto(Fertilizante);
 				}
 				j = j - 1;
 			}
 		}
 		i = i + 1;
 	} 
+}*/
+
+
+void Sistema::fertilizarPorFilas(){
+	Secuencia<Posicion>::size_type i = 0 ;
+
+	while ( i < this->enjambreDrones().size()){
+
+		if (this->enjambreDrones()[i].enVuelo()){
+
+			// Usamos d para lo poner this->enjambreDrones()[i] y que el codigo quede mas "lindo"
+			Drone &d = _enjambre[i];
+			//Drone d =  this->enjambreDrones()[i] ;
+
+			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
+
+			Posicion posIncial = d.posicionActual();
+			Posicion p = posIncial;
+			int j = posIncial.x - 1;
+
+			if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)
+				{
+				this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+				d.sacarProducto(Fertilizante);
+				}
+
+			p.x = p.x - 1;
+			while (tieneProducto(d,Fertilizante) && j >= 0 && d.bateria() > 0 && noHayConstruccion(p)) {
+				d.setBateria(d.bateria() - 1);
+				d.moverA(p);
+				if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)
+				{
+				this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
+				d.sacarProducto(Fertilizante);
+				}
+				p.x--;
+				j--;
+			}
+		}
+	i++;
+	}
 }
 
 void Sistema::volarYSensar(const Drone & d)
@@ -293,7 +336,7 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::string(4, ' ');
 
-	for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+	for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
 		std::cout.setf (std::ios::left, std::ios::adjustfield);
 		std::cout.width(20);
 		os << j;
@@ -301,24 +344,24 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::endl;
 
-	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
+	for(int i = 0; i < this->_campo.dimensiones().largo; i++){
 		std::cout.width(4);
 		os << i;
-		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+		for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
 			Posicion p;
-			p.x = i;
-			p.y = j;
+			p.x = j;
+			p.y = i;
 			os << this->_campo.contenido(p);
 		}
 		os << std::endl;
 
 		os << std::string(4, ' ');
-		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+		for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
-			os << this->_estado.parcelas[i][j];
+			os << this->_estado.parcelas[j][i];
 		}
 		os << std::endl;
 	}
@@ -559,7 +602,7 @@ int Sistema::dronesVolandoEnFila (int f) {
 
 int Sistema::recorridoMaximo(Drone d){
 
-return minimo( minimo( this->fertAplicable(d), d.bateria()) ,parcelasLibres(d));
+return minimo(minimo( this->fertAplicable(d), d.bateria()) ,parcelasLibres(d));
 
 }
 
@@ -610,9 +653,9 @@ int Sistema::fertAplicable(Drone d){
 int Sistema::cantFertilizables(const int i , Drone d){
 	int cantidad = 0;
 	int j = i ;
-	while ( j < d.posicionActual().x ){
+	while ( j <= d.posicionActual().x ){
 		Posicion p ;
-		p.x = i;
+		p.x = j;
 		p.y = d.posicionActual().y;
 		if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento ){
 			cantidad = cantidad + 1 ;
