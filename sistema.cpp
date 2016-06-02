@@ -470,35 +470,30 @@ int Sistema::cantCultivosCosechables() const{
 	int i = 0 ;
 
 	while (i < this->campo().dimensiones().ancho){
-		cuenta = cuenta + contarFilas(i);
+		cuenta = cuenta + contarFilasCosechables(i);
 
 		i=i+1;
 	}
 	return cuenta;
 }
 
-int Sistema::contarFilas(int i ) const {
+
+int Sistema::contarFilasCosechables(int i ) const {
 	int cuenta = 0 ;
+	Posicion p;
+	p.x = i;
 	int j = 0; 
 	while (j < this->campo().dimensiones().largo){
-		Posicion p;
-		p.x = i;
 		p.y = j;
 		if (this->campo().contenido(p) == Cultivo){
 			if (this->estadoDelCultivo(p) == ListoParaCosechar){
 			cuenta = cuenta + 1;
-			} 
+			}
 		}
 		j++;
 	}
 	return cuenta;
-
 }
-
-
-
-
-
 
 
 template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const {
