@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{red},
+  commentstyle=\color{blue},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Demostraciones TPI}
+\author{juanmanuelbaldonado }
+\date{June 2016}
+\begin{document}
+
+\maketitle
+
+\section{listoParaCosechar}
+
+\begin{lstlisting}
+
+bool Sistema::listoParaCosechar() const
+{
+	return cantCultivosCosechables() >= 0.9 * ((campo().dimensiones().ancho * campo().dimensiones().largo) - 2);
+}
+
+int Sistema::cantCultivosCosechables() const{
+	int cuenta = 0 ;
+	int i = 0 ;
+
+	// P_c: i == 0 ^ cuenta == 0 ^ this->campo().dimensiones().ancho > 0 ^ this->campo().dimensiones().largo > 0 (por invariante dimensionesValidas de Campo)
+
+	while (i < this->campo().dimensiones().ancho){
+		
+		// I: 0 <= i <= this->campo().dimensiones().ancho ^ cuenta == |[1|k <- [0..i), j <- [0..this->campo().dimensiones().largo), this->campo().contenido((i,j)) == Cultivo ^ this->estadoDelCultivo((i,j)) == ListoParaCosechar ]|	
+	
+		cuenta = cuenta + contarFilasCosechables(i);
+
+		i=i+1;
+	}
+	
+	// Qc: i == this->campo().dimensiones().ancho ^ cuenta == |[1|k <- [0..this->campo().dimensiones().ancho), j <- [0..this->campo().dimensiones().largo), this->campo().contenido(p) == Cultivo ^ this->estadoDelCultivo(p) == ListoParaCosechar ]|
+	
+	return cuenta;
+}
+
+
+
+\end{lstlisting}
+
+
+
+
+
+
+
+\maketitle
+
+\section{P_c \Rightarrow I}
+
+//vale  P_c: i == 0 \land cuenta == 0 \land this->campo().dimensiones().ancho > 0 \land this->campo().dimensiones().largo > 0 (por invariante dimensionesValidas de Campo)
+
+\\ implica: i == 0 \land cuenta == |[1|k <- [0..i), j <- [0..this->campo().dimensiones().largo), this->campo().contenido((i,j)) == Cultivo \land this->estadoDelCultivo((i,j)) == ListoParaCosechar ]| == 0 \\
+// implica: 0 <= i <= this->campo().dimensiones().ancho \land cuenta == 0 \\
+// implica I \\
+ 
+ 
+ 
+\maketitle
+
+\section{(I \land \lnot B) \Rightarrow Q_c} 
+ 
+// vale I \land !B \\
+// implica: i == this->campo().dimensiones().ancho \land cuenta == |[1|k <- [0..i), j <- [0..this->campo().dimensiones().largo), this->campo().contenido((i,j)) == Cultivo \land this->estadoDelCultivo((i,j)) == ListoParaCosechar ]| \\
+implica: i == this->campo().dimensiones().ancho \land cuenta == |[1|k <- [0..this->campo().dimensiones().ancho), j <- [0..this->campo().dimensiones().largo), this->campo().contenido((i,j)) == Cultivo \land this->estadoDelCultivo((i,j)) == ListoParaCosechar ]|
+
+// implica Q_c \\
+
+
+\maketitle
+
+\section{ I \land f_v < cota -> !B}
+
+// vale: I \land this->campo().dimensiones().ancho - i \leq 0 \\
+
+En particular vale 0 \leq i \leq this->campo().dimensiones().ancho \land this->campo().dimensiones().ancho - i \leq 0 \\
+// implica: i \leq this->campo().dimensiones().ancho \land this->campo().dimensiones().ancho \leq i \\
+// implica: i == this->campo().dimensiones().ancho \\
+// implica: \lnot B \\
+ 
+ 
+ 
+
+
+\end{document}
