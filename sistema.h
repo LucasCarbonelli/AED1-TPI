@@ -41,8 +41,6 @@ public:
     void cargar(std::istream &is);
 
     bool operator==(const Sistema &otroSistema) const;
-    int fertAplicable(Drone d);
-
 
 private:
     Campo _campo;
@@ -69,16 +67,11 @@ private:
     bool noHayDrone(Posicion p) const;
     Secuencia<Drone>::size_type buscarDrone(Drone d) const;
     int cantCultivosCosechables() const;
-    int contarFilas(int i) const ;
+    int contarFilasCosechables(int i) const ;
     template <class T> int cuenta(const Secuencia <T> ls , const T e) const;
-
     void sensarParcela(Posicion p);
-
     void aplicarProductos(Drone &d, Posicion p);
-    
     bool tieneProducto(Drone d, Producto p);
-    void listaProductosSin(Producto s, Producto p, Drone d);
-    int primerLugarCon(Secuencia<Producto> ps, Producto p);
     EstadoCultivo stringAEstadoCultivo(const std::string s) const;
     bool igualEstadoDelCultivo(const Sistema& otroSistema) const;
     bool igualEnjambreDrones(const Sistema& otroSistema) const;

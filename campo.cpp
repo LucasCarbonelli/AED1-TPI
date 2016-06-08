@@ -43,7 +43,7 @@ void Campo::mostrar(std::ostream & os) const
 {
 	os << std::string(4, ' ');
 
-	for(int j = 0; j < this->_dimension.largo; j++){
+	for(int j = 0; j < this->_dimension.ancho; j++){
 		std::cout.setf (std::ios::left, std::ios::adjustfield);
 		std::cout.width(9);
 		os << j;
@@ -51,13 +51,13 @@ void Campo::mostrar(std::ostream & os) const
 
 	os << std::endl;
 
-	for(int i = 0; i < this->_dimension.ancho; i++){
+	for(int i = 0; i < this->_dimension.largo; i++){
 		std::cout.width(4);
 		os << i;
-		for(int j = 0; j < this->_dimension.largo; j++){
+		for(int j = 0; j < this->_dimension.ancho; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(9);
-			os << this->_grilla.parcelas[i][j];
+			os << this->_grilla.parcelas[j][i];
 		}
 		os << std::endl;
 	}

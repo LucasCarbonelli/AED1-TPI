@@ -237,6 +237,10 @@ int main()
     cout << "0 igualdad entre sistemas" << endl;
     cout << "1 void crecer()" << endl;
     cout << "2 void fertilizarPorFilas()" << endl;
+    cout << "3 void aterrizarYCargarBaterias(Carga b)" << endl;
+    cout << endl;
+    cout << "Pruebas de Campo" << endl;
+    cout << "4 cargar/mostrar/guardar" << endl;
 
     int nroFuncion;
     cout << endl << "¿Qué función quiere probar? ";
@@ -266,7 +270,7 @@ int main()
 		}
 
 		case 1:	{
-	// void crecer()
+			// void crecer()
 			cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
 			Sistema s;
@@ -290,6 +294,7 @@ int main()
 		}
 
 		case 2:	{
+			// void fertilizarPorFilas()
 			cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
 
 			Sistema s;
@@ -298,6 +303,41 @@ int main()
 
 			s.fertilizarPorFilas();
 			cout << endl << s;
+			break;
+		}
+
+		case 3: {
+			// void aterrizarYCargarBaterias(Carga b)
+			cout << endl << endl << "\"Cargar\" un Sistema y mostrarlo:" << endl;
+
+			Sistema s;
+			s.cargar(cin);
+			cout << endl << s;
+
+			Carga b;
+			cout << endl << "Ingrese b: ";
+			cin >> b;
+			cout << endl;
+
+			s.aterrizarYCargarBaterias(b);
+			cout << endl << s;
+			break;
+		}
+
+		case 4: {
+			cout << endl << endl << "\"Cargar\" un Campo y mostrarlo:" << endl;
+
+			Campo c;
+			c.cargar(cin);
+			cout << endl << c;
+
+			cout << endl << "Campo guardado en \"salidaCampo.txt\"" << endl;
+
+			ofstream campoOut("salidaCampo.txt");
+			if(campoOut.is_open()){
+				c.guardar(campoOut);
+				campoOut.close();
+			}
 			break;
 		}
     }

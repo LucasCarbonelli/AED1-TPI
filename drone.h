@@ -44,7 +44,6 @@ class Drone{
         bool escalerado() const;
         bool seCruzoConOtro(Secuencia<Drone> ds, int i) const ;
         static int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
-        static Secuencia<Posicion> posConCruces( const Secuencia<Drone> ds) ;
         template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2) const;
         template <class T> int cuenta (const Secuencia <T> l1 , const T e) const ;
         static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );

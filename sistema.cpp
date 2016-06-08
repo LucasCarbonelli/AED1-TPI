@@ -175,12 +175,12 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 
 	Secuencia<Drone>::size_type i= 0;
 	while (i < this->_enjambre.size()){
-		if (this->_enjambre[i].bateria() < b ) {
-			//this->cargarLaBateria(this->_enjambre[i]);
-			Drone d(this->_enjambre[i].id(), this->_enjambre[i].productosDisponibles());
-			this->_enjambre[i] = d;
+		if (this->_enjambre[i].bateria() < b) {
+			this->_enjambre[i].setBateria(100);
+			this->_enjambre[i].cambiarPosicionActual(dondeEstaElGranero());
+			this->_enjambre[i].borrarVueloRealizado();
 		}
-	i=i+1;
+		i=i+1;
 	}
 }
 
@@ -495,7 +495,6 @@ int Sistema::contarFilasCosechables(int i ) const {
 	return cuenta;
 }
 
-
 template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const {
 	Secuencia<Producto>::size_type i = 0 ; 
 	int cuenta = 0 ;
@@ -508,10 +507,6 @@ template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const
 	return cuenta;
 }
 
-
-
-
-//la duda que esta arriba, que hago acá? le asigno yo un estado que se me cante?
 void Sistema::sensarParcela(Posicion p) {
 	this->_estado.parcelas[p.x][p.y] = RecienSembrado;	
 }
@@ -575,21 +570,6 @@ bool Sistema::tieneProducto(Drone d, Producto p) {
 	return m;
 }
 
-
-int Sistema::primerLugarCon(Secuencia<Producto> ps, Producto p) {
-	int m = ps.size() + 1;
-	//si no esta, va a devolver algo mas grande que el size de ps, entonces ya se ve que no estaba...
-	Secuencia<Producto>::size_type i = 0;
-	while (i < ps.size()) {
-		if (ps[i] == p)
-		{
-			m = i;
-		}
-	}
-	return m;
-}
-
-
 EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 	EstadoCultivo ec;
 
@@ -627,7 +607,3 @@ bool Sistema::igualEnjambreDrones(const Sistema& otroSistema) const {
 	}
 	return igualEnjambre;
 }
-
-
-
-
