@@ -42,20 +42,20 @@ class Drone{
         // Auxiliares
 
         bool escalerado() const;
-        bool seCruzoConOtro(Secuencia<Drone> ds, int i) const ;
-        static int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
-        template <class T> bool mismos(const Secuencia<T> l1 , const Secuencia<T> l2) const;
-        template <class T> int cuenta (const Secuencia <T> l1 , const T e) const ;
-        static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p );
-        static bool mismaTrayectoria(const Secuencia<Posicion> l1,const  Secuencia<Posicion> l2) ;
         bool esEscalerado(int i) const;
-        Producto stringAProducto(const std::string s) const;
-        void guardarTrayectoria(std::istream & is);
-        void guardarProductos(std::istream & is);
-        void guardarVuelo(std::istream & is);
-        void guardarPosicionActual(std::istream & is);
+        static int cantidadDronesCruzados(const Posicion p , const Secuencia<Drone> ds);
+        bool seCruzoConOtro(Secuencia<Drone> ds, int i) const;
+        static bool buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const Posicion p);
+        void cargarTrayectoria(std::istream & is);
+        void cargarProductos(std::istream & is);
+        void cargarVuelo(std::istream & is);
+        void cargarPosicionActual(std::istream & is);
         bool esPosicion(const std::string s) const;
         Posicion extraerPosicion(const std::string s) const;
+        Producto stringAProducto(const std::string s) const;
+        static bool mismaTrayectoria(const Secuencia<Posicion> l1, const  Secuencia<Posicion> l2);
+        template <class T> bool mismos(const Secuencia<T> l1, const Secuencia<T> l2) const;
+        template <class T> int cuenta(const Secuencia <T> l1, const T e) const;
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
