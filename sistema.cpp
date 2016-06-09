@@ -70,11 +70,13 @@ void Sistema::crecer()
 	Campo c = this->campo();
 	while(i < c.dimensiones().ancho){
 		j = 0;
+	//Con estos dos while, recorro cada parcela
 		while(j < c.dimensiones().largo){
 			Posicion pos;
 			pos.x = i;
 			pos.y = j;
 			if (c.contenido(pos) == Cultivo){
+				//acá cambio su estado como está especificado.
 				if (this->estadoDelCultivo(pos) == RecienSembrado) {
 					this->_estado.parcelas[i][j] = EnCrecimiento;
 				}
@@ -104,6 +106,7 @@ void Sistema::seExpandePlaga()
 
 	while (i < this->campo().dimensiones().ancho) {
 		int j = 0;
+		//Con estos dos while recorro todo el campo, y guardo las parcelas que su estado es ConPlaga
 		while (j < this->campo().dimensiones().largo) {
 			Posicion p;
 			p.x = i;
@@ -120,7 +123,8 @@ void Sistema::seExpandePlaga()
 	Secuencia<Posicion>::size_type k = 0;
 	while (k < PosConPlaga.size()) {
 		Posicion p;
-		//al final x es el largo o el ancho??
+		//Estos cuatro if son para las cuatro posibles posiciones adyacentes donde se expandira la plaga.
+		//Contemplan que no se vaya de rango y que no haya una construcción (casa, granero).
 		if (PosConPlaga[k].x + 1 < this->campo().dimensiones().ancho)
 		{
 			p.x = PosConPlaga[k].x + 1;
@@ -160,7 +164,8 @@ void Sistema::despegar(const Drone & d)
 			posicionLibre = listaPosicionesAdyacentes[i];
 		}
 	}
-
+	//Lo unico que cambia en el asegura que habla sobre el drone es su posición y su estado de vuelo de false a true.
+	//La bateria viene dada al 100 por requiere, y sus productos no los modificamos, así que deben permanecer igual.
 	_enjambre[buscarDrone(d)].moverA(posicionLibre);
 }
 
@@ -175,6 +180,8 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 	while (i < this->_enjambre.size()){
 		if (this->_enjambre[i].bateria() < b) {
 			this->_enjambre[i].setBateria(100);
+			//falta poner qué es cambiarPosicionActual, y aclarar que el vuelo pasa a ser false (esta en la especificación)
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			this->_enjambre[i].cambiarPosicionActual(dondeEstaElGranero());
 			this->_enjambre[i].borrarVueloRealizado();
 		}
@@ -189,9 +196,8 @@ void Sistema::fertilizarPorFilas(){
 
 		if (this->enjambreDrones()[i].enVuelo()){
 
-			// Usamos d para lo poner this->enjambreDrones()[i] y que el codigo quede mas "lindo"
+			// Usamos d para no poner this->enjambreDrones()[i] y que el codigo quede mas "lindo"
 			Drone &d = _enjambre[i];
-			//Drone d =  this->enjambreDrones()[i] ;
 
 			//Aca movemos el drone hasta donde recorrido maximo nos indica que es posible agregando las posiciones que recorremos a la trayectoria.
 
@@ -199,6 +205,7 @@ void Sistema::fertilizarPorFilas(){
 			Posicion p = posIncial;
 			int j = posIncial.x - 1;
 
+			//cambiamos el estado y quitamos un fertilizante de la posición actual, si su estado inicial es RecienSembrado o EnCrecimiento
 			if (this->estadoDelCultivo(p) == RecienSembrado || this->estadoDelCultivo(p) == EnCrecimiento)
 				{
 				this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
@@ -206,6 +213,7 @@ void Sistema::fertilizarPorFilas(){
 				}
 
 			p.x = p.x - 1;
+			//ahora hacemos lo dicho en el anterior comentario, pero para todas las parcelas que puede recorrer, dadas su bateria, fertilizantes, y parcelas validas.
 			while (tieneProducto(d,Fertilizante) && j >= 0 && d.bateria() > 0 && noHayConstruccion(p)) {
 				d.setBateria(d.bateria() - 1);
 				d.moverA(p);
@@ -224,12 +232,13 @@ void Sistema::fertilizarPorFilas(){
 
 void Sistema::volarYSensar(const Drone & d)
 {
-	// Por requiere hay al menos una parcela de cultivo libre a distancia 1 del posición actual del drone
+	// Por requiere hay al menos una parcela de cultivo libre a distancia 1 de la posición actual del drone
 	Posicion posicionLibre;
 	Carga bateriaVieja;
 	Drone &droneD = _enjambre[buscarDrone(d)];
 	Secuencia<Posicion> listaPosicionesAdyacentes = lugaresAdyacentes(d.posicionActual());
 
+	//Me quedo con una posición adyacente que no tenga construccíón (y ya por como está hecha lugaresAdyacentes también está en rango).
 	for(Secuencia<Posicion>::size_type i = 0; i < listaPosicionesAdyacentes.size(); i++){
 		if( noHayConstruccion(listaPosicionesAdyacentes[i]) ){
 			posicionLibre = listaPosicionesAdyacentes[i];
@@ -241,7 +250,7 @@ void Sistema::volarYSensar(const Drone & d)
 	droneD.setBateria(bateriaVieja - 1);
 
 	if(this->estadoDelCultivo(posicionLibre) == NoSensado) {
-		sensarParcela(posicionLibre);		// Elección arbitraria del estado
+		sensarParcela(posicionLibre);		// Elección arbitraria del estado, la especificación no aclara qué debe ocurrir a la hora de sensar.
 	}
 	else{
 		aplicarProductos(droneD, posicionLibre);
@@ -393,6 +402,7 @@ bool Sistema::noHayDrone(Posicion p) const {
 	bool m = true;
 	Secuencia<Drone>::size_type i = 0;
 
+	//este while recorre la lista ds (que contiene a los drones del enjambre del sistema), fijandose que ninguno tenga como posición actual la posición p.
 	while (i < ds.size() ) {
 		if ((ds[i].posicionActual().x == p.x) && (ds[i].posicionActual().y == p.y))
 		{
@@ -462,6 +472,7 @@ int Sistema::cantCultivosCosechables() const{
 	int cuenta = 0;
 	int i = 0;
 
+	//este while recorre las columnas del campo, mientras que el auxiliar contarFilasCosechables las filas, así obteniendo todas las cosechables.
 	while (i < this->campo().dimensiones().ancho){
 		cuenta = cuenta + contarFilasCosechables(i);
 
@@ -507,6 +518,8 @@ void Sistema::sensarParcela(Posicion p) {
 
 void Sistema::aplicarProductos(Drone &d, Posicion p) {
 
+
+	//hay un if por cada tipo de estado posible en el cual el drone puede aplicar un producto.
 	if (this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante))
 	{
 		this->_estado.parcelas[p.x][p.y] = ListoParaCosechar;
@@ -560,6 +573,8 @@ EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 	return ec;
 }
 
+//los proximos dos auxiliares no los cache muy bien
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 bool Sistema::igualEstadoDelCultivo(const Sistema& otroSistema) const {
 	bool igualEstado = true;
 	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
