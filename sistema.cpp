@@ -90,8 +90,6 @@ void Sistema::crecer()
 
 void Sistema::seVinoLaMaleza(const Secuencia<Posicion>& ps)
 {
-	//aca no hablo de this? igual me pasan como const la secuencia ps, no puedo hacer esto?? otra: me armo un PS que tenga todos los p de ps, sacados de this,
-	//y a eso le hago esto. Hice algo parecido a esto en el ejer despegar, mas abajo.
 	Secuencia<Posicion>::size_type i = 0;
 	while (i < ps.size()) {
 		this->_estado.parcelas[ps[i].x][ps[i].y] = ConMaleza;
@@ -184,12 +182,10 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 	}
 }
 
-
-
 void Sistema::fertilizarPorFilas(){
 	Secuencia<Posicion>::size_type i = 0 ;
 
-	while ( i < this->enjambreDrones().size()){
+	while (i < this->enjambreDrones().size()){
 
 		if (this->enjambreDrones()[i].enVuelo()){
 
@@ -250,7 +246,6 @@ void Sistema::volarYSensar(const Drone & d)
 	else{
 		aplicarProductos(droneD, posicionLibre);
 	}
-
 }
 
 void Sistema::mostrar(std::ostream & os) const
@@ -259,7 +254,7 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::string(4, ' ');
 
-	for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
+	for(int j = 0; j < this->campo().dimensiones().ancho; j++){
 		std::cout.setf (std::ios::left, std::ios::adjustfield);
 		std::cout.width(20);
 		os << j;
@@ -267,21 +262,21 @@ void Sistema::mostrar(std::ostream & os) const
 
 	os << std::endl;
 
-	for(int i = 0; i < this->_campo.dimensiones().largo; i++){
+	for(int i = 0; i < this->campo().dimensiones().largo; i++){
 		std::cout.width(4);
 		os << i;
-		for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
+		for(int j = 0; j < this->campo().dimensiones().ancho; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
 			Posicion p;
 			p.x = j;
 			p.y = i;
-			os << this->_campo.contenido(p);
+			os << this->campo().contenido(p);
 		}
 		os << std::endl;
 
 		os << std::string(4, ' ');
-		for(int j = 0; j < this->_campo.dimensiones().ancho; j++){
+		for(int j = 0; j < this->campo().dimensiones().ancho; j++){
 			std::cout.setf (std::ios::left, std::ios::adjustfield);
 			std::cout.width(20);
 			os << this->_estado.parcelas[j][i];
@@ -291,9 +286,9 @@ void Sistema::mostrar(std::ostream & os) const
 
 	//mostramos los drones del sistema
 
-	for (Secuencia<Drone>::size_type i = 0; i < this->_enjambre.size(); i++){
+	for (Secuencia<Drone>::size_type i = 0; i < this->enjambreDrones().size(); i++){
 		os << std::endl;
-		this->_enjambre[i].mostrar(os);
+		this->enjambreDrones()[i].mostrar(os);
 		os << std::endl;
 	}
 }
@@ -310,14 +305,14 @@ void Sistema::guardar(std::ostream & os) const
 	os << "] ";
 
 	os << "[";
-	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
+	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
 		os << "[";
-		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+		for(int j = 0; j < this->campo().dimensiones().largo; j++){
 			os << this->_estado.parcelas[i][j];
-			if(j < this->_campo.dimensiones().largo - 1) os << ",";
+			if(j < this->campo().dimensiones().largo - 1) os << ",";
 		}
 		os << "]";
-		if(i < this->_campo.dimensiones().ancho - 1) os << ", ";
+		if(i < this->campo().dimensiones().ancho - 1) os << ", ";
 	}
 	os << "]}";
 }
@@ -359,13 +354,13 @@ void Sistema::cargar(std::istream & is)
 
 	// Cargar EstadoCultivo
 
-	Grilla<EstadoCultivo> ec(_campo.dimensiones());
+	Grilla<EstadoCultivo> ec(this->campo().dimensiones());
 	std::getline(is, sistemaAlmacenado);
 
 	i = 0;
 
-	for(int posAncho = 0; posAncho < this->_campo.dimensiones().ancho; posAncho++){
-		for(int posLargo = 0; posLargo < this->_campo.dimensiones().largo; posLargo++){
+	for(int posAncho = 0; posAncho < this->campo().dimensiones().ancho; posAncho++){
+		for(int posLargo = 0; posLargo < this->campo().dimensiones().largo; posLargo++){
 			i = sistemaAlmacenado.find_first_of(parcelaLetraInicial, i);
 			j = sistemaAlmacenado.find_first_of(caracterPosteriorAestados, i);
 			ec.parcelas[posAncho][posLargo] = stringAEstadoCultivo(sistemaAlmacenado.substr(i, j-i));
@@ -382,7 +377,6 @@ bool Sistema::operator==(const Sistema & otroSistema) const
 
 std::ostream & operator<<(std::ostream & os, const Sistema & s)
 {
-	// TODO: insert return statement here
 	s.mostrar(os);
 	return os;
 }
@@ -390,18 +384,45 @@ std::ostream & operator<<(std::ostream & os, const Sistema & s)
 
 //Auxiliares
 
-
 bool Sistema::noHayConstruccion(Posicion p) const {
-	return this->_campo.contenido(p) == Cultivo;
+	return this->campo().contenido(p) == Cultivo;
+}
+
+bool Sistema::noHayDrone(Posicion p) const {
+	Secuencia<Drone> ds = this->enjambreDrones();
+	bool m = true;
+	Secuencia<Drone>::size_type i = 0;
+
+	while (i < ds.size() ) {
+		if ((ds[i].posicionActual().x == p.x) && (ds[i].posicionActual().y == p.y))
+		{
+			m = false;
+			break;
+		}
+		i++;
+	}
+	return m;
+}
+
+Secuencia<Drone>::size_type Sistema::buscarDrone(Drone d) const {
+	Secuencia<Drone>::size_type i = 0;
+	while ( i < this->enjambreDrones().size()) {
+		if (this->enjambreDrones()[i] == d)
+		{
+			break;
+		}
+		i++;
+	}
+	return i;
 }
 
 Posicion Sistema::dondeEstaElGranero() const {
 	Posicion granero;
 
-	for(int i = 0; i < _campo.dimensiones().ancho; i++){
-		for(int j = 0; j < _campo.dimensiones().largo; j++){
+	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
+		for(int j = 0; j < this->campo().dimensiones().largo; j++){
 			Posicion p = {i, j};
-			if(_campo.contenido(p) == Granero){
+			if(this->campo().contenido(p) == Granero){
 				granero = p;
 			}
 		}
@@ -434,52 +455,23 @@ Secuencia<Posicion> Sistema::lugaresAdyacentes(Posicion p) const {
 }
 
 bool Sistema::enRango(const Posicion &p) const {
-	return p.x >= 0 && p.x < _campo.dimensiones().ancho && p.y >= 0 && p.y < _campo.dimensiones().largo;
-}
-
-bool Sistema::noHayDrone(Posicion p) const {
-	Secuencia<Drone> ds = this->_enjambre;
-	bool m = true;
-	Secuencia<Drone>::size_type i = 0;
-
-	while (i < ds.size() ) {
-		if ((ds[i].posicionActual().x == p.x) && (ds[i].posicionActual().y == p.y))
-		{
-			m = false;
-			break;
-		}
-		i++;
-	}
-	return m;
-}
-
-Secuencia<Drone>::size_type Sistema::buscarDrone(Drone d) const {
-	Secuencia<Drone>::size_type i = 0;
-	while ( i < _enjambre.size()) {
-		if (_enjambre[i] == d)
-		{
-			break;
-		}
-		i++;
-	}
-	return i;
+	return p.x >= 0 && p.x < this->campo().dimensiones().ancho && p.y >= 0 && p.y < this->campo().dimensiones().largo;
 }
 
 int Sistema::cantCultivosCosechables() const{
-	int cuenta = 0 ;
-	int i = 0 ;
+	int cuenta = 0;
+	int i = 0;
 
 	while (i < this->campo().dimensiones().ancho){
 		cuenta = cuenta + contarFilasCosechables(i);
 
-		i=i+1;
+		i = i + 1;
 	}
 	return cuenta;
 }
 
-
-int Sistema::contarFilasCosechables(int i ) const {
-	int cuenta = 0 ;
+int Sistema::contarFilasCosechables(int i) const {
+	int cuenta = 0;
 	Posicion p;
 	p.x = i;
 	int j = 0; 
@@ -495,16 +487,18 @@ int Sistema::contarFilasCosechables(int i ) const {
 	return cuenta;
 }
 
-template <class T> int Sistema::cuenta(const Secuencia <T> ls , const T e) const {
-	Secuencia<Producto>::size_type i = 0 ; 
-	int cuenta = 0 ;
-	while (i < ls.size()){
-		if (ls[i] == e) {
-			cuenta = cuenta +1 ;
+bool Sistema::tieneProducto(Drone d, Producto p) {
+	bool m = false;
+	Secuencia<Producto>::size_type i = 0;
+	while (i < d.productosDisponibles().size()) {
+		if (p == d.productosDisponibles()[i])
+		{
+			m = true;
+			break;
 		}
-		i = i+1 ;
+		i++;
 	}
-	return cuenta;
+	return m;
 }
 
 void Sistema::sensarParcela(Posicion p) {
@@ -512,9 +506,6 @@ void Sistema::sensarParcela(Posicion p) {
 }
 
 void Sistema::aplicarProductos(Drone &d, Posicion p) {
-	//revisar: después del : uso &&, pero sacarProducto no devuelve bool, y a su vez digo estadoCultivo==, osea bool, no asignación, y la idea es asignarlo
-	//además, parece que switch funciona con un int en (), no con un tipo cualquier, ver eso
-	/////faltaba cambiarle la bateria al drone si es que uso productos
 
 	if (this->estadoDelCultivo(p) == RecienSembrado && tieneProducto(d, Fertilizante))
 	{
@@ -556,20 +547,6 @@ void Sistema::aplicarProductos(Drone &d, Posicion p) {
 	}
 }
 
-bool Sistema::tieneProducto(Drone d, Producto p) {
-	bool m = false;
-	Secuencia<Producto>::size_type i = 0;
-	while (i < d.productosDisponibles().size()) {
-		if (p == d.productosDisponibles()[i])
-		{
-			m = true;
-			break;
-		}
-		i++;
-	}
-	return m;
-}
-
 EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 	EstadoCultivo ec;
 
@@ -585,8 +562,8 @@ EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 
 bool Sistema::igualEstadoDelCultivo(const Sistema& otroSistema) const {
 	bool igualEstado = true;
-	for(int i = 0; i < this->_campo.dimensiones().ancho; i++){
-		for(int j = 0; j < this->_campo.dimensiones().largo; j++){
+	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
+		for(int j = 0; j < this->campo().dimensiones().largo; j++){
 			Posicion p;
 			p.x = i;
 			p.y = j;
@@ -606,4 +583,16 @@ bool Sistema::igualEnjambreDrones(const Sistema& otroSistema) const {
 		}
 	}
 	return igualEnjambre;
+}
+
+template <class T> int Sistema::cuenta(const Secuencia <T> ls, const T e) const {
+	Secuencia<Producto>::size_type i = 0 ; 
+	int cuenta = 0 ;
+	while (i < ls.size()){
+		if (ls[i] == e) {
+			cuenta = cuenta + 1;
+		}
+		i = i + 1;
+	}
+	return cuenta;
 }

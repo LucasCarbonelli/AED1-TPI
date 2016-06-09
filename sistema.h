@@ -61,20 +61,20 @@ private:
     // --> Defina sus funciones auxiliares debajo...
 
     bool noHayConstruccion(Posicion p) const;
+    bool noHayDrone(Posicion p) const;
+    Secuencia<Drone>::size_type buscarDrone(Drone d) const;
     Posicion dondeEstaElGranero() const;
     Secuencia<Posicion> lugaresAdyacentes(Posicion p) const;
     bool enRango(const Posicion &p) const;
-    bool noHayDrone(Posicion p) const;
-    Secuencia<Drone>::size_type buscarDrone(Drone d) const;
     int cantCultivosCosechables() const;
-    int contarFilasCosechables(int i) const ;
-    template <class T> int cuenta(const Secuencia <T> ls , const T e) const;
+    int contarFilasCosechables(int i) const;
+    bool tieneProducto(Drone d, Producto p);
     void sensarParcela(Posicion p);
     void aplicarProductos(Drone &d, Posicion p);
-    bool tieneProducto(Drone d, Producto p);
     EstadoCultivo stringAEstadoCultivo(const std::string s) const;
     bool igualEstadoDelCultivo(const Sistema& otroSistema) const;
     bool igualEnjambreDrones(const Sistema& otroSistema) const;
+    template <class T> int cuenta(const Secuencia <T> ls, const T e) const;
 };
 
 // Definirlo usando mostrar, para poder usar << con este tipo.
