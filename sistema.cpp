@@ -258,7 +258,10 @@ void Sistema::volarYSensar(const Drone & d)
 
 void Sistema::mostrar(std::ostream & os) const
 {
-	// Muestra el campo del sistema con el estado debajo 
+	// muestra el campo del sistema como una tabla, el eje horizontal es 'ancho' y el vertical es 'largo', 
+	// en cada casillero se muestra el contenido de la parcela y el estado del cultivo
+
+	// muestra la coordenada en el eje 'ancho'
 
 	os << std::string(4, ' ');
 
@@ -269,6 +272,8 @@ void Sistema::mostrar(std::ostream & os) const
 	}
 
 	os << std::endl;
+
+	// muestra la coordenada en el eje 'largo' y el contenido de la parcela y el estado del cultivo
 
 	for(int i = 0; i < this->campo().dimensiones().largo; i++){
 		std::cout.width(4);
@@ -304,7 +309,11 @@ void Sistema::mostrar(std::ostream & os) const
 void Sistema::guardar(std::ostream & os) const
 {
 	os << "{ S ";
+
+	// guarda el campo
 	this->_campo.guardar(os);
+
+	// guarda la lista de drones
 	os << " [";
 	for(Secuencia<Drone>::size_type i = 0; i < this->_enjambre.size(); i++){
 		_enjambre[i].guardar(os);
@@ -312,6 +321,7 @@ void Sistema::guardar(std::ostream & os) const
 	}
 	os << "] ";
 
+	// guarda el estado del cultivo
 	os << "[";
 	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
 		os << "[";
@@ -361,6 +371,8 @@ void Sistema::cargar(std::istream & is)
 	this->_enjambre = ds;
 
 	// Cargar EstadoCultivo
+	// busca letras que coincidan con la primera y la última letra de los nombres del tipo EstadoCultivo
+	// toma la palabra en formato string, la transforma a tipo EstadoCultivo y se la asigna a la posición correspondiente en la grilla de EstadoCultivo
 
 	Grilla<EstadoCultivo> ec(this->campo().dimensiones());
 	std::getline(is, sistemaAlmacenado);

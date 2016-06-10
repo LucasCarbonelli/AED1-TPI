@@ -41,6 +41,9 @@ Parcela Campo::contenido(const Posicion & p) const
 
 void Campo::mostrar(std::ostream & os) const
 {
+	// muestra el campo como una tabla, el eje horizontal es 'ancho' y el vertical es 'largo', en cada casillero se muestra el contenido de la parcela
+
+	// muestra la coordenada en el eje 'ancho'
 	os << std::string(4, ' ');
 
 	for(int j = 0; j < this->_dimension.ancho; j++){
@@ -50,6 +53,8 @@ void Campo::mostrar(std::ostream & os) const
 	}
 
 	os << std::endl;
+
+	// muestra la coordenada en el eje 'largo' y el contenido de la parcela
 
 	for(int i = 0; i < this->_dimension.largo; i++){
 		std::cout.width(4);
@@ -65,9 +70,11 @@ void Campo::mostrar(std::ostream & os) const
 
 void Campo::guardar(std::ostream & os) const
 {
+	// guarda las dimensiones
 	os << "{ C [" << std::to_string(this->_dimension.ancho) << "," << std::to_string(this->_dimension.largo) << "] ";
 	os << "[";
 
+	// recorre la grilla de parcelas y guarda el contenido de las mismas
 	for(int i = 0; i < this->_dimension.ancho; i++){
 		os << "[";
 		for(int j = 0; j < this->_dimension.largo; j++){
@@ -92,8 +99,10 @@ void Campo::cargar(std::istream & is)
 	std::string campoAlmacenado;
 	std::string::size_type i, j;
 
+	// genera un string con toda la información del campo
 	std::getline(is, campoAlmacenado, caracterFinal);
-	
+
+	// busca números en el string que representan las dimensiones del campo
 	i = 0;
 	i = campoAlmacenado.find_first_of(numeros, i);
 	j = campoAlmacenado.find(caracterPosteriorPrimerNumeros, i);
@@ -104,6 +113,8 @@ void Campo::cargar(std::istream & is)
 	this->_dimension.largo = std::stoi(campoAlmacenado.substr(i, j-i));
 	i = j;
 
+	// busca letras que coincidan con la primera y la última letra de los nombres del tipo parcela
+	// toma la palabra en formato string, la transforma a tipo parcela y se la asigna a la posición correspondiente en la grilla de parcelas
 	Grilla<Parcela> g(this->_dimension);
 
 	for(int posAncho = 0; posAncho < this->_dimension.ancho; posAncho++){

@@ -162,11 +162,13 @@ void Drone::guardar(std::ostream & os) const
 		os << "]";
 	}
 
+	// Valor de enVuelo
 	os << " ";
 	if(this->_enVuelo) os << "true";
 	else os << "false";
 	os << " ";
 
+	// posicionActual
 	os << "[" << this->_posicionActual.x << "," << this->_posicionActual.y << "]";
 
 	os << "}";
@@ -328,7 +330,11 @@ bool Drone::buscarInfoVuelosCruzados(const Secuencia<InfoVueloCruzado> ls, const
 }
 
 void Drone::cargarTrayectoria(std::istream & is){
-	std::string pos;
+	// copia caracteres de la entrada al string pos hasta que encuentra el caracterer que delimita el final de una posición
+	// la lista de posiciones termina con el caracter ']' el cual es el mismo que el caracterer que delimita el final de una posición
+	// el ciclo while se rompe cuando no encuentra números en el string pos, lo cual sucede luego de la última posición de la lista
+	// ya que no hay números entre el caracterer que delimita el final de la última posición y el caracterer que delimita el final de la lista
+	std::string pos;caracterer que delimita el final de una posición
 	Secuencia<Posicion> trayecto;
 	const char cierraPosicion = ']';
 
@@ -341,6 +347,9 @@ void Drone::cargarTrayectoria(std::istream & is){
 }
 
 void Drone::cargarProductos(std::istream & is){
+	// copia caracteres de la entrada al string listaProductos hasta que encuentra el caracterer que delimita el final de la lista de productos
+	// busca letras que coincidan con la primera y la última letra de los nombres del tipo producto, coloca el producto que encuentra en la lista de productos
+	// si no encuentra una letra válida find_first_of devuelve el tamaño máximo que puede tener un string y se rompe el ciclo
 	Secuencia<Producto> listaProductos;
 	const std::string productoLetraInicial = "PFH";
 	const std::string caracterPosteriorProducto = ",]";
@@ -361,6 +370,7 @@ void Drone::cargarProductos(std::istream & is){
 }
 
 void Drone::cargarVuelo(std::istream & is){
+	// recorre la entrada hasta encontrar la incial de true o de false y le asigna a enVuelo el valor que corresponda
 	const char cFalse = 'f';
 	const char cTrue = 't';
 
@@ -374,6 +384,7 @@ void Drone::cargarVuelo(std::istream & is){
 }
 
 void Drone::cargarPosicionActual(std::istream & is){
+	// copia caracteres de la entrada al string pos hasta que encuentra el caracterer que delimita el final de la lista de una posición
 	std::string pos;
 	const char cierraPosicion = ']';
 	std::getline(is, pos, cierraPosicion);
@@ -381,11 +392,13 @@ void Drone::cargarPosicionActual(std::istream & is){
 }
 
 bool Drone::esPosicion(const std::string s) const {
+	// considera que es una posición si encuentra un número
 	const std::string numeros = "0123456789";
 	return s.find_first_of(numeros) < s.size();
 }
 
 Posicion Drone::extraerPosicion(const std::string s) const {
+	// busca números en el string que representan posiciones
 	const std::string numeros = "0123456789";
 	const char caracterPosteriorX = ',';
 	std::string::size_type i, j;
