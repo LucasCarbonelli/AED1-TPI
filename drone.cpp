@@ -334,7 +334,7 @@ void Drone::cargarTrayectoria(std::istream & is){
 	// la lista de posiciones termina con el caracter ']' el cual es el mismo que el caracterer que delimita el final de una posición
 	// el ciclo while se rompe cuando no encuentra números en el string pos, lo cual sucede luego de la última posición de la lista
 	// ya que no hay números entre el caracterer que delimita el final de la última posición y el caracterer que delimita el final de la lista
-	std::string pos;caracterer que delimita el final de una posición
+	std::string pos;
 	Secuencia<Posicion> trayecto;
 	const char cierraPosicion = ']';
 
