@@ -11,10 +11,13 @@ Drone::Drone()
 	Secuencia <Producto> productos;
 	this->_productos = productos;
 	this->_enVuelo = false;
+	//En la especificación no habla sobre la posición ni la trayectoria del drone. Nosotros elegímos, entonces, que esté en el (0,0).
 	Posicion p;
 	p.x = 0;
 	p.y = 0;
 	this->_posicionActual = p;
+	//A pesar de que este en la posición p, como esta enVuelo = false, hay un invariante que nos dice que el tamaño de su trayectoria es vacia,
+	//osea, no figura su posición actual ni nada.
 }
 
 Drone::Drone(ID i, const std::vector<Producto>& ps)
@@ -25,6 +28,7 @@ Drone::Drone(ID i, const std::vector<Producto>& ps)
 	this->_trayectoria = pos;
 	this->_productos = ps;
 	this->_enVuelo = false;
+	//Idem anteriores comentarios.
 	Posicion p;
 	p.x = 0;
 	p.y = 0;
@@ -78,6 +82,8 @@ Secuencia<InfoVueloCruzado> Drone::vuelosCruzados(const Secuencia<Drone>& ds)
 
 		while(j < ds[i].vueloRealizado().size()) {
 			if (cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds) > 1 && buscarInfoVuelosCruzados(ListaInfoVC, ds[i].vueloRealizado()[j]) == false) {
+				// si la cantidad de drones en la posición j de la trayectoria del drone i es mayor a 1 y esa posición no fue agregada previamente a la lista,
+				// se la agrega VC, que contempla la posición y la cantidad de  drones en esa posición.
 				InfoVueloCruzado VC;
 				VC.posicion = ds[i].vueloRealizado()[j];
 				VC.cantidadCruces = cantidadDronesCruzados(ds[i].vueloRealizado()[j], ds);
@@ -92,7 +98,7 @@ Secuencia<InfoVueloCruzado> Drone::vuelosCruzados(const Secuencia<Drone>& ds)
 
 void Drone::mostrar(std::ostream & os) const
 {
-	//Cabecera: Drone, Bateria y Id.
+	//Cabecera: Drone, Bateria e Id.
 	os << "Drone - Id: " << std::to_string(this->_id) << "\n";
 	os << "Bateria: " << std::to_string(this->_bateria) << "\n";
 	// Listado de posiciones.
@@ -228,9 +234,11 @@ void Drone::sacarProducto(const Producto p)
 	bool seSaco= false; 
 	while ( i < this->_productos.size() ){
 		if (seSaco == false &&  this->productosDisponibles()[i] == p){
+		//El while recorre los productos del drone. Ni bien encuentra el producto, cambia seSaco a true, y como no entra en el else, no lo guarda en productosSinP.
 			seSaco = true;
 		}
 		else {
+		//A medida que el i-esimo no es p, o que seSaco es true, va metiendo dichos productos p en productosSinP.
 			Producto p = this->productosDisponibles()[i]; 
 			productosSinP.push_back(p);
 		}
@@ -260,6 +268,7 @@ bool Drone::escalerado() const {
 	if (enVuelo()){
 		val = true;
 		if (vueloRealizado().size() > 1){
+			//escalerado comprueba si el vuelo es o no escalerado, utilizando esEscalerado.
 			while ( i < this->vueloRealizado().size() -2 ){
 				if (!esEscalerado(i)) {
 					val = false;

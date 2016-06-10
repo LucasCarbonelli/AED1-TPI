@@ -11,7 +11,11 @@ using namespace std;
 int main()
 {
 
-/*	//COSAS DE CARGAR CAMPO, NI IDEA QUE ES ESTO, CREO QUE SON PRUEBAS O QUE SE YO
+//Prueba en main, algunas viejas, otras no. Utilizese bajo su propio riesgo, quizá ya no anden algunas (o bastantes) luego de los cambios realizados al codigo y al tp.
+
+
+
+/*	//COSAS DE CARGAR CAMPO
 
 	Posicion g = {7, 3};
 	Posicion c = {5, 10};

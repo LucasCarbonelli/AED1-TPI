@@ -180,8 +180,7 @@ void Sistema::aterrizarYCargarBaterias(Carga b){
 	while (i < this->_enjambre.size()){
 		if (this->_enjambre[i].bateria() < b) {
 			this->_enjambre[i].setBateria(100);
-			//falta poner qué es cambiarPosicionActual, y aclarar que el vuelo pasa a ser false (esta en la especificación)
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//cambiarPosicionActual es auxiliar en el tipo drone.
 			this->_enjambre[i].cambiarPosicionActual(dondeEstaElGranero());
 			this->_enjambre[i].borrarVueloRealizado();
 		}
@@ -573,8 +572,7 @@ EstadoCultivo Sistema::stringAEstadoCultivo(const std::string s) const {
 	return ec;
 }
 
-//los proximos dos auxiliares no los cache muy bien
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 bool Sistema::igualEstadoDelCultivo(const Sistema& otroSistema) const {
 	bool igualEstado = true;
 	for(int i = 0; i < this->campo().dimensiones().ancho; i++){
