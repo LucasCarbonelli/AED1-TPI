@@ -1,0 +1,70 @@
+int Sistema::cantCultivosCosechables() const{
+	int cuenta = 0 ;
+	int i = 0 ;
+
+	while (i < this->campo().dimensiones().ancho){
+		cuenta = cuenta + contarFilas(i);
+
+		i=i+1;
+	}
+	return cuenta;
+}
+
+Pc: i == 0 && cuenta == 0 && campo().dimensiones().ancho > 0 && campo().dimensiones().largo > 0 (por invariante dimensionesValidas de Campo)
+
+B: i < this->campo().dimensiones().ancho
+
+I: 0 <= i <= this->campo().dimensiones().ancho && 
+cuenta == |[1|k <- [0..i), j <- [0..this->campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]|
+
+fv: this->campo().dimensiones().ancho - i, cota = 0
+
+Qc: i == this->campo().dimensiones().ancho && 
+cuenta == |[1|k <- [0..this->campo().dimensiones().ancho), j <- [0..this->campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]|
+
+
+// Pc -> I
+
+(1) i == 0 -> 0 <= i
+(2) campo().dimensiones().ancho > 0 && i == 0 -> campo().dimensiones().ancho => i
+(1) + (2) -> 0 <= i <= this->campo().dimensiones().ancho
+
+(3) i == 0 -> cuenta == |[1|k <- [0..0), j <- [0..campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]| -> cuenta == |[]| -> cuenta == 0
+
+// (I && !B) -> Qc
+
+(1) i => this->campo().dimensiones().ancho
+(2) 0 <= i <= this->campo().dimensiones().ancho
+(3) cuenta == |[1|k <- [0..i), j <- [0..this->campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]|
+
+(I && !B) <=> (1) && (2) && (3)
+
+(1) && (2) -> i == this->campo().dimensiones().ancho
+(1) && (2) && (3) -> cuenta == |[1|k <- [0..i), j <- [0..campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]| -> cuenta == |[1|k <- [0..this->campo().dimensiones().ancho), j <- [0..this->campo().dimensiones().largo), this->campo().contenido(p) == Cultivo && this->estadoDelCultivo(p) == ListoParaCosechar ]|
+
+
+// (I && fv < cota) -> !B
+
+En particular fv < cota -> !B
+
+(1) this->campo().dimensiones().ancho - i < 0 -> this->campo().dimensiones().ancho < i -> this->campo().dimensiones().ancho <= i
+
+
+
+Donde usamos funciones auxiliares como campo(), deberíamos ponerlas como en el lenguaje de especificación???
+
+this->campo().dimensiones().ancho	==		prm(dimensiones(campo(this)))
+this->campo().dimensiones().largo	==		sgd(dimensiones(campo(this)))
+this->campo().contenido(p)	==	estadoDelCultivo(p, this)
+
+y donde dice 'p' poner (i,j)??
+
+this->campo().contenido(p)	==	estadoDelCultivo((i,j), this)
+
+en Pc ¿this == pre(this)?
+
+En el enunciado dice que hay que especificar las funciones auxiliares que usemos...
+
+No es necesario que exista cantCultivosCosechables() podríamos poner todo directamente en listoParaCosechar()
+
+Lo mismo podríamos hacer con escalerado
